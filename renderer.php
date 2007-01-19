@@ -36,10 +36,8 @@ class Doku_Renderer_s5 extends Doku_Renderer_xhtml {
         // send the content type header
         header('Content-Type: text/html; charset=utf-8');
 
-        // use the main plugin to load config data
-        $plugin = plugin_load('syntax','s5');
         $this->base = DOKU_BASE.'lib/plugins/s5/ui/';
-        $this->tpl  = $plugin->getConf('template');
+        $this->tpl  = $this->getConf('template');
     }
 
     /**
