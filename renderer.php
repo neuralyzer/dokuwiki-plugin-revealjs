@@ -20,6 +20,13 @@ class Doku_Renderer_s5 extends Doku_Renderer_xhtml {
     var $tpl='';
 
     /**
+     * return some info
+     */
+    function getInfo(){
+        return confToHash(dirname(__FILE__).'/info.txt');
+    }
+
+    /**
      * Initialize the rendering
      */
     function document_start() {

@@ -21,14 +21,7 @@ class syntax_plugin_s5 extends DokuWiki_Syntax_Plugin {
      * return some info
      */
     function getInfo(){
-        return array(
-            'author' => 'Andreas Gohr',
-            'email'  => 'andi@splitbrain.org',
-            'date'   => '2006-12-05',
-            'name'   => 'S5 Slideshow Plugin',
-            'desc'   => 'Display a Wiki page as S5 slideshow presentation',
-            'url'    => 'http://wiki.splitbrain.org/plugin:s5',
-        );
+        return confToHash(dirname(__FILE__).'/info.txt');
     }
 
     /**
