@@ -14,7 +14,7 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
 /**
  * The Renderer
  */
-class Doku_Renderer_s5 extends Doku_Renderer_xhtml {
+class renderer_plugin_s5 extends Doku_Renderer_xhtml {
     var $slideopen = false;
     var $base='';
     var $tpl='';
