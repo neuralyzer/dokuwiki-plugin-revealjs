@@ -27,6 +27,17 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
     }
 
     /**
+     * the format we produce
+     */
+    function getFormat(){
+        // this should be 's5' usally, but we inherit from the xhtml renderer
+        // and produce XHTML as well, so we can gain magically compatibility
+        // by saying we're the 'xhtml' renderer here.
+        return 'xhtml';
+    }
+
+
+    /**
      * Initialize the rendering
      */
     function document_start() {
@@ -84,7 +95,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 <div id="header"></div>
 <div id="footer">
 <h1>'.$ID.'</h1>
-<h2>'.hsc($conf['title']).' &#8226; '.date($conf['dformat'],$INFO['lastmod']).'</h2>
+<h2>'.hsc($conf['title']).' &#8226; '.strftime($conf['dformat'],$INFO['lastmod']).'</h2>
 </div>
 
 </div>

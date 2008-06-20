@@ -2,7 +2,7 @@
 
 author Andreas Gohr
 email  andi@splitbrain.org
-date   2007-01-20
+date   2008-06-20
 name   S5 Slideshow Plugin
 desc   Display a Wiki page as S5 slideshow presentation
 url    http://wiki.splitbrain.org/plugin:s5
