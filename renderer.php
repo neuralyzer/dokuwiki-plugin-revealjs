@@ -41,12 +41,16 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
      * Initialize the rendering
      */
     function document_start() {
+        global $ID;
+
         // call the parent
         parent::document_start();
 
-        // send the content type header
-        header('Content-Type: text/html; charset=utf-8');
-
+        // store the content type headers in metadata
+        $headers = array(
+            'Content-Type' => 'text/html; charset=utf-8'
+        );
+        p_set_metadata($ID,array('format' => array('s5' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/s5/ui/';
         $this->tpl  = $this->getConf('template');
     }
