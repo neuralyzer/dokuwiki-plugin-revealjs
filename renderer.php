@@ -77,7 +77,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 <meta name="defaultView" content="slideshow" />
 <meta name="controlVis" content="hidden" />
 <!-- style sheet links -->
-<link rel="stylesheet" href="'.DOKU_BASE.'lib/styles/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="'.DOKU_BASE.'lib/styles/screen.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="'.$this->base.$this->tpl.'/slides.css" type="text/css" media="projection" id="slideProj" />
 <link rel="stylesheet" href="'.$this->base.'default/outline.css" type="text/css" media="screen" id="outlineStyle" />
 <link rel="stylesheet" href="'.$this->base.'default/print.css" type="text/css" media="print" id="slidePrint" />
@@ -152,7 +152,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
         }else{
             $this->doc .= '<div>'.DOKU_LF;
         }
-        // we don't use it 
+        // we don't use it
     }
 
     /**
