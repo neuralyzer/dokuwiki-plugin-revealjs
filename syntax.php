@@ -43,7 +43,7 @@ class syntax_plugin_s5 extends DokuWiki_Syntax_Plugin {
      * Connect pattern to lexer
      */
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('~~SLIDESHOW~~',$mode,'plugin_s5');
+        $this->Lexer->addSpecialPattern('~~SLIDESHOW[^~]*~~',$mode,'plugin_s5');
     }
 
 
@@ -51,7 +51,8 @@ class syntax_plugin_s5 extends DokuWiki_Syntax_Plugin {
      * Handle the match
      */
     function handle($match, $state, $pos, &$handler){
-        return array();
+       if($match!='~~SLIDESHOW~~') return array(trim(substr($match,11,-2)));
+       return array();
     }
 
     /**
@@ -61,7 +62,7 @@ class syntax_plugin_s5 extends DokuWiki_Syntax_Plugin {
         global $ID;
         if($format != 'xhtml') return false;
 
-        $renderer->doc .= '<a href="'.exportlink($ID, 's5').'" title="'.$this->getLang('view').'">';
+        $renderer->doc .= '<a href="'.exportlink($ID, 's5',sizeof($data)?array('s5theme'=>$data[0]):null).'" title="'.$this->getLang('view').'">';
         $renderer->doc .= '<img src="'.DOKU_BASE.'lib/plugins/s5/screen.gif" align="right" alt="'.$this->getLang('view').'" width="48" height="48" />';
         $renderer->doc .= '</a>';
         return true;
