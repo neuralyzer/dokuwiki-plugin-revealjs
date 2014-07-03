@@ -92,7 +92,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 <div id="currentSlide"><!-- DO NOT EDIT --></div>
 <div id="header"></div>
 <div id="footer">
-<h1>'.$ID.'</h1>
+<h1>'.tpl_pagetitle($ID, true).'</h1>
 <h2>'.hsc($conf['title']).' &#8226; '.strftime($conf['dformat'],$INFO['lastmod']).'</h2>
 </div>
 
