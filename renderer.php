@@ -145,11 +145,10 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * A new nested slide for each H3 header
      */
     function header($text, $level, $pos) {
-        $this->lastlevel = $level
         if($level <= 3){
             if($this->slideopen){
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
-                if ( ($this->level != 3) && ($this->lastlevel == 3) ) { // close nested section
+                if ( ($level != 3) && ($this->lastlevel == 3) ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
                 }
             }
@@ -162,6 +161,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= '<h'.($level).'>';
         $this->doc .= $this->_xmlEntities($text);
         $this->doc .= '</h'.($level).'>'.DOKU_LF;
+        $this->lastlevel = $level
     }
 
     /**
