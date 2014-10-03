@@ -43,7 +43,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
         $headers = array(
             'Content-Type' => 'text/html; charset=utf-8'
         );
-        $this->base = DOKU_BASE.'lib/plugins/s5/';
+        $this->base = DOKU_BASE.'lib/plugins/revealjs/';
        $this->doc = '
 <!doctype html>
 <html lang="en">
