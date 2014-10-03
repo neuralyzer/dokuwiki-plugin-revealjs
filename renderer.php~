@@ -88,10 +88,10 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 		<script>
 			if( window.location.search.match( /print-pdf/gi ) ) {
 				var link = document.createElement( 'link' );
-				link.rel = 'stylesheet';
-				link.type = 'text/css';
-				link.href = $this->base.'css/print/pdf.css';
-				document.getElementsByTagName( 'head' )[0].appendChild( link );
+				link.rel = \'stylesheet\';
+				link.type = \'text/css\';
+				link.href = '.$this->base.'\'css/print/pdf.css\';
+				document.getElementsByTagName( \'head\' )[0].appendChild( link );
 			}
 		</script>
 
