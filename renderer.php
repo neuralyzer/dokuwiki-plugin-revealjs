@@ -60,6 +60,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 
         //throw away any previous content
         $this->doc = '
+<!doctype html>
 <html lang="en">
 
 	<head>
@@ -102,6 +103,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+<section><h1>'.tpl_pagetitle($ID, true).'</h1></section>
 ';
     }
 
