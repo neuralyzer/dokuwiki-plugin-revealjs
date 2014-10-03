@@ -1,4 +1,4 @@
 <?php
 
-$conf['template']    = 'dokuwiki';
+$conf['revealjs_theme']    = 'default';
 
