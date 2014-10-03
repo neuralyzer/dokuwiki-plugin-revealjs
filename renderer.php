@@ -2,8 +2,7 @@
 /**
  * Renderer for XHTML output
  *
- * @author Harry Fuecks <hfuecks@gmail.com>
- * @author Andreas Gohr <andi@splitbrain.org>
+ * @author Emmanuel Klinger <emmanuel.klinger@gmail.com>
  */
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
@@ -14,7 +13,7 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
 /**
  * The Renderer
  */
-class renderer_plugin_s5 extends Doku_Renderer_xhtml {
+class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $slideopen = false;
     var $base='';
     var $tpl='';
@@ -23,7 +22,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
      * the format we produce
      */
     function getFormat(){
-        // this should be 's5' usally, but we inherit from the xhtml renderer
+        // this should be 'revealjs' usally, but we inherit from the xhtml renderer
         // and produce XHTML as well, so we can gain magically compatibility
         // by saying we're the 'xhtml' renderer here.
         return 'xhtml';
