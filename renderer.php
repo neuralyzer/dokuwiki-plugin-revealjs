@@ -119,8 +119,8 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
             $this->doc .= '</section>'.DOKU_LF; //close previous slide
         }
         $this->doc .= '</div></div>
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.min.js"></script>
+		<script src="'.$this->base.'lib/js/head.min.js"></script>
+		<script src="'.$this->base.'js/reveal.min.js"></script>
 
 		<script>
 
@@ -133,7 +133,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 				center: true,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+				transition: Reveal.getQueryHash().transition || \'default\', // default/cube/page/concave/zoom/linear/fade/none
 				dependencies: [
 					{ src: \''.$this->base.'lib/js/classList.js\', condition: function() { return !document.body.classList; } },
 					{ src: \''.$this->base.'plugin/markdown/marked.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
