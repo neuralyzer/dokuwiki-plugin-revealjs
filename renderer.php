@@ -15,6 +15,7 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
  */
 class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $slideopen = false;
+    var $lastlevel = -1;
     var $base='';
     var $tpl='';
 
@@ -141,13 +142,21 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * This is what creates new slides
      *
      * A new slide is started for each H2 header
+     * A new nested slide for each H3 header
      */
     function header($text, $level, $pos) {
-        if($level < 3){
+        $this->lastlevel = $level
+        if($level <= 3){
             if($this->slideopen){
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
+                if ( ($this->level != 3) && ($this->lastlevel == 3) ) { // close nested section
+                      $this->doc .= '</section>'.DOKU_LF;
+                }
             }
             $this->doc .= '<section>'.DOKU_LF;
+            if ( ($this->lastlevel != 3) && ($level == 3) ) {   //nested slides if level is 3. therefore one extra opening
+                 $this->doc .= '<section>'.DOKU_LF;
+            } 
             $this->slideopen = true;
         }
         $this->doc .= '<h'.($level).'>';
