@@ -17,7 +17,7 @@ Usage
 -----
 
 
-Every new H1 or H2 section, that is  6 equal signs and 6 equal signs open a new slide horizontally.
-New H3 sections are appended vertically if they follow after an H2 section.
+Every new H1 or H2 section, that is  6 equal signs or 5 equal signs open a new slide horizontally.
+New H3 sections (4 equal signs) are appended vertically if they follow after an H2 section.
 
 **Caution**: Only H2 sections open the vertical axis. If an H3 section follows after an H1 section it is appended horizontally.
