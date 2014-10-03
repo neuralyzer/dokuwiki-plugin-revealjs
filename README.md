@@ -21,3 +21,29 @@ Every new H1 or H2 section, that is  6 equal signs or 5 equal signs open a new s
 New H3 sections (4 equal signs) are appended vertically if they follow after an H2 section.
 
 **Caution**: Only H2 sections open the vertical axis. If an H3 section follows after an H1 section it is appended horizontally.
+
+
+
+Include plugin compatibility
+----------------------------
+
+
+
+Edit in the file dokuwiki/lib/plugin/include/syntax/wrap.php in the function render the line
+
+```
+if ($mode == 'xhtml') {
+```
+to
+
+```
+if ( ($mode == 'xhtml') && (! is_a($renderer, 'renderer_plugin_revealjs')) ) {
+```
+The include plugin will otherwise put some
+
+```
+<div class= "plugin_include_content ....> ...</div>
+```
+
+at such places that the closing and opening div tags interfere with the reveal.js section tags.
+
