@@ -105,7 +105,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             $this->doc .= '</section>'.DOKU_LF; //close previous slide
             if ( $this->level2open ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
-                      $this->level2open = false
+                      $this->level2open = false;
              }
         }
         $this->doc .= '</div></div>
@@ -154,7 +154,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
                 if ( ($this->level2open) && ($level <= 2) ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
-                      $this->level2open = false
+                      $this->level2open = false;
                 }
             }
             $this->doc .= '<section>'.DOKU_LF;
