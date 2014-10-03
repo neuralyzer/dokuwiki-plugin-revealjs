@@ -171,9 +171,9 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
             $this->doc .= '<section>'.DOKU_LF;
             $this->slideopen = true;
         }
-        $this->doc .= '<h'.($level-1).'>';
+        $this->doc .= '<h'.($level).'>';
         $this->doc .= $this->_xmlEntities($text);
-        $this->doc .= '</h'.($level-1).'>'.DOKU_LF;
+        $this->doc .= '</h'.($level).'>'.DOKU_LF;
     }
 
     /**

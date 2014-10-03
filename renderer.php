@@ -140,7 +140,10 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 					{ src: \''.$this->base.'plugin/markdown/markdown.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
 					{ src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } }
+					{ src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
+
+// MathJax
+        { src: \''.$this->base.'plugin/math/math.js\', async: true }
 				]
 			});
 
