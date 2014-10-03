@@ -15,7 +15,7 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
  */
 class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $slideopen = false;
-    var $lastlevel = 0;
+    var $level2open = false;
     var $base='';
     var $tpl='';
 
@@ -148,20 +148,20 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         if($level <= 3){
             if($this->slideopen){
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
-                if ( ($level != 3) && ($this->lastlevel == 3) ) { // close nested section
+                if ( ($this->level2open) && ($level <= 2) ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
                 }
             }
             $this->doc .= '<section>'.DOKU_LF;
-            if ( ($this->lastlevel != 3) && ($level == 3) ) {   //nested slides if level is 3. therefore one extra opening
+            if ( $level == 2 ) {   //first slide of possibly following nested ones if level is 2
                  $this->doc .= '<section>'.DOKU_LF;
+                 $this->level2open = true; 
             } 
             $this->slideopen = true;
         }
         $this->doc .= '<h'.($level).'>';
         $this->doc .= $this->_xmlEntities($text);
         $this->doc .= '</h'.($level).'>'.DOKU_LF;
-        $this->lastlevel = $level;
     }
 
     /**
