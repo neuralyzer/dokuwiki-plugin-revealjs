@@ -43,10 +43,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
         $headers = array(
             'Content-Type' => 'text/html; charset=utf-8'
         );
-        p_set_metadata($ID,array('format' => array('s5' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/s5/';
-        $this->tpl  = isset($_GET['s5theme'])?$_GET['s5theme']:$this->getConf('template');
-        $this->tpl = preg_replace('/[^a-z0-9_-]+/', '', $this->tpl); // clean user provided path
     }
 
     /**
@@ -84,7 +81,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
 
-		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<!-- If the query includes \'print-pdf\', include the PDF print sheet -->
 		<script>
 			if( window.location.search.match( /print-pdf/gi ) ) {
 				var link = document.createElement( 'link' );

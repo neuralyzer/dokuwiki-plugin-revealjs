@@ -84,7 +84,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 		<!-- If the query includes \'print-pdf\', include the PDF print sheet -->
 		<script>
 			if( window.location.search.match( /print-pdf/gi ) ) {
-				var link = document.createElement( 'link' );
+				var link = document.createElement( \'link\' );
 				link.rel = \'stylesheet\';
 				link.type = \'text/css\';
 				link.href = '.$this->base.'\'css/print/pdf.css\';
