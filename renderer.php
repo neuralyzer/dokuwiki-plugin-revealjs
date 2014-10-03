@@ -26,7 +26,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         // this should be 'revealjs' usally, but we inherit from the xhtml renderer
         // and produce XHTML as well, so we can gain magically compatibility
         // by saying we're the 'xhtml' renderer here.
-        return 'revealjs';
+        return 'xhtml';
     }
 
 
