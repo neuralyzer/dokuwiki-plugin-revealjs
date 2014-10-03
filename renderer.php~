@@ -2,8 +2,7 @@
 /**
  * Renderer for XHTML output
  *
- * @author Harry Fuecks <hfuecks@gmail.com>
- * @author Andreas Gohr <andi@splitbrain.org>
+ * @author Emmanuel Klinger <emmanuel.klinger@gmail.com>
  */
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
