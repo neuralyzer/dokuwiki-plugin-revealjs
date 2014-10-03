@@ -155,12 +155,16 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
      */
     function section_open($level) {
         if($level < 3){
-            $this->doc .= '<section>'.DOKU_LF;
+           // $this->doc .= '<section>'.DOKU_LF;
         }else{
-            $this->doc .= '<section>'.DOKU_LF;
+            //$this->doc .= '<section>'.DOKU_LF;
         }
         // we don't use it
     }
+
+   function section_close() {
+    
+   }
 
     /**
      * Throw away footnote
