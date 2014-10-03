@@ -262,7 +262,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             $class .= ' '.$align.'align';
         }
         $class .= '"';
-        $this->doc .= '<th '.$class;
+        $this->doc .= '<th '
         if($colspan > 1) {
             $this->_counter['cell_counter'] += $colspan - 1;
             $this->doc .= ' colspan="'.$colspan.'"';
@@ -293,7 +293,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             $class .= ' '.$align.'align';
         }
         $class .= '"';
-        $this->doc .= '<td '.$class;
+        $this->doc .= '<td '
         if($colspan > 1) {
             $this->_counter['cell_counter'] += $colspan - 1;
             $this->doc .= ' colspan="'.$colspan.'"';

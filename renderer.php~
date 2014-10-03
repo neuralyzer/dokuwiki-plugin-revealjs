@@ -188,5 +188,129 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= $this->_xmlEntities($acronym);
     }
 
+/**
+     * Start a table
+     *
+     * @param int $maxcols maximum number of columns
+     * @param int $numrows NOT IMPLEMENTED
+     * @param int $pos     byte position in the original source
+     */
+    function table_open($maxcols = null, $numrows = null, $pos = null) {
+        // initialize the row counter used for classes
+        $this->_counter['row_counter'] = 0;
+        $class                         = 'table';
+        if($pos !== null) {
+            $class .= ' '.$this->startSectionEdit($pos, 'table');
+        }
+        $this->doc .= '<table>'.
+            DOKU_LF;
+    }
+
+    /**
+     * Close a table
+     *
+     * @param int $pos byte position in the original source
+     */
+    function table_close($pos = null) {
+        $this->doc .= '</table>'.DOKU_LF;
+        if($pos !== null) {
+            $this->finishSectionEdit($pos);
+        }
+    }
+
+    /**
+     * Open a table header
+     */
+    function tablethead_open() {
+        $this->doc .= DOKU_TAB.'<thead>'.DOKU_LF;
+    }
+
+    /**
+     * Close a table header
+     */
+    function tablethead_close() {
+        $this->doc .= DOKU_TAB.'</thead>'.DOKU_LF;
+    }
+
+    /**
+     * Open a table row
+     */
+    function tablerow_open() {
+        // initialize the cell counter used for classes
+        $this->_counter['cell_counter'] = 0;
+        $class                          = 'row'.$this->_counter['row_counter']++;
+        $this->doc .= DOKU_TAB.'<tr>'.DOKU_LF.DOKU_TAB.DOKU_TAB;
+    }
+
+    /**
+     * Close a table row
+     */
+    function tablerow_close() {
+        $this->doc .= DOKU_LF.DOKU_TAB.'</tr>'.DOKU_LF;
+    }
+
+    /**
+     * Open a table header cell
+     *
+     * @param int    $colspan
+     * @param string $align left|center|right
+     * @param int    $rowspan
+     */
+    function tableheader_open($colspan = 1, $align = null, $rowspan = 1) {
+        $class = 'class="col'.$this->_counter['cell_counter']++;
+        if(!is_null($align)) {
+            $class .= ' '.$align.'align';
+        }
+        $class .= '"';
+        $this->doc .= '<th '
+        if($colspan > 1) {
+            $this->_counter['cell_counter'] += $colspan - 1;
+            $this->doc .= ' colspan="'.$colspan.'"';
+        }
+        if($rowspan > 1) {
+            $this->doc .= ' rowspan="'.$rowspan.'"';
+        }
+        $this->doc .= '>';
+    }
+
+    /**
+     * Close a table header cell
+     */
+    function tableheader_close() {
+        $this->doc .= '</th>';
+    }
+
+    /**
+     * Open a table cell
+     *
+     * @param int    $colspan
+     * @param string $align left|center|right
+     * @param int    $rowspan
+     */
+    function tablecell_open($colspan = 1, $align = null, $rowspan = 1) {
+        $class = 'class="col'.$this->_counter['cell_counter']++;
+        if(!is_null($align)) {
+            $class .= ' '.$align.'align';
+        }
+        $class .= '"';
+        $this->doc .= '<td '
+        if($colspan > 1) {
+            $this->_counter['cell_counter'] += $colspan - 1;
+            $this->doc .= ' colspan="'.$colspan.'"';
+        }
+        if($rowspan > 1) {
+            $this->doc .= ' rowspan="'.$rowspan.'"';
+        }
+        $this->doc .= '>';
+    }
+
+    /**
+     * Close a table cell
+     */
+    function tablecell_close() {
+        $this->doc .= '</td>';
+    }
+
+
 }
 
