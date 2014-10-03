@@ -44,22 +44,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
             'Content-Type' => 'text/html; charset=utf-8'
         );
         $this->base = DOKU_BASE.'lib/plugins/s5/';
-    }
-
-    /**
-     * Print the header of the page
-     *
-     * Gets called when the very first H1 header is discovered. It includes
-     * all the S5 CSS and JavaScript magic
-     */
-    function s5_init($title){
-        global $conf;
-        global $lang;
-        global $INFO;
-        global $ID;
-
-        //throw away any previous content
-        $this->doc = '
+       $this->doc = '
 <!doctype html>
 <html lang="en">
 
@@ -103,9 +88,10 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-<section><h1>'.tpl_pagetitle($ID, true).'</h1></section>
 ';
     }
+
+ 
 
     /**
      * Closes the document
@@ -158,16 +144,7 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
      * A new slide is started for each H2 header
      */
     function header($text, $level, $pos) {
-        if($level == 1){
-            if(!$this->slideopen){
-                $this->s5_init($text); // this is the first slide
-                $level = 2;
-            }else{
-                return;
-            }
-        }
-
-        if($level == 2){
+        if($level < 3){
             if($this->slideopen){
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
             }
