@@ -50,7 +50,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>'.tpl_pagetitle($ID, true).'</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Hakim El Hattab">
