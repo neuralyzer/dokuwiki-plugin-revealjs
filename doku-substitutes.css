@@ -1,0 +1,13 @@
+/*
+* This substitutes some dokuwiki css styles.
+* All dokuwiki styles are ignored for reveal.js
+* 
+* To obtain some compatibility, some of them are here redefined.
+*
+*/
+.medialeft {
+ float: left;
+}
+.mediaright {
+ float: right;
+}
