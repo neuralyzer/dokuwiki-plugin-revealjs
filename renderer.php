@@ -60,7 +60,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+                
+                <link rel="stylesheet" href="'.DOKU_BASE.'lib/exe/css.php"> 
 		<link rel="stylesheet" href="'.$this->base.'css/reveal.min.css">
 		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('revealjs_theme').'.css" id="theme">
 
