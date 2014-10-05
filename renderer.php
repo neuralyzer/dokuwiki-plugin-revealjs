@@ -117,7 +117,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
+				controls: '.$this->getConf('revealjs_controls').',
 				progress: true,
 				history: true,
 				center: true,
