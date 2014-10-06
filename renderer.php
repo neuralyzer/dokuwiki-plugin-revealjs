@@ -217,34 +217,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         if($pos !== null) {
             $class .= ' '.$this->startSectionEdit($pos, 'table');
         }
-        $this->doc .= '<table>'.
+        $this->doc .= '<table class="reveal">'.
             DOKU_LF;
-    }
-
-    /**
-     * Close a table
-     *
-     * @param int $pos byte position in the original source
-     */
-    function table_close($pos = null) {
-        $this->doc .= '</table>'.DOKU_LF;
-        if($pos !== null) {
-            $this->finishSectionEdit($pos);
-        }
-    }
-
-    /**
-     * Open a table header
-     */
-    function tablethead_open() {
-        $this->doc .= DOKU_TAB.'<thead>'.DOKU_LF;
-    }
-
-    /**
-     * Close a table header
-     */
-    function tablethead_close() {
-        $this->doc .= DOKU_TAB.'</thead>'.DOKU_LF;
     }
 
     /**
@@ -257,12 +231,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= DOKU_TAB.'<tr>'.DOKU_LF.DOKU_TAB.DOKU_TAB;
     }
 
-    /**
-     * Close a table row
-     */
-    function tablerow_close() {
-        $this->doc .= DOKU_LF.DOKU_TAB.'</tr>'.DOKU_LF;
-    }
 
     /**
      * Open a table header cell
@@ -289,13 +257,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     }
 
     /**
-     * Close a table header cell
-     */
-    function tableheader_close() {
-        $this->doc .= '</th>';
-    }
-
-    /**
      * Open a table cell
      *
      * @param int    $colspan
@@ -318,14 +279,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         }
         $this->doc .= '>';
     }
-
-    /**
-     * Close a table cell
-     */
-    function tablecell_close() {
-        $this->doc .= '</td>';
-    }
-
 
 }
 
