@@ -217,7 +217,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         if($pos !== null) {
             $class .= ' '.$this->startSectionEdit($pos, 'table');
         }
-        $this->doc .= '<table class="reveal">'.
+        $this->doc .= '<table>'.
             DOKU_LF;
     }
 
@@ -227,10 +227,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * @param int $pos byte position in the original source
      */
     function table_close($pos = null) {
-        $this->doc .= '</table>'.DOKU_LF;
-        if($pos !== null) {
-            $this->finishSectionEdit($pos);
-        }
+        $this->doc .= '</table>'.DOKU_LF; 
     }
 
     /**
@@ -251,9 +248,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * Open a table row
      */
     function tablerow_open() {
-        // initialize the cell counter used for classes
-        $this->_counter['cell_counter'] = 0;
-        $class                          = 'row'.$this->_counter['row_counter']++;
         $this->doc .= DOKU_TAB.'<tr>'.DOKU_LF.DOKU_TAB.DOKU_TAB;
     }
 
