@@ -170,16 +170,9 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= '</h'.($level).'>'.DOKU_LF;
     }
 
-    /**
-     * Top-Level Sections are slides
-     */
+
     function section_open($level) {
-        if($level < 3){
-           // $this->doc .= '<section>'.DOKU_LF;
-        }else{
-            //$this->doc .= '<section>'.DOKU_LF;
-        }
-        // we don't use it
+ 
     }
 
    function section_close() {
@@ -211,15 +204,19 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * @param int $pos     byte position in the original source
      */
     function table_open($maxcols = null, $numrows = null, $pos = null) {
-        // initialize the row counter used for classes
-        $this->_counter['row_counter'] = 0;
-        $class                         = 'table';
-        if($pos !== null) {
-            $class .= ' '.$this->startSectionEdit($pos, 'table');
-        }
         $this->doc .= '<table class="reveal">'.
             DOKU_LF;
     }
+
+
+    /**
+     * Open a table header
+     */
+    function tablethead_open() {
+        $this->doc .= DOKU_TAB.'<thead>'.DOKU_LF;
+    }
+
+ 
 
     /**
      * Open a table row
@@ -230,6 +227,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $class                          = 'row'.$this->_counter['row_counter']++;
         $this->doc .= DOKU_TAB.'<tr>'.DOKU_LF.DOKU_TAB.DOKU_TAB;
     }
+
 
 
     /**
@@ -256,6 +254,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= '>';
     }
 
+
     /**
      * Open a table cell
      *
@@ -280,5 +279,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= '>';
     }
 
+
 }
+
 
