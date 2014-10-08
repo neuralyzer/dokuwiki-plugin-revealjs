@@ -35,6 +35,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      */
     function document_start() {
         global $ID;
+        global $conf;
+        global $lang;
 
         // call the parent
         parent::document_start();
@@ -45,8 +47,10 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         );
         $this->base = DOKU_BASE.'lib/plugins/revealjs/';
        $this->doc = '
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$conf['lang'].'"
+lang="'.$conf['lang'].'" dir="'.$lang['direction'].'">
 
 	<head>
 		<meta charset="utf-8">
