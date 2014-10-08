@@ -47,3 +47,25 @@ The include plugin will otherwise put some
 
 at such places that the closing and opening div tags interfere with the reveal.js section tags.
 
+
+Available themes
+----------------
+
+Available themes are the Reval.js themes
+
+  * beige
+  * blood
+  * default
+  * moon
+  * night
+  * serif
+  * simple
+  * sky
+  * solarized
+
+Plus additionally the theme
+
+  * beige_white
+
+which is a simple modification of the beige theme. The only change to the original beige theme is that the background is white instead of the beige radial gradient.
+
