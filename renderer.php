@@ -45,6 +45,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $headers = array(
             'Content-Type' => 'text/html; charset=utf-8'
         );
+       p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/revealjs/';
        $this->doc = '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
