@@ -82,4 +82,5 @@ Show the reveal.js controls. Two values
 
   * false
   * true
+
 The default is true.
