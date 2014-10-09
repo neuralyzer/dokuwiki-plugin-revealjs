@@ -42,14 +42,18 @@ if ( ($mode == 'xhtml') && (! is_a($renderer, 'renderer_plugin_revealjs')) ) {
 The include plugin will otherwise put some
 
 ```
-<div class= "plugin_include_content ....> ...</div>
+<div class= "plugin_include_content ..." ...> ...</div>
 ```
 
 at such places that the closing and opening div tags interfere with the reveal.js section tags.
 
 
-Available themes
-----------------
+Configuration options
+---------------------
+
+
+### Available themes
+
 
 Available themes are the Reval.js themes
 
@@ -69,3 +73,13 @@ Plus additionally the theme
 
 which is a simple modification of the beige theme. The only change to the original beige theme is that the background is white instead of the beige radial gradient.
 
+The default is beige_white
+
+
+### Controls
+
+Show the reveal.js controls. Two values
+
+  * false
+  * true
+The default is true.
