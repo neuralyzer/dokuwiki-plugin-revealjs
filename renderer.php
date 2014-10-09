@@ -142,8 +142,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 			});
 
 		</script>
-                       </body>
-                       </html>';
+         </body>
+</html>';
     }
 
     /**
