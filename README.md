@@ -85,3 +85,13 @@ Show the reveal.js controls. Two values
   * true
 
 The default is true.
+
+
+
+Supported dokuwiki syntax
+-------------------------
+
+So far the following syntax elements are supported:
+
+  * alignment of images: either left or right or centered
+  * dokuwiki plugin wrap's <wrap lo></wrap> and <WRAP lo></WRAP> produce also in the presentation smaller text
