@@ -6,8 +6,12 @@
 *
 */
 .medialeft {
- float: left;
+  float: left;
 }
 .mediaright {
- float: right;
+  float: right;
+}
+
+#wrap_lo{
+  font-size:smaller;
 }
