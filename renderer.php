@@ -220,7 +220,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         if($pos !== null) {
             $class .= ' '.$this->startSectionEdit($pos, 'table');
         }
-        $this->doc .= '<table>'.
+        $this->doc .= '<table class="centeredtable">'.
             DOKU_LF;
     }
 
