@@ -77,7 +77,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 				var link = document.createElement( \'link\' );
 				link.rel = \'stylesheet\';
 				link.type = \'text/css\';
-				link.href = '.$this->base.'\'css/print/pdf.css\';
+				link.href = \''.$this->base.'css/print/pdf.css\';
 				document.getElementsByTagName( \'head\' )[0].appendChild( link );
 			}
 		</script>
