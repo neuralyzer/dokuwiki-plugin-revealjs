@@ -323,6 +323,53 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= '</td>';
     }
 
+  
+    /**
+     * Don't use Geshi. Overwrite ths Geshi function.
+     * @author Emmanuel Klinger
+     * @author Andreas Gohr <andi@splitbrain.org>
+     * @param string $type     code|file
+     * @param string $text     text to show
+     * @param string $language programming language to use for syntax highlighting
+     * @param string $filename file path label
+     */
+    function _highlight($type, $text, $language = null, $filename = null) {
+        global $ID;
+        global $lang;
+
+        if($filename) {
+            // add icon
+            list($ext) = mimetype($filename, false);
+            $class = preg_replace('/[^_\-a-z0-9]+/i', '_', $ext);
+            $class = 'mediafile mf_'.$class;
+
+            $this->doc .= '<dl class="'.$type.'">'.DOKU_LF;
+            $this->doc .= '<dt><a href="'.exportlink($ID, 'code', array('codeblock' => $this->_codeblock)).'" title="'.$lang['download'].'" class="'.$class.'">';
+            $this->doc .= hsc($filename);
+            $this->doc .= '</a></dt>'.DOKU_LF.'<dd>';
+        }
+
+        if($text{0} == "\n") {
+            $text = substr($text, 1);
+        }
+        if(substr($text, -1) == "\n") {
+            $text = substr($text, 0, -1);
+        }
+
+        if(is_null($language)) {
+            //@author Emmanuel: This line is changed from the original
+            $this->doc .= '<pre><code>'.$this->_xmlEntities($text).'</code></pre>'.DOKU_LF;
+        } else {
+            //@author Emmanuel: This line is changed from the original
+            $this->doc .= '<pre><code class="'.$language'">'.$this->_xmlEntities($text).'</code></pre>'.DOKU_LF;
+        }
+
+        if($filename) {
+            $this->doc .= '</dd></dl>'.DOKU_LF;
+        }
+
+        $this->_codeblock++;
+    }
 
 }
 
