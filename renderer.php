@@ -361,7 +361,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             $this->doc .= '<pre><code>'.$this->_xmlEntities($text).'</code></pre>'.DOKU_LF;
         } else {
             //@author Emmanuel: This line is changed from the original
-            $this->doc .= '<pre><code class="'.$language'">'.$this->_xmlEntities($text).'</code></pre>'.DOKU_LF;
+            $this->doc .= '<pre><code class="'.$language.'">'.$this->_xmlEntities($text).'</code></pre>'.DOKU_LF;
         }
 
         if($filename) {
