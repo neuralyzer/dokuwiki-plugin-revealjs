@@ -52,7 +52,7 @@ at such places that the closing and opening div tags interfere with the reveal.j
 MathJax compatibility
 ----------------------
 
-At the moment this plugin loads MathJax from the MathJax CDN directly whether the Dokuwiki MathJax plugin is installed or not. It ignores Dokuwiki's MathJax plugin and the custom settings you might have made. Many browsers (Firefox, Chromium) might complain about non-secure content being loaded form the page when attempting to display in revealjs presentation mode. Firefox does so so by displaying a shield icon left to the URL bar, Chromium by displaying a shield icon right to the URL bar. Enabling unsafe scripts fixes the problem.
+At the moment this plugin loads MathJax from the MathJax CDN directly whether the Dokuwiki MathJax plugin is installed or not. It ignores Dokuwiki's MathJax plugin and the custom settings you might have made. 
 
 
 
