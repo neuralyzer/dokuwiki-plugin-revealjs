@@ -1,7 +1,12 @@
 Changes to original reveal.js code
 ==================================
 
+### Themes
+
 Added in the folder css/them the file beige_white.css
+
+
+### Mathjax
 
 Change in plugin/math.math.js the line
 
