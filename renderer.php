@@ -323,6 +323,19 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= '</td>';
     }
 
+
+    /**
+    * Open a list item
+    *
+    * @param int $level the nesting level
+    *
+    * Default: build list item per item.
+    * This is called "fragment" in reveal.js
+    */
+    function listitem_open($level) {
+        $this->doc .= '<li class="fragment">';
+    }
+
   
     /**
      * Don't use Geshi. Overwrite ths Geshi function.
