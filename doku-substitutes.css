@@ -23,3 +23,12 @@
 .reveal h4 {
   margin-top: 20px !important;
 }
+
+
+.reveal section ul {
+  display: inline !important;
+}
+
+.reveal section ol {
+  display: inline !important;
+}

@@ -255,7 +255,7 @@ body {
 
 .reveal ol,
 .reveal ul {
-	display: inline;  /* original: inline-block */
+	display: inline-block;
 
 	text-align: left;
 	margin: 0 0 0 1em;
