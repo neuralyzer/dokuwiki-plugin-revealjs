@@ -24,27 +24,3 @@
   margin-top: 20px !important;
 }
 
-
-.reveal ul {
-  display: inline !important;
-}
-
-.reveal ol {
-  display: inline !important;
-}
-
-.reveal ul ul {
-  display: block !important;
-}
-
-.reveal ol ul {
-  display: block !important;
-}
-
-.reveal ul ol {
-  display: block !important;
-}
-
-.reveal ol ol {
-  display: block !important;
-}
