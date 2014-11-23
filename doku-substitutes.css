@@ -25,10 +25,26 @@
 }
 
 
-.reveal section ul {
+.reveal ul {
   display: inline !important;
 }
 
-.reveal section ol {
+.reveal ol {
   display: inline !important;
+}
+
+.reveal ul ul {
+  display: block !important;
+}
+
+.reveal ol ul {
+  display: block !important;
+}
+
+.reveal ul ol {
+  display: block !important;
+}
+
+.reveal ol ol {
+  display: block !important;
 }
