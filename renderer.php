@@ -333,7 +333,11 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level) {
-        $this->doc .= '<li class="fragment">';
+        if($this->getConf('revealjs_build_all_lists')) {
+          $this->doc .= '<li class="fragment">';
+       } else {
+          $this->doc .= '<li>'; 
+       }
     }
 
   
