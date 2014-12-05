@@ -24,3 +24,7 @@
   margin-top: 20px !important;
 }
 
+.reveal img {
+  border: none !important;
+  box-shadow: none !important;
+}
