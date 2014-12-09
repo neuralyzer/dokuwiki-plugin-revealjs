@@ -94,6 +94,13 @@ Show the reveal.js controls. Two values
 The default is true.
 
 
+### Build all lists
+
+Whether to build up all bullet point lists item by item by for every slide.
+
+The default is false.
+
+
 
 Supported dokuwiki syntax
 -------------------------
