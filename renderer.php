@@ -72,11 +72,11 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 
 		<!-- Printing and PDF exports -->
 		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
+			var link = document.createElement( \'link\' );
+			link.rel = \'stylesheet\';
+			link.type = \'text/css\';
+			link.href = window.location.search.match( /print-pdf/gi ) ? \'css/print/pdf.css\' : \'css/print/paper.css\';
+			document.getElementsByTagName( \'head\' )[0].appendChild( link );
 		</script>
 
 		<!--[if lt IE 9]>
