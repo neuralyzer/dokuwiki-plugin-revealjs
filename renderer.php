@@ -68,7 +68,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
                 <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
 
 		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
