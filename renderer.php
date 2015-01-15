@@ -111,7 +111,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         }
         $this->doc .= '</div></div>
 		<script src="'.$this->base.'lib/js/head.min.js"></script>
-		<script src="'.$this->base.'js/reveal.min.js"></script>
+		<script src="'.$this->base.'js/reveal.js"></script>
 
 		<script>
 
