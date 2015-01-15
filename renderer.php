@@ -66,7 +66,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 
                 <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
 		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('revealjs_theme').'.css" id="theme">
-                <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
