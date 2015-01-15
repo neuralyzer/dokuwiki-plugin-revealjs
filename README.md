@@ -5,12 +5,12 @@ Reval.js plugin for dokuwiki
 
 This started as a fork of Andreas Gohr's S5 plugin https://www.dokuwiki.org/plugin:s5.
 
-It makes use of Reveal.js https://github.com/hakimel/reveal.js/.
+It uses Reveal.js https://github.com/hakimel/reveal.js/.
 
 Install
 -------
 
-Paste the address git config https://github.com/neuralyzer/dokuwiki-plugin-revealjs/zipball/master in the manual installation field.
+Paste the address git config http://github.com/neuralyzer/dokuwiki-plugin-revealjs/zipball/master in the manual installation field or use Dokuwiki's extension manager.
 
 
 Usage
@@ -65,8 +65,11 @@ Configuration options
 
 Available themes are the Reval.js themes
 
+  * black
+  * white
   * beige
   * blood
+  * league
   * default
   * moon
   * night
@@ -75,13 +78,7 @@ Available themes are the Reval.js themes
   * sky
   * solarized
 
-Plus additionally the theme
-
-  * beige_white
-
-which is a simple modification of the beige theme. The only change to the original beige theme is that the background is white instead of the beige radial gradient.
-
-The default is beige_white
+The default is white.
 
 
 ### Controls
@@ -91,14 +88,21 @@ Show the reveal.js controls. Two values
   * false
   * true
 
-The default is true.
+The default is false.
+
+
+### Build all lists
+
+Whether to build up all lists point by point.
+
+The default is false
 
 
 
 Supported dokuwiki syntax
 -------------------------
 
-So far the following syntax elements are supported:
+Apart of the ordinary things like headlines, tables, italic, bold etc. the following syntax elements are supported:
 
   * alignment of images: either left or right or centered
-  * dokuwiki plugin wrap's ``<wrap lo></wrap>`` and ``<WRAP lo></WRAP>`` produce also in the presentation smaller text
+  * dokuwiki plugin wrap's ``<wrap lo></wrap>`` and ``<WRAP lo></WRAP>`` produce also in the presentation smaller text.
