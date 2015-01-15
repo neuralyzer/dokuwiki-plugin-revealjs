@@ -1,4 +1,4 @@
 <?php
-$conf['revealjs_theme'] = 'beige_white';
-$conf['revealjs_controls'] = 'true';
+$conf['revealjs_theme'] = 'white';
+$conf['revealjs_controls'] = 'false';
 $conf['revealjs_build_all_lists'] = 0;

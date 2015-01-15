@@ -62,24 +62,21 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-                
-                <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
-		<link rel="stylesheet" href="'.$this->base.'css/reveal.min.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
 		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('revealjs_theme').'.css" id="theme">
+                <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
 
-		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- If the query includes \'print-pdf\', include the PDF print sheet -->
+		<!-- Printing and PDF exports -->
 		<script>
-			if( window.location.search.match( /print-pdf/gi ) ) {
-				var link = document.createElement( \'link\' );
-				link.rel = \'stylesheet\';
-				link.type = \'text/css\';
-				link.href = \''.$this->base.'css/print/pdf.css\';
-				document.getElementsByTagName( \'head\' )[0].appendChild( link );
-			}
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 
 		<!--[if lt IE 9]>
@@ -126,13 +123,17 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 				history: true,
 				center: true,
 
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || \'default\', // default/cube/page/concave/zoom/linear/fade/none
+				transition: \'slide\', // none/fade/slide/convex/concave/zoom
+				math: {
+                                   mathjax: \'//cdn.mathjax.org/mathjax/latest/MathJax.js\',
+                                   config: \'TeX-AMS_HTML-full\'  // See http://docs.mathjax.org/en/latest/config-files.html
+                                },
+
 				dependencies: [
 					{ src: \''.$this->base.'lib/js/classList.js\', condition: function() { return !document.body.classList; } },
 					{ src: \''.$this->base.'plugin/markdown/marked.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
 					{ src: \''.$this->base.'plugin/markdown/markdown.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
-					{ src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, condition: function() { return !!document.querySelector( \'pre code\' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
 
