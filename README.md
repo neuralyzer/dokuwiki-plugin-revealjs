@@ -63,7 +63,7 @@ Configuration options
 ### Available themes
 
 
-Available themes are the Reval.js themes
+Available themes are the Reval.js themes. Possible values:
 
   * black
   * white
@@ -93,7 +93,10 @@ The default is false.
 
 ### Build all lists
 
-Whether to build up all lists point by point.
+Whether to build up all lists point by point. Two values
+
+  * false
+  * true
 
 The default is false
 
