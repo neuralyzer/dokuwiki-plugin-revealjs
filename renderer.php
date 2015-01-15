@@ -75,7 +75,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 			var link = document.createElement( \'link\' );
 			link.rel = \'stylesheet\';
 			link.type = \'text/css\';
-			link.href = window.location.search.match( /print-pdf/gi ) ? \'css/print/pdf.css\' : \'css/print/paper.css\';
+			link.href = window.location.search.match( /print-pdf/gi ) ? \''.$this->base.'css/print/pdf.css\' : \''.$this->base.'css/print/paper.css\';
 			document.getElementsByTagName( \'head\' )[0].appendChild( link );
 		</script>
 
@@ -137,8 +137,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 					{ src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
 
-// MathJax
-        { src: \''.$this->base.'plugin/math/math.js\', async: true }
+                                        // MathJax
+                                       { src: \''.$this->base.'plugin/math/math.js\', async: true }
 				]
 			});
 
