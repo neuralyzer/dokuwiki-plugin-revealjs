@@ -28,3 +28,7 @@
   border: none !important;
   box-shadow: none !important;
 }
+
+.reveal dl {
+  display:block !important;
+}
