@@ -11,32 +11,8 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
 
-
-
-    /**
-     * Get the type of syntax this plugin defines.
-     *
-     * @param none
-     * @return String <tt>'substition'</tt> (i.e. 'substitution').
-     * @public
-     * @static
-     */
-    function getType(){
-        return 'substition';
-    }
-
-
-    /**
-     * Where to sort in?
-     *
-     * @param none
-     * @return Integer <tt>6</tt>.
-     * @public
-     * @static
-     */
-    function getSort(){
-        return 999;
-    }
+    public function getType() { return 'substition'; }
+    public function getSort() { return 32; }
 
 
     /**
@@ -48,7 +24,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see render()
      */
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern("{{background>.+?}}", $mode, 'plugin_revealjs_background');
+        $this->Lexer->addSpecialPattern('{{background>.+?}}', $mode, 'plugin_revealjs_background');
     }
 
 
@@ -66,8 +42,8 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        $match = substr($match, 13, -2); // strip markup
-        return array($match, $match);
+        $content = substr($match, 13, -2); // strip markup
+        return array($content, $content);
     }
 
     /**
