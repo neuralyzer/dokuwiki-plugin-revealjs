@@ -43,7 +43,8 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
         $content = substr($match, 13, -2); // strip markup
-        return array($content, $content);
+        $new_link = ml($content);
+        return array($new_link);
     }
 
     /**
