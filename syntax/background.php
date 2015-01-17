@@ -48,8 +48,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see render()
      */
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern("{{background>.+?}}", $mode,'plugin_revealjs_background');
-//      $this->Lexer->addEntryPattern('<TEST>',$mode,'plugin_test');
+        $this->Lexer->addSpecialPattern("{{background>.+?}}", $mode, 'plugin_revealjs_background');
     }
 
 
@@ -68,7 +67,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
         $match = substr($match, 13, -2); // strip markup
-        return array($match);
+        return array($match, $match);
     }
 
     /**
