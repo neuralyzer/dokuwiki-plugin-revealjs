@@ -16,7 +16,7 @@ require_once(DOKU_PLUGIN.'syntax.php');
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
  */
-class syntax_plugin_test extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
 
 
 
@@ -83,7 +83,7 @@ class syntax_plugin_test extends DokuWiki_Syntax_Plugin {
      * @see render()
      */
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('<TEST>',$mode,'plugin_test');
+        $this->Lexer->addSpecialPattern('<TEST>',$mode,'plugin_revealjs_background');
 //      $this->Lexer->addEntryPattern('<TEST>',$mode,'plugin_test');
     }
 
