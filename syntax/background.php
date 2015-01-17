@@ -66,7 +66,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see render()
      * @static
      */
-    function handle($match, $state, $pos, &$handler){
+    public function handle($match, $state, $pos, Doku_Handler $handler) {
         $match = substr($match, 13, -2); // strip markup
         return array($match);
     }
@@ -83,7 +83,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @public
      * @see handle()
      */
-    function render($mode, &$renderer, $data) {
+    public function render($mode, Doku_Renderer $renderer, $data) {
         //if($mode == 'xhtml' &&  is_a($renderer, 'renderer_plugin_revealjs')){
         if($mode == 'xhtml'){
             $renderer->doc .= $data[0];            // ptype = 'normal'
