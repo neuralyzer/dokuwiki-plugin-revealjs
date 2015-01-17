@@ -30,7 +30,7 @@ class syntax_plugin_now extends DokuWiki_Syntax_Plugin {
         // $data is what the function handle return'ed.
         if($mode == 'xhtml'){
             /** @var Doku_Renderer_xhtml $renderer */
-            $renderer->doc .= date('r');
+            $renderer->doc .= 'hello test';
             return true;
         }
         return false;
