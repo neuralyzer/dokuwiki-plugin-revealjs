@@ -13,13 +13,13 @@ if(!defined('DOKU_INC')) die();
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
  */
-class syntax_plugin_now extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_revealjs_now extends DokuWiki_Syntax_Plugin {
 
     public function getType() { return 'substition'; }
     public function getSort() { return 32; }
 
     public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('\[NOW\]',$mode,'plugin_now');
+        $this->Lexer->addSpecialPattern('\[NOW\]',$mode,'plugin_revealjs_now');
     }
 
     public function handle($match, $state, $pos, Doku_Handler $handler) {
