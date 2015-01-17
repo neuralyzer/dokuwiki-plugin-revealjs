@@ -1,12 +1,5 @@
 <?php
-/**
- * Plugin Skeleton: Displays "Hello World!"
- *
- * Syntax: <TEST> - will be replaced with "Hello World!"
- *
- * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Christopher Smith <chris@jalakai.co.uk>
- */
+
 
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
@@ -157,7 +150,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     function render($mode, &$renderer, $data) {
-        if($mode == 'xhtml'){
+        if($mode == 'xhtml' &&  is_a($renderer, 'renderer_plugin_revealjs')){
             $renderer->doc .= "Hello World!";            // ptype = 'normal'
 //            $renderer->doc .= "<p>Hello World!</p>";     // ptype = 'block'
             return true;
