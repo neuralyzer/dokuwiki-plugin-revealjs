@@ -43,8 +43,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
         $content = substr($match, 13, -2); // strip markup
-        $new_link = ml($content);
-        return array($new_link);
+        return array($content);
     }
 
     /**
@@ -60,9 +59,12 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        //if($mode == 'xhtml' &&  is_a($renderer, 'renderer_plugin_revealjs')){
         if($mode == 'xhtml'){
-            $renderer->doc .= $data[0];            // ptype = 'normal'
+            if (is_a($renderer, 'renderer_plugin_revealjs')){
+                $renderer->add_background_to_next_slide(ml($data[0]));
+            } else {
+                $renderer->doc .= 'Background: '. $data[0];
+            }
             return true;
         }
         return false;

@@ -18,6 +18,13 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $level2open = false;
     var $base='';
     var $tpl='';
+    var $next_slide_with_background = false;
+    var $background_image_url;
+
+    public function add_background_to_next_slide($image_url){
+        $this->background_image_url = $image_url;
+        $this->next_slide_with_background = true;
+    }
 
     /**
      * the format we produce
@@ -149,6 +156,22 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 </html>';
     }
 
+    /*
+    *
+     * Creates a new section possibliy including the background image.
+     */
+    function create_slide_section(){
+        $this->doc .= '<section';
+        if ($this->next_slide_with_background){
+            $this->doc .= ' data-background="'.$this->background_image_url.'">';
+            $this->next_slide_with_background = false;
+        } else {
+            $this->doc .= '>';
+        }
+        $this->doc .= DOKU_LF;
+    }
+
+
     /**
      * This is what creates new slides
      *
@@ -164,9 +187,9 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
                       $this->level2open = false;
                 }
             }
-            $this->doc .= '<section>'.DOKU_LF;
+            $this->create_slide_section();
             if ( $level == 2 ) {   //first slide of possibly following nested ones if level is 2
-                 $this->doc .= '<section>'.DOKU_LF;
+                 $this->create_slide_section();
                  $this->level2open = true; 
             } 
             $this->slideopen = true;
