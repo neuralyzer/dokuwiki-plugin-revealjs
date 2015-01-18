@@ -64,7 +64,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                 $renderer->add_background_to_next_slide(ml($data[0]));
             } else {
                 $renderer->doc .= 'Background: ';
-                $renderer->internalmedia($data[0]);
+                $renderer->doc .= $renderer->_media($data[0]);
             }
             return true;
         }
