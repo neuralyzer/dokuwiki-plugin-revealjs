@@ -70,7 +70,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                     $renderer->doc .= $renderer->_media($data[0], 'Background for next section in reveal.js mode',
                                                     null, 80, 60, null, true);
                 } else{
-                    $renderer->doc .= '<div style="color: "'.$background_data.';">'.$background_data.'</div>';
+                    $renderer->doc .= '<div style="color: '.$background_data.';">'.$background_data.'</div>';
                 }
             }
             return true;
