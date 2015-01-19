@@ -198,7 +198,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= $this->_xmlEntities($text);
         $this->doc .= '</h'.$level.'>'.DOKU_LF;
         if (strlen($text) == 0) {
-            $this->doc .= '<!-- This comment is a dirty workaround for reveal.js printing to print an empty slide with background. -->';
+            $this->doc .= '<div style="visibility: hidden;">This comment is a dirty workaround for reveal.js printing to print an empty slide with background. </div>'.DOKU_LF;
         }
     }
 
