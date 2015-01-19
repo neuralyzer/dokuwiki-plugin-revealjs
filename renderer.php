@@ -160,9 +160,9 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     *
      * Creates a new section possibliy including the background image.
      */
-    function create_slide_section(){
+    function create_slide_section($with_backgound){
         $this->doc .= '<section';
-        if ($this->next_slide_with_background){
+        if ($this->next_slide_with_background && $with_backgound){
             $this->doc .= ' data-background="'.$this->background_image_url.'">';
             $this->next_slide_with_background = false;
         } else {
@@ -187,9 +187,9 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
                       $this->level2open = false;
                 }
             }
-            $this->create_slide_section();
+            $this->create_slide_section(false); # always without background to not to have a background for a whole subsection
             if ( $level == 2 ) {   //first slide of possibly following nested ones if level is 2
-                 $this->create_slide_section();
+                 $this->create_slide_section(true);
                  $this->level2open = true; 
             } 
             $this->slideopen = true;

@@ -65,7 +65,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
             if (is_a($renderer, 'renderer_plugin_revealjs')){
                 $renderer->add_background_to_next_slide($background_data);
             } else {
-                if (!$is_color){
+                if (!$is_color){  //background is an image
                     $renderer->doc .= 'Background: ';
                     $renderer->doc .= $renderer->_media($data[0], 'Background for next section in reveal.js mode',
                                                     null, 80, 60, null, true);
