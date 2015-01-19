@@ -14,8 +14,8 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
  * The Renderer
  */
 class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
-    var $slideopen = false;
-    var $level2open = false;
+    var $slide_open = false;
+    var $column_open = false;
     var $base='';
     var $tpl='';
     var $next_slide_with_background = false;
@@ -110,11 +110,11 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         // but cleanup is nice
         $this->doc = preg_replace('#<p>\s*</p>#','',$this->doc);
 
-        if($this->slideopen){
+        if($this->slide_open){
             $this->doc .= '</section>'.DOKU_LF; //close previous slide
-            if ( $this->level2open ) { // close nested section
+            if ( $this->column_open ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
-                      $this->level2open = false;
+                      $this->column_open = false;
              }
         }
         $show_controls = $this->getConf('controls') ? 'true' : 'false';
@@ -180,23 +180,23 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      */
     function header($text, $level, $pos) {
         if($level <= 3){
-            if($this->slideopen){
+            if($this->slide_open){
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
-                if ( ($this->level2open) && ($level <= 2) ) { // close nested section
+                if ( ($this->column_open) && ($level <= 2) ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
-                      $this->level2open = false;
+                      $this->column_open = false;
                 }
             }
-            $this->create_slide_section(false); # always without background to not to have a background for a whole subsection
-            if ( $level == 2 ) {   //first slide of possibly following nested ones if level is 2
-                 $this->create_slide_section(true);
-                 $this->level2open = true; 
-            } 
-            $this->slideopen = true;
+            if ( $level <= 2 ) {   //first slide of possibly following nested ones if level is 2
+                 $this->create_slide_section(false);
+                 $this->column_open = true;
+            }
+            $this->create_slide_section(true); # always without background to not to have a background for a whole subsection
+            $this->slide_open = true;
         }
-        $this->doc .= '<h'.($level).'>';
+        $this->doc .= '<h'.$level.'>';
         $this->doc .= $this->_xmlEntities($text);
-        $this->doc .= '</h'.($level).'>'.DOKU_LF;
+        $this->doc .= '</h'.$level.'>'.DOKU_LF;
     }
 
     /**
