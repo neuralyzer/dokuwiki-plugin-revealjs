@@ -72,7 +72,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
                 <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
-		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('revealjs_theme').'.css" id="theme">
+		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
                 <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
 
 		<!-- Code syntax highlighting -->
@@ -117,7 +117,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
                       $this->level2open = false;
              }
         }
-        $show_controls = $this->getConf('revealjs_controls') ? 'true' : 'false';
+        $show_controls = $this->getConf('controls') ? 'true' : 'false';
         $this->doc .= '</div></div>
 		<script src="'.$this->base.'lib/js/head.min.js"></script>
 		<script src="'.$this->base.'js/reveal.js"></script>
@@ -359,7 +359,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level) {
-        if($this->getConf('revealjs_build_all_lists')) {
+        if($this->getConf('build_all_lists')) {
           $this->doc .= '<li class="fragment">';
        } else {
           $this->doc .= '<li>'; 

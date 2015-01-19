@@ -1,4 +1,5 @@
 <?php
-$meta['revealjs_theme'] = array('string');
-$meta['revealjs_controls'] = array('onoff');
-$meta['revealjs_build_all_lists'] = array('onoff');
+$meta['theme'] = array('multichoice','_choices' => array('beige','black','blood','league','moon',
+                                                         'night','serif', 'simple', 'sky', 'solarized', 'white'));
+$meta['controls'] = array('onoff');
+$meta['build_all_lists'] = array('onoff');
