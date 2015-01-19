@@ -175,8 +175,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     /**
      * This is what creates new slides
      *
-     * A new slide is started for each H2 header
-     * A new nested slide for each H3 header
+     * A new column is started for each H1 or H2 header
+     * A new vertical slide for each H3 header
      */
     function header($text, $level, $pos) {
         if($level <= 3){
@@ -197,6 +197,9 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= '<h'.$level.'>';
         $this->doc .= $this->_xmlEntities($text);
         $this->doc .= '</h'.$level.'>'.DOKU_LF;
+        if (strlen($text) == 0) {
+            $this->doc .= '<!-- This comment is a dirty workaround for reveal.js printing to print an empty slide with background. -->';
+        }
     }
 
     /**
