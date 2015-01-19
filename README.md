@@ -149,7 +149,7 @@ slide with background
 slide without background
 ```
 
-will produce one slide with background and a second slide without backgournd
+produces one slide with background and a second slide without background.
 
 
 
