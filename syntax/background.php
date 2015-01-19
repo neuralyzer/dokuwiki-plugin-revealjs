@@ -61,7 +61,8 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
     public function render($mode, Doku_Renderer $renderer, $data) {
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
-                $renderer->add_background_to_next_slide(ml($data[0]));
+                $background_data = (substr($data, 0, 1) === '#') ? $data : ml($data[0]);
+                $renderer->add_background_to_next_slide($background_data);
             } else {
                 $renderer->doc .= 'Background: ';
                 $renderer->doc .= $renderer->_media($data[0], 'Background for next section in reveal.js mode',
