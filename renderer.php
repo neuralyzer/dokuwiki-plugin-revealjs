@@ -196,9 +196,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         }
         $this->doc .= '<h'.$level.'>';
         $this->doc .= $this->_xmlEntities($text);
-        if (strlen($text) == 0) {
-            $this->doc .='<div style="display: inline; opacity: 0;">.</div>'; //firefox pdf print hack
-        }
         $this->doc .= '</h'.$level.'>'.DOKU_LF;
     }
 
