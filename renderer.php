@@ -194,12 +194,12 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             $this->create_slide_section(true); # always without background to not to have a background for a whole subsection
             $this->slide_open = true;
         }
-        if (strlen($text) == 0) {
-            $level = 2;  //workaround for printing in firefox
-        }
         $this->doc .= '<h'.$level.'>';
         $this->doc .= $this->_xmlEntities($text);
         $this->doc .= '</h'.$level.'>'.DOKU_LF;
+        if (strlen($text) == 0) {
+            $this->doc .='<img src="'.$this->base.'transparent_pixel.png">';
+        }
     }
 
     /**
