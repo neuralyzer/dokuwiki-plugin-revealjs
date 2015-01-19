@@ -30,5 +30,9 @@
 }
 
 .reveal dl {
-  display:block !important;
+  display: block !important;
+}
+
+.tags {
+   display: none !important;
 }
