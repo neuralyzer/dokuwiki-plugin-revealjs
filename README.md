@@ -109,3 +109,47 @@ Apart of the ordinary things like headlines, tables, italic, bold etc. the follo
 
   * alignment of images: either left or right or centered
   * dokuwiki plugin wrap's ``<wrap lo></wrap>`` and ``<WRAP lo></WRAP>`` produce also in the presentation smaller text.
+
+
+Extra syntax
+------------
+
+### Slide background
+
+The plugin introduces the syntax
+
+```
+   {{background>value}}
+```
+
+Where `value` can be either a Dokuwiki image identifier, e.g. 
+
+```
+  value = :images:my_images:image1.png
+```
+
+or a color in hex code preceded by `"#"`, e.g.
+
+```
+  value = #ff0022
+```
+
+The so defined background will be applied to the next slide. I.e. the background tag has to preceed the heading opening
+the next slide and will only apply to that slide. For example
+
+
+```
+{{background>:images:image1.png}}
+===== my heading=====
+
+slide with background
+
+===== my second heading=====
+
+slide without background
+```
+
+will produce one slide with background and a second slide without backgournd
+
+
+
