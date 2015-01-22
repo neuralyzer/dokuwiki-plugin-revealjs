@@ -132,7 +132,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 				history: true,
 				center: true,
 
-				transition: \'slide\', // none/fade/slide/convex/concave/zoom
+				transition: \''.$this->getConf('transition').'\', // none/fade/slide/convex/concave/zoom
 				math: {
                                    mathjax: \'//cdn.mathjax.org/mathjax/latest/MathJax.js\',
                                    config: \'TeX-AMS_HTML-full\'  // See http://docs.mathjax.org/en/latest/config-files.html
