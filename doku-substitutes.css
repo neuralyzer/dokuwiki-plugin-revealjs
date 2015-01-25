@@ -28,6 +28,7 @@
 .reveal img {
   border: none !important;
   box-shadow: none !important;
+  background: none !important;
 }
 
 .reveal dl {
