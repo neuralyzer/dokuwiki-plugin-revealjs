@@ -1,11 +1,16 @@
 Changes
 =======
 
+###     2015-01-27
+
+        Add background syntax.     
+
+
 ###     2015-01-15
 
         Update to reveal.js 3.0.
         Substitute theme beige_white by the new reveal.js theme white.
-        The theme beige_white will be removed in a future release of this plugin.
+        The theme beige_white is removed.
         Default values have changed. Controls are not shown by default anymore.
 
 

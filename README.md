@@ -101,6 +101,18 @@ Whether to build up all lists point by point. Two values
 The default is false
 
 
+### Transition
+
+The slide transition. Possible settings:
+
+  * none
+  * fade
+  * slide
+  * convex
+  * concave
+  * zoom
+
+The default is zoom.
 
 Supported dokuwiki syntax
 -------------------------
