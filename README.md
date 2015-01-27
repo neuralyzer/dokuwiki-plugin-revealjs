@@ -5,12 +5,12 @@ Reval.js plugin for dokuwiki
 
 This started as a fork of Andreas Gohr's S5 plugin https://www.dokuwiki.org/plugin:s5.
 
-It makes use of Reveal.js https://github.com/hakimel/reveal.js/.
+It uses Reveal.js https://github.com/hakimel/reveal.js/.
 
 Install
 -------
 
-Paste the address git config https://github.com/neuralyzer/dokuwiki-plugin-revealjs/zipball/master in the manual installation field.
+Paste the address git config http://github.com/neuralyzer/dokuwiki-plugin-revealjs/zipball/master in the manual installation field or use Dokuwiki's extension manager.
 
 
 Usage
@@ -63,10 +63,13 @@ Configuration options
 ### Available themes
 
 
-Available themes are the Reval.js themes
+Available themes are the Reval.js themes. Possible values:
 
+  * black
+  * white
   * beige
   * blood
+  * league
   * default
   * moon
   * night
@@ -75,13 +78,7 @@ Available themes are the Reval.js themes
   * sky
   * solarized
 
-Plus additionally the theme
-
-  * beige_white
-
-which is a simple modification of the beige theme. The only change to the original beige theme is that the background is white instead of the beige radial gradient.
-
-The default is beige_white
+The default is white.
 
 
 ### Controls
@@ -91,7 +88,32 @@ Show the reveal.js controls. Two values
   * false
   * true
 
-The default is true.
+The default is false.
+
+
+### Build all lists
+
+Whether to build up all lists point by point. Two values
+
+  * false
+  * true
+
+The default is false
+
+
+### Transition
+
+The slide transition. Possible settings:
+
+
+  * none
+  * fade
+  * slide
+  * convex
+  * concave
+  * zoom
+
+The default is fade.
 
 
 ### Build all lists
@@ -105,7 +127,51 @@ The default is false.
 Supported dokuwiki syntax
 -------------------------
 
-So far the following syntax elements are supported:
+Apart of the ordinary things like headlines, tables, italic, bold etc. the following syntax elements are supported:
 
   * alignment of images: either left or right or centered
-  * dokuwiki plugin wrap's ``<wrap lo></wrap>`` and ``<WRAP lo></WRAP>`` produce also in the presentation smaller text
+  * dokuwiki plugin wrap's ``<wrap lo></wrap>`` and ``<WRAP lo></WRAP>`` produce also in the presentation smaller text.
+
+
+Extra syntax
+------------
+
+### Slide background
+
+The plugin introduces the syntax
+
+```
+   {{background>value}}
+```
+
+Where `value` can be either a Dokuwiki image identifier, e.g. 
+
+```
+  value = :images:my_images:image1.png
+```
+
+or a color in hex code preceded by `"#"`, e.g.
+
+```
+  value = #ff0022
+```
+
+The so defined background will be applied to the next slide. I.e. the background tag has to preceed the heading opening
+the next slide and will only apply to that slide. For example
+
+
+```
+{{background>:images:image1.png}}
+===== my heading=====
+
+slide with background
+
+===== my second heading=====
+
+slide without background
+```
+
+produces one slide with background and a second slide without background.
+
+
+

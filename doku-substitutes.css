@@ -14,6 +14,7 @@
 
 .wrap_lo {
   font-size:smaller !important;
+  opacity: 0.75 !important;
 }
 
 .doku_revealjs_table {
@@ -27,4 +28,13 @@
 .reveal img {
   border: none !important;
   box-shadow: none !important;
+  background: none !important;
+}
+
+.reveal dl {
+  display: block !important;
+}
+
+.tags {
+   display: none !important;
 }

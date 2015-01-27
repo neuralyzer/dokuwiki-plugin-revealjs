@@ -14,10 +14,17 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
  * The Renderer
  */
 class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
-    var $slideopen = false;
-    var $level2open = false;
+    var $slide_open = false;
+    var $column_open = false;
     var $base='';
     var $tpl='';
+    var $next_slide_with_background = false;
+    var $background_image_url;
+
+    public function add_background_to_next_slide($image_url){
+        $this->background_image_url = $image_url;
+        $this->next_slide_with_background = true;
+    }
 
     /**
      * the format we produce
@@ -62,24 +69,22 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-                
-                <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
-		<link rel="stylesheet" href="'.$this->base.'css/reveal.min.css">
-		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('revealjs_theme').'.css" id="theme">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<!-- For syntax highlighting -->
+                <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
+		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
+                <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
+
+		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
 
-		<!-- If the query includes \'print-pdf\', include the PDF print sheet -->
+		<!-- Printing and PDF exports -->
 		<script>
-			if( window.location.search.match( /print-pdf/gi ) ) {
-				var link = document.createElement( \'link\' );
-				link.rel = \'stylesheet\';
-				link.type = \'text/css\';
-				link.href = \''.$this->base.'css/print/pdf.css\';
-				document.getElementsByTagName( \'head\' )[0].appendChild( link );
-			}
+			var link = document.createElement( \'link\' );
+			link.rel = \'stylesheet\';
+			link.type = \'text/css\';
+			link.href = window.location.search.match( /print-pdf/gi ) ? \''.$this->base.'css/print/pdf.css\' : \''.$this->base.'css/print/paper.css\';
+			document.getElementsByTagName( \'head\' )[0].appendChild( link );
 		</script>
 
 		<!--[if lt IE 9]>
@@ -105,39 +110,44 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         // but cleanup is nice
         $this->doc = preg_replace('#<p>\s*</p>#','',$this->doc);
 
-        if($this->slideopen){
+        if($this->slide_open){
             $this->doc .= '</section>'.DOKU_LF; //close previous slide
-            if ( $this->level2open ) { // close nested section
+            if ( $this->column_open ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
-                      $this->level2open = false;
+                      $this->column_open = false;
              }
         }
+        $show_controls = $this->getConf('controls') ? 'true' : 'false';
         $this->doc .= '</div></div>
 		<script src="'.$this->base.'lib/js/head.min.js"></script>
-		<script src="'.$this->base.'js/reveal.min.js"></script>
+		<script src="'.$this->base.'js/reveal.js"></script>
 
 		<script>
 
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: '.$this->getConf('revealjs_controls').',
+				controls: '. $show_controls .',
 				progress: true,
 				history: true,
 				center: true,
 
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || \'default\', // default/cube/page/concave/zoom/linear/fade/none
+				transition: \''.$this->getConf('transition').'\', // none/fade/slide/convex/concave/zoom
+				math: {
+                                   mathjax: \'//cdn.mathjax.org/mathjax/latest/MathJax.js\',
+                                   config: \'TeX-AMS_HTML-full\'  // See http://docs.mathjax.org/en/latest/config-files.html
+                                },
+
 				dependencies: [
 					{ src: \''.$this->base.'lib/js/classList.js\', condition: function() { return !document.body.classList; } },
 					{ src: \''.$this->base.'plugin/markdown/marked.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
 					{ src: \''.$this->base.'plugin/markdown/markdown.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
-					{ src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, condition: function() { return !!document.querySelector( \'pre code\' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
 
-// MathJax
-        { src: \''.$this->base.'plugin/math/math.js\', async: true }
+                                        // MathJax
+                                       { src: \''.$this->base.'plugin/math/math.js\', async: true }
 				]
 			});
 
@@ -146,31 +156,47 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 </html>';
     }
 
+    /*
+    *
+     * Creates a new section possibliy including the background image.
+     */
+    function create_slide_section($with_backgound){
+        $this->doc .= '<section';
+        if ($this->next_slide_with_background && $with_backgound){
+            $this->doc .= ' data-background="'.$this->background_image_url.'">';
+            $this->next_slide_with_background = false;
+        } else {
+            $this->doc .= '>';
+        }
+        $this->doc .= DOKU_LF;
+    }
+
+
     /**
      * This is what creates new slides
      *
-     * A new slide is started for each H2 header
-     * A new nested slide for each H3 header
+     * A new column is started for each H1 or H2 header
+     * A new vertical slide for each H3 header
      */
     function header($text, $level, $pos) {
         if($level <= 3){
-            if($this->slideopen){
+            if($this->slide_open){
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
-                if ( ($this->level2open) && ($level <= 2) ) { // close nested section
+                if ( ($this->column_open) && ($level <= 2) ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
-                      $this->level2open = false;
+                      $this->column_open = false;
                 }
             }
-            $this->doc .= '<section>'.DOKU_LF;
-            if ( $level == 2 ) {   //first slide of possibly following nested ones if level is 2
-                 $this->doc .= '<section>'.DOKU_LF;
-                 $this->level2open = true; 
-            } 
-            $this->slideopen = true;
+            if ( $level <= 2 ) {   //first slide of possibly following nested ones if level is 2
+                 $this->create_slide_section(false);
+                 $this->column_open = true;
+            }
+            $this->create_slide_section(true); # always without background to not to have a background for a whole subsection
+            $this->slide_open = true;
         }
-        $this->doc .= '<h'.($level).'>';
+        $this->doc .= '<h'.$level.'>';
         $this->doc .= $this->_xmlEntities($text);
-        $this->doc .= '</h'.($level).'>'.DOKU_LF;
+        $this->doc .= '</h'.$level.'>'.DOKU_LF;
     }
 
     /**
@@ -333,7 +359,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level) {
-        if($this->getConf('revealjs_build_all_lists')) {
+        if($this->getConf('build_all_lists')) {
           $this->doc .= '<li class="fragment">';
        } else {
           $this->doc .= '<li>'; 
