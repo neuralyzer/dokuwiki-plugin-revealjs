@@ -20,7 +20,6 @@
 .doku_revealjs_table {
     margin-left: auto !important;
     margin-right: auto !important;
-    vertical-align: top !important;
 }
 .reveal h4 {
   margin-top: 20px !important;
@@ -38,4 +37,8 @@
 
 .tags {
    display: none !important;
+}
+
+.reveal td {
+   vertical-align: top !important;
 }
