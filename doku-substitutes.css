@@ -42,3 +42,12 @@
 .reveal td {
    vertical-align: top !important;
 }
+
+.wrap_clear {
+    clear: both;
+    line-height: 0;
+    height: 0px;
+    font-size: 1px;
+    visibility: hidden;
+    overflow: hidden;
+}
