@@ -131,6 +131,7 @@ Apart of the ordinary things like headlines, tables, italic, bold etc. the follo
 
   * alignment of images: either left or right or centered
   * dokuwiki plugin wrap's ``<wrap lo></wrap>`` and ``<WRAP lo></WRAP>`` produce also in the presentation smaller text.
+  * ``<WRAP clear></WRAP>`` for clearing of floats
 
 
 Extra syntax
