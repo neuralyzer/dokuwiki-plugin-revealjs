@@ -91,6 +91,16 @@ Show the reveal.js controls. Two values
 The default is false.
 
 
+### Progres bar
+
+Show the reveal.js progress bar. Two values
+
+  * false
+  * true
+
+The default is false.
+
+
 ### Build all lists
 
 Whether to build up all lists point by point. Two values
