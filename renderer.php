@@ -118,6 +118,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
              }
         }
         $show_controls = $this->getConf('controls') ? 'true' : 'false';
+        $show_progress_bar = $this->getConf('show_progress_bar') ? 'true' : 'false';
         $this->doc .= '</div></div>
 		<script src="'.$this->base.'lib/js/head.min.js"></script>
 		<script src="'.$this->base.'js/reveal.js"></script>
@@ -128,7 +129,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: '. $show_controls .',
-				progress: true,
+				progress: '. $show_progress_bar .',
 				history: true,
 				center: true,
 

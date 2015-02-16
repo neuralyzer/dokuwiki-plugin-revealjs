@@ -4,3 +4,4 @@ $meta['theme'] = array('multichoice','_choices' => array('beige','black','blood'
 $meta['controls'] = array('onoff');
 $meta['build_all_lists'] = array('onoff');
 $meta['transition'] = array('multichoice','_choices' => array('none', 'fade', 'slide', 'convex', 'concave', 'zoom'));
+$conf['show_progress_bar'] = array('onoff');
