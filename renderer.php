@@ -19,11 +19,16 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $base='';
     var $tpl='';
     var $next_slide_with_background = false;
+    var $next_slide_without_footer = false;
     var $background_image_url;
 
     public function add_background_to_next_slide($image_url){
         $this->background_image_url = $image_url;
         $this->next_slide_with_background = true;
+    }
+
+    public function next_slide_without_footer(){
+        $this->next_slide_without_footer = true;
     }
 
     /**
@@ -161,14 +166,19 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     *
      * Creates a new section possibliy including the background image.
      */
-    function create_slide_section($with_backgound){
+    function create_slide_section($nested_slide){
         $this->doc .= '<section';
-        if ($this->next_slide_with_background && $with_backgound){
-            $this->doc .= ' data-background="'.$this->background_image_url.'">';
-            $this->next_slide_with_background = false;
-        } else {
-            $this->doc .= '>';
+        if ($nested_slide) {
+            if ($this->next_slide_with_background){
+               $this->doc .= ' data-background="'.$this->background_image_url.'"';
+               $this->next_slide_with_background = false;
+            } 
+             if ($this->next_slide_without_footer) {
+                $this->doc .= ' data-state="no-footer"';
+                $this->next_slide_without_footer = false;
+             }
         }
+        $this->doc .= '>';
         $this->doc .= DOKU_LF;
     }
 

@@ -51,3 +51,16 @@
     visibility: hidden;
     overflow: hidden;
 }
+
+
+.wrap_footer {
+   position: fixed;
+   bottom: -1em;
+   left: 0%;
+   right: 0%;
+}
+
+
+.no-footer .wrap_footer {
+  	visibility: hidden; 
+}
