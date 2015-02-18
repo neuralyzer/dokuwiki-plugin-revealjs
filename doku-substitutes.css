@@ -88,3 +88,8 @@
 .has-dark-background .black-only {
     display: inline;
 }
+
+.wrap_grayscale {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
