@@ -65,3 +65,15 @@
 .no-footer .wrap_footer {
   	visibility: hidden; 
 }
+
+.has-dark-background .white-only {
+    visibility: hidden;
+}
+
+.black-only {
+    visibility: hidden;
+}
+
+.has-dark-background .black-only {
+    visibility: visible;
+}
