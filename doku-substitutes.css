@@ -41,6 +41,7 @@
 
 .reveal td {
    vertical-align: top !important;
+   border-bottom: none !important;
 }
 
 .wrap_clear {
