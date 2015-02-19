@@ -54,12 +54,6 @@
 }
 
 
-.wrap_footer {
-   position: fixed;
-   bottom: -1em;
-   left: 0%;
-   right: 0%;
-}
 
 .wrap_lo img{
     margin-bottom: 0 !important;
@@ -70,6 +64,26 @@
     position: fixed;
     bottom: 0;
     left: 0;
+}
+
+
+.wrap_footer {
+   position: fixed;
+   bottom: -1em;
+   left: 0%;
+   right: 0%;
+}
+
+.wrap_footer_left {
+   position: fixed;
+   bottom: -1em;
+   left: 0%;
+}
+
+.wrap_footer_right {
+   position: fixed;
+   bottom: -1em;
+   right: 0%;
 }
 
 
