@@ -91,6 +91,15 @@
   	visibility: hidden; 
 }
 
+
+.no-footer .wrap_footer_left {
+  	visibility: hidden; 
+}
+
+.no-footer .wrap_footer_right {
+  	visibility: hidden; 
+}
+
 .has-dark-background .white-only {
     display: none;
 }
