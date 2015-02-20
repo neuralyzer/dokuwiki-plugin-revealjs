@@ -17,6 +17,12 @@
   opacity: 0.9 !important;
 }
 
+
+.wrap_llo {
+  font-size: 50% !important;
+  opacity: 0.6 !important;
+}
+
 .doku_revealjs_table {
     margin-left: auto !important;
     margin-right: auto !important;
