@@ -19,11 +19,16 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $base='';
     var $tpl='';
     var $next_slide_with_background = false;
+    var $next_slide_without_footer = false;
     var $background_image_url;
 
     public function add_background_to_next_slide($image_url){
         $this->background_image_url = $image_url;
         $this->next_slide_with_background = true;
+    }
+
+    public function next_slide_without_footer(){
+        $this->next_slide_without_footer = true;
     }
 
     /**
@@ -52,6 +57,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $headers = array(
             'Content-Type' => 'text/html; charset=utf-8'
         );
+       $theme = isset($_GET['theme'])?$_GET['theme']:$this->getConf('theme');
        p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/revealjs/';
        $this->doc = '
@@ -72,7 +78,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
                 <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
-		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
+		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$theme.'.css" id="theme">
                 <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
 
 		<!-- Code syntax highlighting -->
@@ -161,14 +167,19 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     *
      * Creates a new section possibliy including the background image.
      */
-    function create_slide_section($with_backgound){
+    function create_slide_section($nested_slide){
         $this->doc .= '<section';
-        if ($this->next_slide_with_background && $with_backgound){
-            $this->doc .= ' data-background="'.$this->background_image_url.'">';
-            $this->next_slide_with_background = false;
-        } else {
-            $this->doc .= '>';
+        if ($nested_slide) {
+            if ($this->next_slide_with_background){
+               $this->doc .= ' data-background="'.$this->background_image_url.'"';
+               $this->next_slide_with_background = false;
+            } 
+             if ($this->next_slide_without_footer) {
+                $this->doc .= ' data-state="no-footer"';
+                $this->next_slide_without_footer = false;
+             }
         }
+        $this->doc .= '>';
         $this->doc .= DOKU_LF;
     }
 
