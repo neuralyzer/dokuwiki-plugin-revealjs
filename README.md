@@ -207,7 +207,7 @@ Sometimes you might want to have a footer for all the pages. This footer might c
 ```
 <wrap footer>Footer content here.</wrap>
 ```
-This inserts a footer on every single page. If you want the footer to desappear for a specific page place before that page's heading a ``{{no-footer}}``. For example
+This inserts a footer on every single page. If you want the footer to disappear for a specific page place before that page's heading a ``{{no-footer}}``. For example
 ```
 {{no-footer}}
 ===== my heading=====
