@@ -24,6 +24,7 @@ New H3 sections (4 equal signs) are appended vertically if they follow after an 
 
 
 
+
 Include plugin compatibility
 ----------------------------
 
@@ -147,6 +148,21 @@ Apart of the ordinary things like headlines, tables, italic, bold etc. the follo
 Extra syntax
 ------------
 
+### Theme selection and button for presentation start
+
+Putting on the page somewhere a
+```
+~~REVEAL~~
+```
+will insert at this position a button. A click on this button then starts the presentation with the default theme.
+
+Alternatively, to select a theme put a
+```
+~~REVEAL theme_name~~
+```
+somehere with ``theme_name`` replaced by one of the reveal.js themes as listed under "Available themes".
+
+
 ### Slide background
 
 The plugin introduces the syntax
@@ -183,6 +199,29 @@ slide without background
 ```
 
 produces one slide with background and a second slide without background.
+
+
+### Footers
+
+Sometimes you might want to have a footer for all the pages. This footer might contain your company's logo or similar things. Footers are most conveniently added using in addition the dokuwiki plugin "wrap". To get a footer on each page put at the very beginning of your document, i.e. before the first heading but possibly after a ``~~NOCACHE`` or ``~~REVEAL~~`` the following block
+```
+<wrap footer>Footer content here.</wrap>
+```
+This inserts a footer on every single page. If you want the footer to desappear for a specific page place before that page's heading a ``{{no-footer}}``. For example
+```
+{{no-footer}}
+===== my heading=====
+
+slide without footer
+
+
+{{no-footer}}
+{{background>:images:image1.png}}
+===== my heading=====
+
+slide without footer and with background
+
+```
 
 
 
