@@ -22,6 +22,7 @@ New H3 sections (4 equal signs) are appended vertically if they follow after an 
 
 **Caution**: Only H2 sections open the vertical axis. If an H3 section follows after an H1 section it is appended horizontally.
 
+Add ``~~REVEAL~~`` to a page to insert a button for presentation start.
 
 
 
