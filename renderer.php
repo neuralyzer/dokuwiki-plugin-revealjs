@@ -57,6 +57,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $headers = array(
             'Content-Type' => 'text/html; charset=utf-8'
         );
+       $theme = isset($_GET['theme'])?$_GET['theme']:$this->getConf('theme');
        p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/revealjs/';
        $this->doc = '
@@ -77,7 +78,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
                 <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
-		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
+		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$theme.'.css" id="theme">
                 <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
 
 		<!-- Code syntax highlighting -->
