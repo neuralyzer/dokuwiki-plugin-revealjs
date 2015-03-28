@@ -1,5 +1,11 @@
 Changes
 =======
+###  2015-03-28
+
+    add support for footers
+    add option to insert a button which starts the presentation together with theme selection similar to the S5 plugin
+    slide background are also supported
+
 
 ###     2015-01-27
 
