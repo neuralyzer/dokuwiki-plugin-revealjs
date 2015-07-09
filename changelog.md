@@ -3,7 +3,7 @@ Changes
 
 ###     2015-07-09
         
-        Upgrade to reveal.js 3.1
+  *  Upgrade to reveal.js 3.1
 
 
 ###  2015-03-28
