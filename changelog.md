@@ -7,6 +7,11 @@ Changes
   *  slide background are also supported
 
 
+###     2015-07-09
+        
+        Upgrade to reveal.js 3.1
+    
+
 ###     2015-01-27
 
   *  Add background syntax.     

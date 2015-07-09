@@ -2,7 +2,7 @@
 base   revealjs
 author Emmanuel Klinger
 email  emmanuel.klinger@gmail.com
-date   2015-03-28
+date   2015-07-09
 name   Reveal.js Slideshow Plugin
 desc   Display a Wiki page as Reveal.js slideshow presentation
 url    http://www.github.com/neuralyzer/dokuwiki-plugin-revealjs
