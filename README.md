@@ -24,7 +24,7 @@ New H3 sections (4 equal signs) are appended vertically if they follow after an 
 
 Add ``~~REVEAL~~`` to a page to insert a button for presentation start.
 
-
+Check also the source code of the [example presentation](example_presentation.dokuwiki)
 
 Include plugin compatibility
 ----------------------------

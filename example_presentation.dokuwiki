@@ -1,0 +1,123 @@
+~~REVEAL~~
+====== revealjs test ======
+
+This is a test suite for the reval.js plugin.
+
+{{background>#000000}}
+===== background =====
+
+This slide has black background.
+
+
+===== MathJax =====
+
+Inline math: $\int f dx$
+
+Display math
+\[
+\int f dx
+\]
+
+
+===== code  =====
+
+Inline ''this is code''
+
+==== Python ====
+Downloadable snippet
+
+<code python test.py>
+from antigravity import *
+for k in range(10):
+    print(k)
+</code>
+
+=== not downloadable snippet ===
+
+<code python>
+from antigravity import *
+for k in range(10):
+    print(k)
+</code>
+
+==== bash ====
+
+<code python test.py>
+#!/bin/bash
+ls -l
+echo "hello world"
+</code>
+
+
+==== no language ====
+<code - test.nolanguage>
+for k in range(10)
+this is nothing
+reject this
+</code>
+
+==== double space block code ====
+
+  first line
+  second line
+  third line
+  
+  
+===== tables =====
+
+==== a simple table ====
+
+^ head 1 ^ head 2 ^
+| line1 | line 2 |
+| line11 | line 22 |
+
+
+===== media alignment =====
+
+==== align left ====
+
+{{wiki:dokuwiki-128.png }}
+asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj  asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj 
+
+==== align right ====
+
+{{ wiki:dokuwiki-128.png}}
+asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj  asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj 
+
+
+==== align center ====
+
+{{ wiki:dokuwiki-128.png }}
+
+asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj  asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj 
+
+
+
+===== fonts =====
+
+==== small fonts ====
+
+Normal size and <wrap lo>small size</wrap>
+
+normal normal normal
+
+<WRAP lo>
+small block small block small block
+</WRAP>
+
+===== links =====
+
+Interwiki link [[wiki:maintenance:djvu_support]]
+
+WWW link www.google.de
+
+
+{{background>wiki:dokuwiki-128.png}}
+====== h1 with backgounrd ======
+with background
+
+===== without backgounrd 1=====
+
+===== without backgounrd 2=====
+
+
