@@ -61,6 +61,10 @@ At the moment this plugin loads MathJax from the MathJax CDN directly whether th
 Configuration options
 ---------------------
 
+Configuration is done in DokuWiki's configuration manager.
+
+![Reveal.js configuration](revealjs_configuration.png)
+
 
 ### Available themes
 
