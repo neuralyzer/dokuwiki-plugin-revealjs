@@ -69,8 +69,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 
 		<title>'.tpl_pagetitle($ID, true).'</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -131,8 +129,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 
 		<script>
 
-			// Full list of configuration options available here:
-			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: '. $show_controls .',
 				progress: '. $show_progress_bar .',
