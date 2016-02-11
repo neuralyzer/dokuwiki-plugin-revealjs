@@ -366,7 +366,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * Default: build list item per item.
     * This is called "fragment" in reveal.js
     */
-    function listitem_open($level) {
+    function listitem_open($level, $node=false) {
         if($this->getConf('build_all_lists')) {
           $this->doc .= '<li class="fragment">';
        } else {
