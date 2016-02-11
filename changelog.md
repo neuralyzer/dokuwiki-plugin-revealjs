@@ -1,6 +1,16 @@
 Changes
 =======
 
+###     2015-02-11
+
+   * fix listitem_open method signature
+
+
+###     2015-02-04
+
+
+  * Upgrade to reveal.js 32.
+
 ###     2015-07-09
         
   *  Upgrade to reveal.js 3.1
