@@ -228,5 +228,23 @@ slide without footer and with background
 
 ```
 
+PDF export
+----------
+
+Presentations can be exported as PDF.
+To do so append a ``&print-pdf`` to the URL.
+
+For example if the URL of your DokuWiki reveal.js presentation is usually
+```
+http://example-dokuwiki.com/doku.php?do=export_revealjs&id=example:page
+```
+you would have to change this manually in the address bar of you browser to
+
+```
+http://example-dokuwiki.com/doku.php?do=export_revealjs&id=example:page&print-pdf
+```
+After that the presentation looks weird in the browser but can be printed via you browser's print function.
+Officially only Chromium and Chrome are supported for PDF export. Check also the  [Reveal.js PDF export documentation](https://github.com/hakimel/reveal.js#pdf-export).
+
 
 
