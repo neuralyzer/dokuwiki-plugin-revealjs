@@ -60,11 +60,13 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
         global $ID;
+
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
                //pass
             } else {
-                 $renderer->doc .= '<a href="'.exportlink($ID, 'revealjs',sizeof($data)?array('theme'=>$data[0]):null).'" title="'.$this->getLang('view').'">';
+                 $target = $this->getConf('open_in_new_window') ? '"_blank"' : '"_self"';
+                 $renderer->doc .= '<a target=' . $target . ' href="'.exportlink($ID, 'revealjs',sizeof($data)?array('theme'=>$data[0]):null).'" title="'.$this->getLang('view').'">';
               $renderer->doc .= '<img src="'.DOKU_BASE.'lib/plugins/revealjs/start_button.png" align="right" alt="'.$this->getLang('view').'"/>';
                $renderer->doc .= '</a>';
             }
