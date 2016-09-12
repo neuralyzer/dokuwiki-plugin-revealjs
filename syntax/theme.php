@@ -42,7 +42,21 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        if($match!='~~REVEAL~~') return array(trim(substr($match,8,-2)));
+        if ($match != '~~REVEAL~~') {
+            $options = trim(substr($match,8,-2));
+            // ensure that only whitespaces do not result in "theme="
+            if ($options != '') {
+                // parse multiple options (example: theme=moon&controls=1&build_all_lists=1)
+                if (strpos($options, '=') !== false) {
+                    parse_str($options, $data);
+                }
+                // if only one option this must be the theme (backward compatibility)
+                else {
+                    $data = array('theme' => $options);
+                }
+                return $data;
+            }
+        }
         return array();
     }
 
@@ -59,16 +73,24 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        global $ID;
+        global $ID, $conf;
 
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
-               //pass
-            } else {
-                 $target = $this->getConf('open_in_new_window') ? '"_blank"' : '"_self"';
-                 $renderer->doc .= '<a target=' . $target . ' href="'.exportlink($ID, 'revealjs',sizeof($data)?array('theme'=>$data[0]):null).'" title="'.$this->getLang('view').'">';
-              $renderer->doc .= '<img src="'.DOKU_BASE.'lib/plugins/revealjs/start_button.png" align="right" alt="'.$this->getLang('view').'"/>';
-               $renderer->doc .= '</a>';
+                // pass
+            }
+            else {
+                // create button to start the presentation
+                if (array_key_exists('open_in_new_window', $data)){
+                    $target = $data[open_in_new_window] ? '"_blank"' : '"_self"';
+                }
+                else {
+                    $target = $this->getConf('open_in_new_window') ? '"_blank"' : '"_self"';
+                }
+                unset($data['open_in_new_window']); // hide open_in_new_window for the url params
+                $renderer->doc .= '<a target='.$target.' href="'.exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.$this->getLang('view').'">';
+                $renderer->doc .= '<img src="'.DOKU_BASE.'lib/plugins/revealjs/start_button.png" align="right" alt="'.$this->getLang('view').'"/>';
+                $renderer->doc .= '</a>';
             }
             return true;
         }

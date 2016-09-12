@@ -50,6 +50,19 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         global $conf;
         global $lang;
 
+        // merge URL params into plugin conf - changing params direct in the URL is only working, when page is not cached (~~NOCACHE~~)
+        if (count($_GET)){
+            if (!array_key_exists('plugin', $conf)) {
+                $conf['plugin'] = array('revealjs' => $_GET);
+            }
+            elseif (!array_key_exists('revealjs', $conf[plugin])) {
+                $conf[plugin]['revealjs'] = $_GET;
+            }
+            else {
+                $conf[plugin][revealjs] = array_merge($conf[plugin][revealjs], $_GET);
+            }
+        }
+
         // call the parent
         parent::document_start();
 
@@ -57,10 +70,10 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $headers = array(
             'Content-Type' => 'text/html; charset=utf-8'
         );
-       $theme = isset($_GET['theme'])?$_GET['theme']:$this->getConf('theme');
-       p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
+
+        p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/revealjs/';
-       $this->doc = '
+        $this->doc = '
 <!DOCTYPE html>
 <html lang="'.$conf['lang'].'" dir="'.$lang['direction'].'">
 
@@ -75,7 +88,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
         <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
-        <link rel="stylesheet" href="'.$this->base.'css/theme/'.$theme.'.css" id="theme">
+        <link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
         <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css">
 
         <!-- Code syntax highlighting -->
@@ -366,6 +379,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level, $node=false) {
+        dbg($conf);
         if($this->getConf('build_all_lists')) {
           $this->doc .= '<li class="fragment">';
        } else {
