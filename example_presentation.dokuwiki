@@ -11,7 +11,7 @@ This is a test suite for the reval.js plugin.
 
 If you disable the cache for the page, then you are able to change the options direct in the URL.
 
-In case your theme does not match the environment for the presentation you can fix this very fast.
+In case your theme does not match the environment for the presentation you can fix this very fast without editing the page.
 
 ===== List =====
 

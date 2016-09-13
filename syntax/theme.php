@@ -73,7 +73,7 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        global $ID, $conf;
+        global $ID;
 
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
@@ -82,13 +82,13 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
             else {
                 // create button to start the presentation
                 if (array_key_exists('open_in_new_window', $data)){
-                    $target = $data[open_in_new_window] ? '"_blank"' : '"_self"';
+                    $target = $data[open_in_new_window] ? '_blank' : '_self';
                 }
                 else {
-                    $target = $this->getConf('open_in_new_window') ? '"_blank"' : '"_self"';
+                    $target = $this->getConf('open_in_new_window') ? '_blank' : '_self';
                 }
                 unset($data['open_in_new_window']); // hide open_in_new_window for the url params
-                $renderer->doc .= '<a target='.$target.' href="'.exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.$this->getLang('view').'">';
+                $renderer->doc .= '<a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.$this->getLang('view').'">';
                 $renderer->doc .= '<img src="'.DOKU_BASE.'lib/plugins/revealjs/start_button.png" align="right" alt="'.$this->getLang('view').'"/>';
                 $renderer->doc .= '</a>';
             }

@@ -161,13 +161,13 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
                     { src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
                     { src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
 
-                                        // MathJax
-                                       { src: \''.$this->base.'plugin/math/math.js\', async: true }
+                    // MathJax
+                    { src: \''.$this->base.'plugin/math/math.js\', async: true }
                 ]
             });
 
         </script>
-         </body>
+</body>
 </html>';
     }
 
