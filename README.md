@@ -54,7 +54,7 @@ at such places that the closing and opening div tags interfere with the reveal.j
 MathJax compatibility
 ----------------------
 
-At the moment this plugin loads MathJax from the MathJax CDN directly whether the Dokuwiki MathJax plugin is installed or not. It ignores Dokuwiki's MathJax plugin and the custom settings you might have made. 
+At the moment this plugin loads MathJax from the MathJax CDN directly whether the Dokuwiki MathJax plugin is installed or not. It ignores Dokuwiki's MathJax plugin and the custom settings you might have made.
 
 
 
@@ -69,7 +69,7 @@ Configuration is done in DokuWiki's configuration manager.
 ### Available themes
 
 
-Available themes are the Reval.js themes. Possible values:
+Available themes are the Reveal.js themes. Possible values:
 
   * black
   * white
@@ -167,6 +167,11 @@ Alternatively, to select a theme put a
 ```
 somehere with ``theme_name`` replaced by one of the reveal.js themes as listed under "Available themes".
 
+All other options are also overwritable in a wiki page by using the URL query parameter syntax:
+```
+~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=0&open_in_new_window=1~~
+```
+Please note that boolean values must be numeric (1 or 0). If you want to be able to change the options directly in the URL after the presentation has started, then you have to disable DokuWiki's caching by putting `~~NOCACHE~~` at the top of the page.
 
 ### Slide background
 
@@ -176,7 +181,7 @@ The plugin introduces the syntax
    {{background>value}}
 ```
 
-Where `value` can be either a Dokuwiki image identifier, e.g. 
+Where `value` can be either a Dokuwiki image identifier, e.g.
 
 ```
   value = :images:my_images:image1.png
@@ -245,6 +250,3 @@ http://example-dokuwiki.com/doku.php?do=export_revealjs&id=example:page&print-pd
 ```
 After that the presentation looks weird in the browser but can be printed via you browser's print function.
 Officially only Chromium and Chrome are supported for PDF export. Check also the  [Reveal.js PDF export documentation](https://github.com/hakimel/reveal.js#pdf-export).
-
-
-
