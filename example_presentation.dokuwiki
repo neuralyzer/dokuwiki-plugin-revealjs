@@ -1,10 +1,15 @@
 ~~NOCACHE~~
-~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&open_in_new_window=1~~
+~~REVEAL slide_level=2&push_headers=0&theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&push_headers=1&open_in_new_window=1~~
 
 
 ====== Revealjs Test ======
 
 This is a test suite for the reval.js plugin.
+
+
+==== Header level test ====
+
+Test, if an H3 section following an H1 section is appended horizontally or vertically.
 
 
 ===== Caching =====
