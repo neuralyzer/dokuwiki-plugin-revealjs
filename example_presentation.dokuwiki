@@ -1,10 +1,29 @@
-~~REVEAL~~
-====== revealjs test ======
+~~NOCACHE~~
+~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&open_in_new_window=1~~
+
+
+====== Revealjs Test ======
 
 This is a test suite for the reval.js plugin.
 
+
+===== Caching =====
+
+If you disable the cache for the page, then you are able to change the options direct in the URL.
+
+In case your theme does not match the environment for the presentation you can fix this very fast without editing the page.
+
+===== List =====
+
+  * Unordered list, item one
+  * Another item
+    - Ordered sublist
+    - Another sublist item
+  * A third item for testing
+
+
 {{background>#000000}}
-===== background =====
+===== Background =====
 
 This slide has black background.
 
@@ -19,12 +38,13 @@ Display math
 \]
 
 
-===== code  =====
+===== Code  =====
 
 Inline ''this is code''
 
+
 ==== Python ====
-Downloadable snippet
+Downloadable Snippet
 
 <code python test.py>
 from antigravity import *
@@ -32,7 +52,8 @@ for k in range(10):
     print(k)
 </code>
 
-=== not downloadable snippet ===
+
+=== Not Downloadable Snippet ===
 
 <code python>
 from antigravity import *
@@ -40,7 +61,8 @@ for k in range(10):
     print(k)
 </code>
 
-==== bash ====
+
+==== Bash ====
 
 <code python test.py>
 #!/bin/bash
@@ -49,53 +71,57 @@ echo "hello world"
 </code>
 
 
-==== no language ====
+==== No Language ====
 <code - test.nolanguage>
 for k in range(10)
 this is nothing
 reject this
 </code>
 
-==== double space block code ====
+
+==== Double Space Block Code ====
 
   first line
   second line
   third line
-  
-  
-===== tables =====
 
-==== a simple table ====
+
+===== Tables =====
+
+
+==== A Simple Table ====
 
 ^ head 1 ^ head 2 ^
 | line1 | line 2 |
 | line11 | line 22 |
 
 
-===== media alignment =====
+===== Media Alignment =====
 
-==== align left ====
+
+==== Align Left ====
 
 {{wiki:dokuwiki-128.png }}
-asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj  asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj 
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labor
 
-==== align right ====
+
+==== Align Right ====
 
 {{ wiki:dokuwiki-128.png}}
-asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj  asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj 
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labor
 
 
-==== align center ====
+==== Align Center ====
 
 {{ wiki:dokuwiki-128.png }}
 
-asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj  asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj asdflkj as;dflk jasd;lfk ja;lkfkj asl;dkfj asldkfj 
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labor
 
 
+===== Fonts =====
 
-===== fonts =====
 
-==== small fonts ====
+==== Small Fonts ====
 
 Normal size and <wrap lo>small size</wrap>
 
@@ -105,7 +131,8 @@ normal normal normal
 small block small block small block
 </WRAP>
 
-===== links =====
+
+===== Links =====
 
 Interwiki link [[wiki:maintenance:djvu_support]]
 
@@ -113,11 +140,11 @@ WWW link www.google.de
 
 
 {{background>wiki:dokuwiki-128.png}}
-====== h1 with backgounrd ======
+====== H1 With Background ======
 with background
 
-===== without backgounrd 1=====
 
-===== without backgounrd 2=====
+===== Without Background 1 =====
 
 
+===== Without Background 2 =====
