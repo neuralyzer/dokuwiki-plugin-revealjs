@@ -1,11 +1,13 @@
-dokuwiki-plugin-revealjs
-========================
+DokuWiki plugin Reveal.js
+=========================
 
-Reval.js plugin for dokuwiki
+Reval.js plugin for DokuWiki
 
 This started as a fork of Andreas Gohr's S5 plugin https://www.dokuwiki.org/plugin:s5.
 
 It uses Reveal.js https://github.com/hakimel/reveal.js/.
+
+
 
 Install
 -------
@@ -13,23 +15,21 @@ Install
 Paste the address git config http://github.com/neuralyzer/dokuwiki-plugin-revealjs/zipball/master in the manual installation field or use Dokuwiki's extension manager.
 
 
+
 Usage
 -----
 
-
-Every new H1 or H2 section, that is  6 equal signs or 5 equal signs open a new slide horizontally.
+Every new H1 or H2 section, that is 6 equal signs or 5 equal signs open per default a new slide horizontally.
 New H3 sections (4 equal signs) are appended vertically if they follow after an H2 section.
-
-**Caution**: Only H2 sections open the vertical axis. If an H3 section follows after an H1 section it is appended horizontally.
 
 Add ``~~REVEAL~~`` to a page to insert a button for presentation start.
 
 Check also the source code of the [example presentation](example_presentation.dokuwiki)
 
+
+
 Include plugin compatibility
 ----------------------------
-
-
 
 Edit in the file dokuwiki/lib/plugin/include/syntax/wrap.php in the function render the line
 
@@ -66,8 +66,8 @@ Configuration is done in DokuWiki's configuration manager.
 ![Reveal.js configuration](revealjs_configuration.png)
 
 
-### Available themes
 
+### Available themes
 
 Available themes are the Reveal.js themes. Possible values:
 
@@ -97,7 +97,7 @@ Show the reveal.js controls. Two values
 The default is false.
 
 
-### Progres bar
+### Progress bar
 
 Show the reveal.js progress bar. Two values
 
@@ -114,13 +114,12 @@ Whether to build up all lists point by point. Two values
   * false
   * true
 
-The default is false
+The default is false.
 
 
 ### Transition
 
 The slide transition. Possible settings:
-
 
   * none
   * fade
@@ -132,9 +131,22 @@ The slide transition. Possible settings:
 The default is fade.
 
 
-### Build all lists
+### Slide level
 
-Whether to build up all bullet point lists item by item by for every slide.
+Headers on this level or above starting a horizontal slide. Levels below starting a vertical (nested) slide. Possible settings:
+
+  * 1
+  * 2
+
+The default is 2.
+
+
+### Push headers
+
+Push headers below slide_level to the next higher one. Boolean:
+
+* false
+* true
 
 The default is false.
 
@@ -150,8 +162,10 @@ Apart of the ordinary things like headlines, tables, italic, bold etc. the follo
   * ``<WRAP clear></WRAP>`` for clearing of floats
 
 
+
 Extra syntax
 ------------
+
 
 ### Theme selection and button for presentation start
 
@@ -172,6 +186,7 @@ All other options are also overwritable in a wiki page by using the URL query pa
 ~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=0&open_in_new_window=1~~
 ```
 Please note that boolean values must be numeric (1 or 0). If you want to be able to change the options directly in the URL after the presentation has started, then you have to disable DokuWiki's caching by putting `~~NOCACHE~~` at the top of the page.
+
 
 ### Slide background
 
@@ -213,7 +228,7 @@ produces one slide with background and a second slide without background.
 
 ### Footers
 
-Sometimes you might want to have a footer for all the pages. This footer might contain your company's logo or similar things. Footers are most conveniently added using in addition the dokuwiki plugin "wrap". To get a footer on each page put at the very beginning of your document, i.e. before the first heading but possibly after a ``~~NOCACHE`` or ``~~REVEAL~~`` the following block
+Sometimes you might want to have a footer for all the pages. This footer might contain your company's logo or similar things. Footers are most conveniently added using in addition the dokuwiki plugin "wrap". To get a footer on each page put at the very beginning of your document, i.e. before the first heading but possibly after a ``~~NOCACHE~~`` or ``~~REVEAL~~`` the following block
 ```
 <wrap footer>Footer content here.</wrap>
 ```
@@ -232,6 +247,8 @@ slide without footer
 slide without footer and with background
 
 ```
+
+
 
 PDF export
 ----------

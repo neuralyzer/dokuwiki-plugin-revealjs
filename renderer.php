@@ -199,24 +199,26 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * A new vertical slide for each H3 header
      */
     function header($text, $level, $pos) {
-        if($level <= 3){
+        $slide_level = $this->getConf('slide_level');
+        if($level <= $slide_level + 1){
             if($this->slide_open){
                 $this->doc .= '</section>'.DOKU_LF; //close previous slide
-                if ( ($this->column_open) && ($level <= 2) ) { // close nested section
+                if ( ($this->column_open) && ($level <= $slide_level) ) { // close nested section
                       $this->doc .= '</section>'.DOKU_LF;
                       $this->column_open = false;
                 }
             }
-            if ( $level <= 2 ) {   //first slide of possibly following nested ones if level is 2
-                 $this->create_slide_section(false);
+            if ( $level <= $slide_level ) { //first slide of possibly following nested ones if level is slide_level
+                 $this->create_slide_section(false); # always without background to not to have a background for a whole subsection
                  $this->column_open = true;
             }
-            $this->create_slide_section(true); # always without background to not to have a background for a whole subsection
+            $this->create_slide_section(true);
             $this->slide_open = true;
         }
-        $this->doc .= '<h'.$level.'>';
+        $level_calculated = ($level > $slide_level && $this->getConf('push_headers') ? $level - 1 : $level);
+        $this->doc .= '<h'. $level_calculated .'>';
         $this->doc .= $this->_xmlEntities($text);
-        $this->doc .= '</h'.$level.'>'.DOKU_LF;
+        $this->doc .= '</h'. $level_calculated .'>'.DOKU_LF;
     }
 
     /**
@@ -388,7 +390,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 
 
     /**
-     * Don't use Geshi. Overwrite ths Geshi function.
+     * Don't use Geshi. Overwrite the Geshi function.
      * @author Emmanuel Klinger
      * @author Andreas Gohr <andi@splitbrain.org>
      * @param string $type     code|file
