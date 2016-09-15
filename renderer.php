@@ -55,11 +55,11 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             if (!array_key_exists('plugin', $conf)) {
                 $conf['plugin'] = array('revealjs' => $_GET);
             }
-            elseif (!array_key_exists('revealjs', $conf[plugin])) {
-                $conf[plugin]['revealjs'] = $_GET;
+            elseif (!array_key_exists('revealjs', $conf['plugin'])) {
+                $conf['plugin']['revealjs'] = $_GET;
             }
             else {
-                $conf[plugin][revealjs] = array_merge($conf[plugin][revealjs], $_GET);
+                $conf['plugin']['revealjs'] = array_merge($conf['plugin']['revealjs'], $_GET);
             }
         }
 
@@ -381,7 +381,6 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level, $node=false) {
-        dbg($conf);
         if($this->getConf('build_all_lists')) {
           $this->doc .= '<li class="fragment">';
        } else {
