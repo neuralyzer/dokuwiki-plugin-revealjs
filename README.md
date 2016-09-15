@@ -1,7 +1,7 @@
-dokuwiki-plugin-revealjs
-========================
+DokuWiki plugin Reveal.js
+=========================
 
-Reval.js plugin for dokuwiki
+Reval.js plugin for DokuWiki
 
 This started as a fork of Andreas Gohr's S5 plugin https://www.dokuwiki.org/plugin:s5.
 
@@ -114,7 +114,7 @@ Whether to build up all lists point by point. Two values
   * false
   * true
 
-The default is false
+The default is false.
 
 
 ### Transition
@@ -131,13 +131,6 @@ The slide transition. Possible settings:
 The default is fade.
 
 
-### Build all lists
-
-Whether to build up all bullet point lists item by item by for every slide.
-
-The default is false.
-
-
 ### Slide level
 
 Headers on this level or above starting a horizontal slide. Levels below starting a vertical (nested) slide. Possible settings:
@@ -150,7 +143,10 @@ The default is 2.
 
 ### Push headers
 
-Push headers below slide_level to the next higher one.
+Push headers below slide_level to the next higher one. Boolean:
+
+* false
+* true
 
 The default is false.
 
@@ -232,7 +228,7 @@ produces one slide with background and a second slide without background.
 
 ### Footers
 
-Sometimes you might want to have a footer for all the pages. This footer might contain your company's logo or similar things. Footers are most conveniently added using in addition the dokuwiki plugin "wrap". To get a footer on each page put at the very beginning of your document, i.e. before the first heading but possibly after a ``~~NOCACHE`` or ``~~REVEAL~~`` the following block
+Sometimes you might want to have a footer for all the pages. This footer might contain your company's logo or similar things. Footers are most conveniently added using in addition the dokuwiki plugin "wrap". To get a footer on each page put at the very beginning of your document, i.e. before the first heading but possibly after a ``~~NOCACHE~~`` or ``~~REVEAL~~`` the following block
 ```
 <wrap footer>Footer content here.</wrap>
 ```
