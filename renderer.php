@@ -50,6 +50,19 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         global $conf;
         global $lang;
 
+        // merge URL params into plugin conf - changing params direct in the URL is only working, when page is not cached (~~NOCACHE~~)
+        if (count($_GET)){
+            if (!array_key_exists('plugin', $conf)) {
+                $conf['plugin'] = array('revealjs' => $_GET);
+            }
+            elseif (!array_key_exists('revealjs', $conf[plugin])) {
+                $conf[plugin]['revealjs'] = $_GET;
+            }
+            else {
+                $conf[plugin][revealjs] = array_merge($conf[plugin][revealjs], $_GET);
+            }
+        }
+
         // call the parent
         parent::document_start();
 
@@ -57,54 +70,53 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $headers = array(
             'Content-Type' => 'text/html; charset=utf-8'
         );
-       $theme = isset($_GET['theme'])?$_GET['theme']:$this->getConf('theme');
-       p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
+
+        p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/revealjs/';
-       $this->doc = '
+        $this->doc = '
 <!DOCTYPE html>
 <html lang="'.$conf['lang'].'" dir="'.$lang['direction'].'">
 
-	<head>
-		<meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-		<title>'.tpl_pagetitle($ID, true).'</title>
+        <title>'.tpl_pagetitle($ID, true).'</title>
 
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
+        <link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
+        <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
 
-                <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
-		<link rel="stylesheet" href="'.$this->base.'css/theme/'.$theme.'.css" id="theme">
-                <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css"> 
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( \'link\' );
+            link.rel = \'stylesheet\';
+            link.type = \'text/css\';
+            link.href = window.location.search.match( /print-pdf/gi ) ? \''.$this->base.'css/print/pdf.css\' : \''.$this->base.'css/print/paper.css\';
+            document.getElementsByTagName( \'head\' )[0].appendChild( link );
+        </script>
 
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
-
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( \'link\' );
-			link.rel = \'stylesheet\';
-			link.type = \'text/css\';
-			link.href = window.location.search.match( /print-pdf/gi ) ? \''.$this->base.'css/print/pdf.css\' : \''.$this->base.'css/print/paper.css\';
-			document.getElementsByTagName( \'head\' )[0].appendChild( link );
-		</script>
-
-		<!--[if lt IE 9]>
-		<script src='.$this->base.'"lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+        <!--[if lt IE 9]>
+        <script src='.$this->base.'"lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
 <body>
 
-		<div class="reveal">
+    <div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
 ';
     }
 
- 
+
 
     /**
      * Closes the document
@@ -124,38 +136,38 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $show_controls = $this->getConf('controls') ? 'true' : 'false';
         $show_progress_bar = $this->getConf('show_progress_bar') ? 'true' : 'false';
         $this->doc .= '</div></div>
-		<script src="'.$this->base.'lib/js/head.min.js"></script>
-		<script src="'.$this->base.'js/reveal.js"></script>
+        <script src="'.$this->base.'lib/js/head.min.js"></script>
+        <script src="'.$this->base.'js/reveal.js"></script>
 
-		<script>
+        <script>
 
-			Reveal.initialize({
-				controls: '. $show_controls .',
-				progress: '. $show_progress_bar .',
-				history: true,
-				center: true,
+            Reveal.initialize({
+                controls: '. $show_controls .',
+                progress: '. $show_progress_bar .',
+                history: true,
+                center: true,
 
-				transition: \''.$this->getConf('transition').'\', // none/fade/slide/convex/concave/zoom
-				math: {
+                transition: \''.$this->getConf('transition').'\', // none/fade/slide/convex/concave/zoom
+                math: {
                                    mathjax: \'//cdn.mathjax.org/mathjax/latest/MathJax.js\',
                                    config: \'TeX-AMS_HTML-full\'  // See http://docs.mathjax.org/en/latest/config-files.html
                                 },
 
-				dependencies: [
-					{ src: \''.$this->base.'lib/js/classList.js\', condition: function() { return !document.body.classList; } },
-					{ src: \''.$this->base.'plugin/markdown/marked.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
-					{ src: \''.$this->base.'plugin/markdown/markdown.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
-					{ src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, condition: function() { return !!document.querySelector( \'pre code\' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
+                dependencies: [
+                    { src: \''.$this->base.'lib/js/classList.js\', condition: function() { return !document.body.classList; } },
+                    { src: \''.$this->base.'plugin/markdown/marked.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
+                    { src: \''.$this->base.'plugin/markdown/markdown.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
+                    { src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, condition: function() { return !!document.querySelector( \'pre code\' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
 
-                                        // MathJax
-                                       { src: \''.$this->base.'plugin/math/math.js\', async: true }
-				]
-			});
+                    // MathJax
+                    { src: \''.$this->base.'plugin/math/math.js\', async: true }
+                ]
+            });
 
-		</script>
-         </body>
+        </script>
+</body>
 </html>';
     }
 
@@ -169,7 +181,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             if ($this->next_slide_with_background){
                $this->doc .= ' data-background="'.$this->background_image_url.'"';
                $this->next_slide_with_background = false;
-            } 
+            }
              if ($this->next_slide_without_footer) {
                 $this->doc .= ' data-state="no-footer"';
                 $this->next_slide_without_footer = false;
@@ -220,7 +232,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     }
 
    function section_close() {
-    
+
    }
 
     /**
@@ -247,7 +259,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * @param int $numrows NOT IMPLEMENTED
      * @param int $pos     byte position in the original source
      */
-    function table_open($maxcols = null, $numrows = null, $pos = null) {
+    function table_open($maxcols = null, $numrows = null, $pos = null, $classes = NULL) {
         // initialize the row counter used for classes
         $this->_counter['row_counter'] = 0;
         $class                         = 'table';
@@ -264,7 +276,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * @param int $pos byte position in the original source
      */
     function table_close($pos = null) {
-        $this->doc .= '</table>'.DOKU_LF; 
+        $this->doc .= '</table>'.DOKU_LF;
     }
 
     /**
@@ -284,7 +296,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     /**
      * Open a table row
      */
-    function tablerow_open() {
+    function tablerow_open($classes = NULL) {
         $this->doc .= DOKU_TAB.'<tr>'.DOKU_LF.DOKU_TAB.DOKU_TAB;
     }
 
@@ -302,7 +314,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * @param string $align left|center|right
      * @param int    $rowspan
      */
-    function tableheader_open($colspan = 1, $align = null, $rowspan = 1) {
+    function tableheader_open($colspan = 1, $align = null, $rowspan = 1, $classes = NULL) {
         $class = 'class="col'.$this->_counter['cell_counter']++;
         if(!is_null($align)) {
             $class .= ' '.$align.'align';
@@ -333,7 +345,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * @param string $align left|center|right
      * @param int    $rowspan
      */
-    function tablecell_open($colspan = 1, $align = null, $rowspan = 1) {
+    function tablecell_open($colspan = 1, $align = null, $rowspan = 1, $classes = NULL) {
         $class = 'class="col'.$this->_counter['cell_counter']++;
         if(!is_null($align)) {
             $class .= ' '.$align.'align';
@@ -367,14 +379,15 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level, $node=false) {
+        dbg($conf);
         if($this->getConf('build_all_lists')) {
           $this->doc .= '<li class="fragment">';
        } else {
-          $this->doc .= '<li>'; 
+          $this->doc .= '<li>';
        }
     }
 
-  
+
     /**
      * Don't use Geshi. Overwrite ths Geshi function.
      * @author Emmanuel Klinger
@@ -423,5 +436,3 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     }
 
 }
-
-
