@@ -7,3 +7,4 @@ $conf['show_progress_bar'] = 0;
 $conf['open_in_new_window'] = 1;
 $conf['slide_level'] = 2;
 $conf['push_headers'] = 0;
+$conf['image_borders'] = 0;

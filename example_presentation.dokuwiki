@@ -1,10 +1,23 @@
 ~~NOCACHE~~
-~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&slide_level=2&push_headers=0&open_in_new_window=1~~
+~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&image_borders=0&slide_level=2&push_headers=0&open_in_new_window=1~~
+
 
 
 ====== Revealjs Test ======
 
 This is a test suite for the reval.js plugin.
+
+<notes>
+These are notes. They are only shown on the wiki page.
+
+  * Lists in notes are always NOT incremental
+  * This is because you would have to press for each list entry the next button without seeing anything
+
+<code php>
+echo 'Hello World'; // code block inside notes
+</code>
+</notes>
+
 
 
 ==== Header level test ====
@@ -12,13 +25,18 @@ This is a test suite for the reval.js plugin.
 Test, if an H3 section following an H1 section is appended horizontally or vertically.
 
 
-===== Caching =====
+
+===== Options (Caching) =====
 
 If you disable the cache for the page, then you are able to change the options direct in the URL.
 
 In case your theme does not match the environment for the presentation you can fix this very fast without editing the page.
 
+
+
 ===== List =====
+
+For this page the option ''build_all_lists'' is switched on  - the list is therefore shown incremental:
 
   * Unordered list, item one
   * Another item
@@ -27,10 +45,132 @@ In case your theme does not match the environment for the presentation you can f
   * A third item for testing
 
 
+
+===== Fragments =====
+
+
+==== Fragment (inline) ====
+
+<nowiki><fragment>text</fragment></nowiki>
+
+<fragment>Hit the next arrow...</fragment>
+
+<fragment>... to step through ...</fragment>
+
+<fragment>... a</fragment> <fragment>fragmented</fragment> <fragment>slide.</fragment>
+
+
+
+
+==== Fragment (inline) ====
+
+Inline Fragments supporting only formatting and substitutions:
+
+<fragment>
+DokuWiki supports **bold**, //italic//, __underlined__ and ''monospaced'' texts.
+</fragment>
+
+<fragment>
+Of course you can **__//''combine''//__** all these. 8-)
+</fragment>
+
+<fragment>
+You can use <sub>subscript</sub> and <sup>superscript</sup>, too.
+</fragment>
+
+<fragment>
+You can mark something as <del>deleted</del> as well.
+</fragment>
+
+
+
+==== Fragment Block ====
+
+With <nowiki><fragment-block></nowiki> you have more or less no limits:
+
+
+<fragment-block 2>
+{{:wiki:dokuwiki-128.png?nolink|}}\\
+This comes second :-)\\
+<nowiki><fragment-block 2></nowiki>
+</fragment-block>
+
+<fragment-block 1>
+<code php>
+$number = intval($test); //this comes first :-)
+</code>
+<nowiki><fragment-block 1></nowiki>
+</fragment-block>
+
+
+
+==== Fragment List ====
+
+<nowiki><fragment-list></nowiki> overwrites the global option build_all_lists:
+
+<fragment-list>
+  * List item 1
+  * List item 2
+  * List item 3
+</fragment-list>
+
+
+
+==== No Fragment List ====
+
+<nowiki><no-fragment-list></nowiki> overwrites also the global option build_all_lists:
+
+<no-fragment-list>
+  * List item 1
+  * List item 2
+  * List item 3
+</no-fragment-list>
+
+
+
+==== Fragment Styles ====
+
+Fragments can be styled: <nowiki><fragment StyleName></nowiki>
+
+<fragment grow>grow</fragment>
+
+<fragment shrink>shrink</fragment>
+
+<fragment fade-out>fade-out</fragment>
+
+<fragment fade-up>fade-up (also down, left and right!)</fragment>
+
+<fragment current-visible>current-visible</fragment>
+
+<fragment highlight-current-red>highlight-current-red (blue, green)</fragment>
+
+Highlight <fragment highlight-red>red</fragment> <fragment highlight-blue>blue</fragment> <fragment highlight-green>green</fragment>
+
+
+
 {{background>#000000}}
 ===== Background =====
 
 This slide has black background.
+
+
+
+===== Quotes =====
+
+This is the original example from the DokuWiki syntax description. For Reveal we suppress the nesting, because the quotes are shown in a different way:
+
+I think we should do it
+
+> No we shouldn't
+
+>> Well, I say we should
+
+> Really?
+
+>> Yes!
+
+>>> Then lets do it!
+
 
 
 ===== MathJax =====
@@ -41,6 +181,7 @@ Display math
 \[
 \int f dx
 \]
+
 
 
 ===== Code  =====
@@ -137,6 +278,17 @@ small block small block small block
 </WRAP>
 
 
+==== Small Fonts & Fragments ====
+
+Normal size and <fragment><wrap lo>small size</wrap></fragment>
+
+normal normal normal
+
+<WRAP lo>
+small block small block <fragment highlight-red>small block</fragment>
+</WRAP>
+
+
 ===== Links =====
 
 Interwiki link [[wiki:maintenance:djvu_support]]
@@ -144,12 +296,16 @@ Interwiki link [[wiki:maintenance:djvu_support]]
 WWW link www.google.de
 
 
+
 {{background>wiki:dokuwiki-128.png}}
 ====== H1 With Background ======
-with background
 
 
-===== Without Background 1 =====
 
+==== Without Background 1 ====
+
+Test, if background is not applied to nested slides
 
 ===== Without Background 2 =====
+
+Test, if background is not applied to the next slide

@@ -23,7 +23,7 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
      * @public
      * @see render()
      */
-    function connectTo($mode) {
+    public function connectTo($mode) {
         $this->Lexer->addSpecialPattern('{{no-footer}}', $mode, 'plugin_revealjs_footer');
     }
 
