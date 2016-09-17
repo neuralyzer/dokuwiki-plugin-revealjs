@@ -16,6 +16,11 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
 class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $slide_open = false;
     var $column_open = false;
+    var $notes_open = false;
+    var $fragment_list_open = false;
+    var $no_fragment_list_open = false;
+    var $fragment_style = '';
+    var $quote_open = false;
     var $base='';
     var $tpl='';
     var $next_slide_with_background = false;
@@ -94,6 +99,11 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         <!-- Code syntax highlighting -->
         <link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
 
+        ' . ($this->getConf('image_borders') ?
+        '<!-- Image borders are switched on -->' :
+        '<!-- Image borders are switched off -->
+        <style>.reveal img { border: none !important; box-shadow: none !important; background: none !important; }</style>') . '
+
         <!-- Printing and PDF exports -->
         <script>
             var link = document.createElement( \'link\' );
@@ -125,6 +135,9 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         // we don't care for footnotes and toc
         // but cleanup is nice
         $this->doc = preg_replace('#<p>\s*</p>#','',$this->doc);
+
+        // cleanup quotes - too much whitspace from declaration: ">    valid quote"
+        $this->doc = preg_replace('/<blockquote>&ldquo;\s*/u','<blockquote>&ldquo;',$this->doc);
 
         if($this->slide_open){
             $this->doc .= '</section>'.DOKU_LF; //close previous slide
@@ -171,8 +184,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 </html>';
     }
 
-    /*
-    *
+    /**
      * Creates a new section possibliy including the background image.
      */
     function create_slide_section($nested_slide){
@@ -187,8 +199,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
                 $this->next_slide_without_footer = false;
              }
         }
-        $this->doc .= '>';
-        $this->doc .= DOKU_LF;
+        $this->doc .= '>'.DOKU_LF;
     }
 
 
@@ -254,7 +265,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= $this->_xmlEntities($acronym);
     }
 
-/**
+    /**
      * Start a table
      *
      * @param int $maxcols maximum number of columns
@@ -381,11 +392,35 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level, $node=false) {
-        if($this->getConf('build_all_lists')) {
-          $this->doc .= '<li class="fragment">';
-       } else {
-          $this->doc .= '<li>';
-       }
+        if( !$this->notes_open
+            && !$this->no_fragment_list_open
+            && ($this->getConf('build_all_lists') || $this->fragment_list_open) ) {
+        $this->doc .= '<li class="fragment' . ($this->fragment_style ? ' '.$this->fragment_style : '') . '">';
+        }
+        else {
+            $this->doc .= '<li>';
+        }
+    }
+
+
+    /**
+     * Start a block quote
+     */
+    function quote_open() {
+        if (!$this->quote_open) {
+            $this->doc .= '<blockquote>&ldquo;';
+            $this->quote_open = true;
+        }
+    }
+
+    /**
+     * Stop a block quote
+     */
+    function quote_close() {
+        if ($this->quote_open) {
+            $this->doc .= '&rdquo;</blockquote>'.DOKU_LF;
+            $this->quote_open = false;
+        }
     }
 
 

@@ -1,6 +1,5 @@
 <?php
 
-
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
@@ -9,10 +8,11 @@ require_once(DOKU_PLUGIN.'syntax.php');
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
  */
-class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_revealjs_notes extends DokuWiki_Syntax_Plugin {
 
     public function getType() { return 'substition'; }
     public function getSort() { return 32; }
+    public function getPType() { return 'block'; }
 
 
     /**
@@ -24,9 +24,8 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see render()
      */
     public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{background>.+?}}', $mode, 'plugin_revealjs_background');
+        $this->Lexer->addSpecialPattern('<\/?notes>', $mode, 'plugin_revealjs_notes');
     }
-
 
 
     /**
@@ -42,8 +41,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        $content = substr($match, 13, -2); // strip markup
-        return array($content);
+        return $match;
     }
 
     /**
@@ -59,20 +57,16 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        if($mode == 'xhtml'){
-            $is_color = substr($data[0], 0, 1) === '#';
-            $background_data = $is_color ? $data[0] : ml($data[0]);
-            if (is_a($renderer, 'renderer_plugin_revealjs')){
-                $renderer->add_background_to_next_slide($background_data);
-            } else {
-                if (!$is_color){  //background is an image
-                    $renderer->doc .= 'Background: ';
-                    $renderer->doc .= $renderer->_media($data[0], 'Background for next section in reveal.js mode',
-                                                    null, 80, 60, null, true);
-                } else{
-                    //$renderer->doc .= '<div style="background-color: '.$background_data.';">Background: '.$background_data.'</div>';
-                    $renderer->doc .= '<div style="background-color: '.$background_data.';"><div style="display: inline; color: white;">Background: '.$background_data.',</div><div style="display: inline; color: black;">Background: '.$background_data.'</div></div>';
-                }
+        if($mode == 'xhtml' && is_a($renderer, 'renderer_plugin_revealjs')) {
+            switch ($data) {
+                case '<notes>' :
+                    $renderer->doc .= DOKU_LF.'<aside class="notes">';
+                    $renderer->notes_open = true;
+                    break;
+                case '</notes>' :
+                    $renderer->doc .= '</aside>'.DOKU_LF;
+                    $renderer->notes_open = false;
+                    break;
             }
             return true;
         }
