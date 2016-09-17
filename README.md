@@ -198,45 +198,6 @@ All other options are also overwritable in a wiki page by using the URL query pa
 Please note that boolean values must be numeric (1 or 0). If you want to be able to change the options directly in the URL after the presentation has started, then you have to disable DokuWiki's caching by putting `~~NOCACHE~~` at the top of the page.
 
 
-### Speaker notes
-
-- https://github.com/hakimel/reveal.js#speaker-notes
-- keyword: <notes> (no parameters)
-- No changes on wiki pages
-- On slideshow content is wrapped into <div class="notes"> and invisible (only shown on speaker notes - shortkey s)
-- Lists in notes are always NOT incremental, because the list is unvisible and you would have to press the next key for each entry without any obvious effect
-
-Example:
-```
-<notes>
-- your content
-- here
-</notes>
-```
-
-### Fragments
-
-- https://github.com/hakimel/reveal.js#fragments
-- <fragment> for inline usage (only formatting and substitutions supported)
-- <fragment-block> for any wiki content
-- <fragment-list> to overwrite the global option build_all_lists (if false)
-- <no-fragment-list> to overwrite the global option build_all_lists (if true)
-- support for style and index where possible - see also example_presentation.dokuwiki and http://lab.hakim.se/reveal-js/#/7/1
-
-Example:
-```
-<fragment>Hit the next arrow...</fragment>
-
-<fragment>... to step through ...</fragment>
-
-<fragment>... a</fragment> <fragment>fragmented</fragment> <fragment>slide.</fragment>
-```
-
-
-
-
-
-
 ### Slide background
 
 The plugin introduces the syntax
@@ -295,6 +256,43 @@ slide without footer
 
 slide without footer and with background
 
+```
+
+
+
+### Speaker notes
+
+- https://github.com/hakimel/reveal.js#speaker-notes
+- keyword: `<notes>` (no parameters)
+- No changes on wiki pages
+- On slideshow content is wrapped into <div class="notes"> and invisible (only shown on speaker notes - shortkey s)
+- Lists in notes are always NOT incremental, because the list is unvisible and you would have to press the next key for each entry without any obvious effect
+
+Example:
+```
+<notes>
+- your content
+- here
+</notes>
+```
+
+
+### Fragments
+
+- https://github.com/hakimel/reveal.js#fragments
+- `<fragment>` for inline usage (only formatting and substitutions supported)
+- `<fragment-block>` for any wiki content
+- `<fragment-list>` to overwrite the global option build_all_lists (if false)
+- `<no-fragment-list>` to overwrite the global option build_all_lists (if true)
+- support for style and index where possible - see also example_presentation.dokuwiki and http://lab.hakim.se/reveal-js/#/7/1
+
+Example:
+```
+<fragment>Hit the next arrow...</fragment>
+
+<fragment>... to step through ...</fragment>
+
+<fragment>... a</fragment> <fragment>fragmented</fragment> <fragment>slide.</fragment>
 ```
 
 
