@@ -90,16 +90,16 @@ With <nowiki><fragment-block></nowiki> you have more or less no limits:
 
 
 <fragment-block 2>
+<nowiki><fragment-block 2></nowiki>\\
 {{:wiki:dokuwiki-128.png?nolink|}}\\
-This comes second :-)\\
-<nowiki><fragment-block 2></nowiki>
+This comes second :-)
 </fragment-block>
 
 <fragment-block 1>
+<nowiki><fragment-block 1></nowiki>
 <code php>
 $number = intval($test); //this comes first :-)
 </code>
-<nowiki><fragment-block 1></nowiki>
 </fragment-block>
 
 
@@ -130,15 +130,15 @@ $number = intval($test); //this comes first :-)
 
 ==== Fragment Styles ====
 
-Fragments can be styled: <nowiki><fragment StyleName></nowiki>
+<nowiki><fragment StyleName></nowiki>
 
-<fragment grow>grow</fragment>
+<fragment-block grow>grow</fragment-block>
 
-<fragment shrink>shrink</fragment>
+<fragment-block shrink>shrink</fragment-block>
 
 <fragment fade-out>fade-out</fragment>
 
-<fragment fade-up>fade-up (also down, left and right!)</fragment>
+<fragment-block fade-up>fade-up (also down, left and right!)</fragment-block>
 
 <fragment current-visible>current-visible</fragment>
 
@@ -146,6 +146,8 @@ Fragments can be styled: <nowiki><fragment StyleName></nowiki>
 
 Highlight <fragment highlight-red>red</fragment> <fragment highlight-blue>blue</fragment> <fragment highlight-green>green</fragment>
 
+<fragment><sub>Attention: grow, shrink, fade-up/-down/-left/-right</sub>\\
+<sup>are only working with <nowiki><fragment-block></nowiki></sup></fragment>
 
 
 {{background>#000000}}
