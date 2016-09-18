@@ -16,3 +16,4 @@ $lang['open_in_new_window'] = "Open a presentation in a new window or tab";
 $lang['slide_level'] = "Headers on this level or above starting a horizontal slide. Levels below starting a vertical (nested) slide";
 $lang['push_headers'] = "Push headers below slide_level to the next higher one";
 $lang['image_borders'] = "Show image borders (default in Reveal.js)";
+$lang['show_slide_details'] = "Show slide details on wiki page (number, transition, direction, background...)";

@@ -87,10 +87,15 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                 else {
                     $target = $this->getConf('open_in_new_window') ? '_blank' : '_self';
                 }
-                unset($data['open_in_new_window']); // hide open_in_new_window for the url params
-                $renderer->doc .= '<a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.$this->getLang('view').'">';
-                $renderer->doc .= '<img src="'.DOKU_BASE.'lib/plugins/revealjs/start_button.png" align="right" alt="'.$this->getLang('view').'"/>';
-                $renderer->doc .= '</a>';
+                // hide senseless options for the url params to shorten the link
+                unset($data['open_in_new_window']);
+                unset($data['show_slide_details']);
+                // create the link
+                $renderer->doc .= '<a target="'.$target.'" href="'.
+                    exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.
+                    $this->getLang('view').'"><img src="'.DOKU_BASE.
+                    'lib/plugins/revealjs/start_button.png" align="right" alt="'.
+                    $this->getLang('view').'"/></a>';
             }
             return true;
         }

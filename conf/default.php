@@ -8,3 +8,4 @@ $conf['open_in_new_window'] = 1;
 $conf['slide_level'] = 2;
 $conf['push_headers'] = 0;
 $conf['image_borders'] = 0;
+$conf['show_slide_details'] = 0;

@@ -14,6 +14,8 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
  * The Renderer
  */
 class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
+    var $slide_indicator_special_hr = false;
+    var $slide_number = 0;
     var $slide_open = false;
     var $column_open = false;
     var $notes_open = false;
