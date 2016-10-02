@@ -102,7 +102,7 @@ class syntax_plugin_revealjs_fragmentblock extends DokuWiki_Syntax_Plugin {
      * Validate fragment style: $style
      */
     private function _is_valid_style($style) {
-        $pattern = '/grow|shrink|fade-(?:in|out|up|down|left|right)|current-visible|highlight(?:-current)?-(?:red|green|blue)/';
+        $pattern = '/^(?:grow|shrink|fade-(?:in|out|up|down|left|right)|current-visible|highlight(?:-current)?-(?:red|green|blue))$/';
         if (preg_match($pattern, $style)) return $style;
         return '';
     }

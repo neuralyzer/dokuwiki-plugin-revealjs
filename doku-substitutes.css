@@ -125,3 +125,22 @@
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
 }
+
+/* Slide details for the normal wiki page */
+
+.slide-details-hr {
+    border-top:1px dotted silver;
+    clear:right;
+}
+
+.slide-details,
+.slide-background {
+    color:silver;
+    font-family: monospace;
+}
+
+.slide-background {
+    float:right;
+    padding:1px 0 0 0.5em;
+    text-align:right;
+}

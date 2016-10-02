@@ -57,16 +57,28 @@ class syntax_plugin_revealjs_notes extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        if($mode == 'xhtml' && is_a($renderer, 'renderer_plugin_revealjs')) {
-            switch ($data) {
-                case '<notes>' :
-                    $renderer->doc .= DOKU_LF.'<aside class="notes">';
-                    $renderer->notes_open = true;
-                    break;
-                case '</notes>' :
-                    $renderer->doc .= '</aside>'.DOKU_LF;
-                    $renderer->notes_open = false;
-                    break;
+        if($mode == 'xhtml') {
+            if (is_a($renderer, 'renderer_plugin_revealjs')) {
+                switch ($data) {
+                    case '<notes>' :
+                        $renderer->doc .= DOKU_LF.'<aside class="notes">';
+                        $renderer->notes_open = true;
+                        break;
+                    case '</notes>' :
+                        $renderer->doc .= '</aside>'.DOKU_LF;
+                        $renderer->notes_open = false;
+                        break;
+                }
+            }
+            else {
+                if ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details')) {
+                    switch ($data) {
+                        case '<notes>' :
+                            $renderer->doc .=
+                                '<div class="slide-notes-hr">Notes'.($slide_details_text).'</div>'.DOKU_LF;
+                            break;
+                    }
+                }
             }
             return true;
         }

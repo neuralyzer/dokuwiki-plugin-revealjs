@@ -1,6 +1,5 @@
 <?php
 
-
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
@@ -13,6 +12,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
 
     public function getType() { return 'substition'; }
     public function getSort() { return 32; }
+    public function getPType() { return 'block'; }
 
 
     /**
@@ -24,9 +24,8 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see render()
      */
     public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{background>.+?}}', $mode, 'plugin_revealjs_background');
+        $this->Lexer->addSpecialPattern('----+>>?|----+[^\n]*?----+>>?|<<?----+|{{background>.+?}}', $mode, 'plugin_revealjs_background');
     }
-
 
 
     /**
@@ -42,8 +41,51 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        $content = substr($match, 13, -2); // strip markup
-        return array($content);
+        $transition_count = 0;
+        $position_count = 0;
+        $data = array();
+        $data['position'] = $pos;
+        $data['first_chars'] = substr($match, 0, 2);
+        $data['last_chars'] = substr($match, -2);
+        $params = preg_split("/\s+/",
+            ($data['first_chars'] == '{{' ?
+                substr($match, 13, -2) :
+                trim($match,'-<> ')
+            ), 12);
+        foreach ($params as $value) {
+            if (!$data['background_color'] && $this->_is_valid_color($value)) {
+                $data['background_color'] = $value;
+            }
+            elseif (!$data['background_image'] && $this->_is_valid_image($value)) {
+                $data['background_image'] = $value;
+            }
+            elseif (!$data['background_size'] && $this->_is_valid_size($value)) {
+                $data['background_size'] = $value;
+            }
+            elseif ($position_count < 2 && in_array($value, array('top','bottom','left','right','center'))) {
+                $position_count += 1;
+                if (!$data['background_position']) $data['background_position'] = $value;
+                else $data['background_position'] .= ' '.$value;
+            }
+            elseif (!$data['background_repeat'] && in_array($value, array('repeat','no-repeat'))) {
+                $data['background_repeat'] = $value;
+            }
+            elseif (!$data['background_transition'] && $this->_is_valid_bg_transition($value)) {
+                $data['background_transition'] = $value;
+            }
+            elseif ($transition_count < 2 && $this->_is_valid_transition($value)) {
+                $transition_count += 1;
+                if (!$data['transition']) $data['transition'] = $value;
+                else $data['transition'] .= ' '.$value;
+            }
+            elseif (!$data['transition_speed'] && in_array($value, array('default','fast','slow'))) {
+                $data['transition_speed'] = $value;
+            }
+            elseif (!$data['no_footer'] && $value == 'no-footer') {
+                $data['no_footer'] = $value;
+            }
+        }
+        return $data;
     }
 
     /**
@@ -59,23 +101,184 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        if($mode == 'xhtml'){
-            $is_color = substr($data[0], 0, 1) === '#';
-            $background_data = $is_color ? $data[0] : ml($data[0]);
+        global $conf;
+        if($mode == 'xhtml') {
             if (is_a($renderer, 'renderer_plugin_revealjs')){
-                $renderer->add_background_to_next_slide($background_data);
-            } else {
-                if (!$is_color){  //background is an image
-                    $renderer->doc .= 'Background: ';
-                    $renderer->doc .= $renderer->_media($data[0], 'Background for next section in reveal.js mode',
-                                                    null, 80, 60, null, true);
-                } else{
-                    //$renderer->doc .= '<div style="background-color: '.$background_data.';">Background: '.$background_data.'</div>';
-                    $renderer->doc .= '<div style="background-color: '.$background_data.';"><div style="display: inline; color: white;">Background: '.$background_data.',</div><div style="display: inline; color: black;">Background: '.$background_data.'</div></div>';
+                $renderer->next_slide_background_color = $data['background_color'];
+                $renderer->next_slide_background_image =
+                    $data['background_image'] && substr($data['background_image'], 0, 4) == 'http' ?
+                    $data['background_image'] :
+                    ml($data['background_image']); /*DokuWiki build link to media file*/
+                $renderer->next_slide_background_size = $data['background_size'];
+                $renderer->next_slide_background_position = $data['background_position'];
+                $renderer->next_slide_background_repeat = $data['background_repeat'];
+                $renderer->next_slide_background_transition = substr($data['background_transition'],3); // we cut off "bg-" for Reveal.js (we had "bg-" only to distinguish between background transition and slide transition)
+                $renderer->next_slide_transition = $data['transition'];
+                $renderer->next_slide_transition_speed = $data['transition_speed'];
+                $renderer->next_slide_no_footer = $data['no_footer'];
+                if ($data['last_chars'] == '->') {
+                    $renderer->open_slide();
+                    $renderer->slide_indicator_headers = false;
+                }
+                elseif ($data['last_chars'] == '>>') {
+                    $renderer->open_slide_container();
+                    $renderer->open_slide();
+                    $renderer->slide_indicator_headers = false;
+                }
+                elseif ($data['first_chars'] == '<-') {
+                    $renderer->close_slide();
+                    $renderer->slide_indicator_headers = true;
+                }
+                elseif ($data['first_chars'] == '<<') {
+                    $renderer->close_slide_container();
+                    $renderer->slide_indicator_headers = true;
+                }
+            }
+            elseif ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details')) {
+                // process slide details view
+                if ($data['background_color']) {
+                    $slide_details_text .= ' '.$data['background_color'];
+                    $slide_details_background .= 'background-color:'.$data['background_color'].';';
+                }
+                if ($data['background_image']) {
+                    $slide_details_text .= ' '.$data['background_image'];
+                    $slide_details_background .= 'background-image: url("'.
+                        (substr($data['background_image'], 0, 4) == 'http' ?
+                            $data['background_image'] :
+                            ml($data['background_image'])).
+                        '");';
+                }
+                if ($data['background_size']) {
+                    $slide_details_text .= ' '.$data['background_size'];
+                    $slide_details_background .= 'background-size:'.$data['background_size'].';';
+                }
+                if ($data['background_position']) {
+                    $slide_details_text .= ' '.$data['background_position'];
+                    $slide_details_background .= 'background-position:'.$data['background_position'].';';
+                }
+                if ($data['background_repeat']) {
+                    $slide_details_text .= ' '.$data['background_repeat'];
+                    $slide_details_background .= 'background-repeat:'.$data['background_repeat'].';';
+                }
+                if ($data['background_transition']) {
+                    $slide_details_text .= ' '.$data['background_transition'];
+                }
+                if ($data['transition']) {
+                    $slide_details_text .= ' '.$data['transition'];
+                }
+                if ($data['transition_speed']) {
+                    $slide_details_text .= ' '.$data['transition_speed'];
+                }
+                if ($data['no_footer']) {
+                    $slide_details_text .= ' '.$data['no_footer'];
+                }
+                // handle section editing
+                if (in_array($data['last_chars'], array('->','>>','}}'))) {
+                    $renderer->revealjs_slide_number += 1;
+                    // close edit section, if open
+                    if($renderer->revealjs_slide_edit_section_open) {
+                        $renderer->revealjs_slide_edit_section_open = false;
+                        $renderer->doc .= DOKU_LF.'</div>'.DOKU_LF;
+                        $renderer->finishSectionEdit($data['position'] - 1);
+                    }
+                    // calculate slide direction
+                    if ($data['last_chars'] == '>>') {
+                        $slide_direction = '→';
+                    }
+                    elseif ($data['last_chars'] == '->') {
+                        $slide_direction = '↓';
+                    }
+                    else {
+                        $slide_direction = '';
+                        $conf['plugin']['revealjs']['slides_with_unknown_direction'] = true;
+                    }
+                    /* write slide details to page - we need to use a fake header (<h1 style="display:none...) here
+                    to force dokuwiki to show correct section edit highlighting by hoovering the edit button */
+                    $renderer->doc .= DOKU_LF.DOKU_LF.'<h2 style="display:none;" class="' .
+                        $renderer->startSectionEdit($data['position'], 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' .
+                        '<div class="slide-details-hr'.($renderer->revealjs_slide_number == 1 ? ' first-slide' : '').'"></div>' .
+                        ($data['background_color'] || $data['background_image'] ?
+                            '<div class="slide-details-background" style='."'".$slide_details_background."'".'></div>' :
+                            '') .
+                        '<div class="slide-details-text'.($slide_direction==''?' fix-my-direction':'').'">'.$slide_direction .
+                        ' Slide '.$renderer->revealjs_slide_number.$slide_details_text.'</div>';
+                    // open new edit section
+                    $renderer->revealjs_slide_edit_section_open = true;
+                    $renderer->doc .= DOKU_LF.'<div class="level2">'.DOKU_LF;
+                    /* Only the special horizontal row slide indicator changes the
+                    indicator mode */
+                    if (in_array($data['last_chars'], array('->','>>'))) {
+                        $renderer->revealjs_slide_indicator_headers = false;
+                    }
+                    /* for slide indicator mode "headers" we signaling here the
+                    header function that a section is already open */
+                    if ($data['last_chars'] == '}}') {
+                        $renderer->revealjs_slide_background_defined = true;
+                    }
+                }
+                elseif (in_array($data['first_chars'], array('<-','<<'))) {
+                    $renderer->revealjs_slide_indicator_headers = true;
+                    /*$renderer->revealjs_slide_edit_section_open = false;
+                    $renderer->doc .= DOKU_LF.'</div>'.DOKU_LF;
+                    $renderer->finishSectionEdit($data['position'] - 1);*/
                 }
             }
             return true;
         }
         return false;
+    }
+
+    /**
+     * Validate slide transition
+     */
+    private function _is_valid_transition($val) {
+        $pattern = '/^(?:none|fade|slide|convex|concave|zoom)(?:-in|-out)?$/';
+        if (preg_match($pattern, $val)) return $val;
+        return '';
+    }
+
+
+    /**
+     * Validate background transition
+     */
+    private function _is_valid_bg_transition($val) {
+        $pattern = '/^bg-(?:none|fade|slide|convex|concave|zoom)$/';
+        if (preg_match($pattern, $val)) return $val;
+        return '';
+    }
+
+
+    /**
+     * Validate HTML color
+     */
+    private function _is_valid_color($val) {
+        $named = array('aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige', 'bisque', 'black', 'blanchedalmond', 'blue', 'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse', 'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange', 'darkorchid', 'darkred', 'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey', 'green', 'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan', 'lightgoldenrodyellow', 'lightgreen', 'lightgray', 'lightgrey', 'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey', 'lightsteelblue', 'lightyellow', 'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine', 'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue', 'mediumspringgreen', 'mediumturquoise', 'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy', 'oldlace', 'olive', 'olivedrab', 'orange', 'orangered', 'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'purple', 'red', 'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white', 'whitesmoke', 'yellow', 'yellowgreen');
+
+        if (in_array($val, $named)) {
+            return $val;
+        }
+        else {
+            $pattern = '/^(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))$/';
+            if (preg_match($pattern, $val)) return $val;
+            return '';
+        }
+    }
+
+    /**
+     * Validate image
+     */
+    private function _is_valid_image($val) {
+        $pattern = '/^.+\.(?:gif|png|jpg|jpeg|svg)$/i';
+        if (preg_match($pattern, $val)) return $val;
+        return '';
+    }
+
+    /**
+     * Validate size
+     */
+    private function _is_valid_size($val) {
+        $pattern = '/^\d*\.?\d*(?:px|%)|auto|contain|cover$/';
+        if (preg_match($pattern, $val)) return $val;
+        return '';
     }
 }

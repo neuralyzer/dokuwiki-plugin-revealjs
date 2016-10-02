@@ -1,6 +1,5 @@
 <?php
 
-
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
@@ -13,6 +12,7 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
 
     public function getType() { return 'substition'; }
     public function getSort() { return 32; }
+    public function getPType() { return 'normal'; }
 
 
     /**
@@ -60,7 +60,7 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
     public function render($mode, Doku_Renderer $renderer, $data) {
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
-                $renderer->next_slide_without_footer();
+                $renderer->next_slide_no_footer = true;
             } else {
                 $renderer->doc .= 'no-footer';
             }
