@@ -240,7 +240,7 @@ This slide has no content, but therefore a fancy background...
 - `---->` opens a new slide with default transition in default speed (open previous slides will be closed implicitly)
 - Full example - parameters are parsed dynamically like in CSS, the parameter order is not important: `---- orange wiki:dokuwiki-128.png 10% repeat bg-slide zoom-in fade-out slow no-footer ---->`
     - All possible HTML color names and codes are supported: red, #f00, #ff0000, rgb(255, 0, 0), rgba(255, 0, 0, 0.5), hsl(0, 100%, 50%), hsla(0, 100%, 50%, 0.5)
-    - Background images are recognized case insensitive by the endings gif, png, jpg, jpeg, svg and can be a DokuWiki image identifier (:wiki:dokuwiki-128.png) or a normal image link (https://raw.githubusercontent.com/neuralyzer/dokuwiki-plugin-revealjs/master/revealjs_configuration.png)
+    - Background images are recognized case insensitive by the endings gif, png, jpg, jpeg, svg and can be a DokuWiki image identifier (`:wiki:dokuwiki-128.png`) or a normal image link ('http://host.tld/link/to/image.png')
     - Background image size is recognized by postfix `%` and `px` or by keywords `auto`, `contain` and `cover` (cover is the default in Reveal.js) - example: 10% or 250px
     - Background image position is recognized by keywords `top`, `bottom`, `left`, `right`, `center` (center is the default in Reveal.js) - examples: `top left`, `bottom center`
     - Background image repeat is recognized by the keyword `repeat` (no-repeat is the default in Reveal.js)
