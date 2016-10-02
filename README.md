@@ -227,6 +227,16 @@ produces one slide with background and a second slide without background.
 
 ### Alternative slide indicators
 
+```
+---- salmon wiki:dokuwiki-128.png 10% repeat bg-slide ---->
+
+<notes>
+This slide has no content, but therefore a fancy background...
+</notes>
+
+<----
+```
+
 - `---->` opens a new slide with default transition in default speed (open previous slides will be closed implicitly)
 - Full example - parameters are parsed dynamically like in CSS, the parameter order is not important: `---- orange wiki:dokuwiki-128.png 10% repeat bg-slide zoom-in fade-out slow no-footer ---->`
     - All possible HTML color names and codes are supported: red, #f00, #ff0000, rgb(255, 0, 0), rgba(255, 0, 0, 0.5), hsl(0, 100%, 50%), hsla(0, 100%, 50%, 0.5)
