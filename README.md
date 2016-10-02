@@ -131,9 +131,9 @@ The slide transition. Possible settings:
 The default is fade.
 
 
-### Slide level
+### Horizontal slide level
 
-Headers on this level or above starting a horizontal slide. Levels below starting a vertical (nested) slide. Possible settings:
+Headers on this level or above starting a horizontal slide. Levels below starting a vertical (nested) slide - no effect on slides, which are indicated by alternative slide indicators (<nobr>----></nobr> and <nobr>---->></nobr>). Possible settings:
 
   * 1
   * 2
@@ -141,9 +141,9 @@ Headers on this level or above starting a horizontal slide. Levels below startin
 The default is 2.
 
 
-### Push headers
+### Enlarge vertical slide headers
 
-Push headers below slide_level to the next higher one. Boolean:
+Enlarge headers on slides below horizontal_slide_level - no effect on slides, which are indicated by alternative slide indicators (<nobr>----></nobr> and <nobr>---->></nobr>). Boolean:
 
 * false
 * true
@@ -193,7 +193,7 @@ somehere with ``theme_name`` replaced by one of the reveal.js themes as listed u
 
 All other options are also overwritable in a wiki page by using the URL query parameter syntax:
 ```
-~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=0&open_in_new_window=1~~
+~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&show_image_borders=0&horizontal_slide_level=2&enlarge_vertical_slide_headers=0&show_slide_details=1&open_in_new_window=1~~
 ```
 Please note that boolean values must be numeric (1 or 0). If you want to be able to change the options directly in the URL after the presentation has started, then you have to disable DokuWiki's caching by putting `~~NOCACHE~~` at the top of the page.
 
@@ -203,27 +203,16 @@ Please note that boolean values must be numeric (1 or 0). If you want to be able
 The plugin introduces the syntax
 
 ```
-   {{background>value}}
+   {{background>parameters}}
 ```
 
-Where `value` can be either a Dokuwiki image identifier, e.g.
-
-```
-  value = :images:my_images:image1.png
-```
-
-or a color in hex code preceded by `"#"`, e.g.
-
-```
-  value = #ff0022
-```
+For all possible parameters see alternative slide indicator below.
 
 The so defined background will be applied to the next slide. I.e. the background tag has to preceed the heading opening
 the next slide and will only apply to that slide. For example
 
-
 ```
-{{background>:images:image1.png}}
+{{background>:wiki:dokuwiki-128.png}}
 ===== my heading=====
 
 slide with background
@@ -234,6 +223,38 @@ slide without background
 ```
 
 produces one slide with background and a second slide without background.
+
+
+### Alternative slide indicators
+
+```
+---- salmon wiki:dokuwiki-128.png 10% repeat bg-slide ---->
+
+<notes>
+This slide has no content, but therefore a fancy background...
+</notes>
+
+<----
+```
+
+- `---->` opens a new slide with default transition in default speed (open previous slides will be closed implicitly)
+- Full example - parameters are parsed dynamically like in CSS, the parameter order is not important: `---- orange wiki:dokuwiki-128.png 10% repeat bg-slide zoom-in fade-out slow no-footer ---->`
+    - All possible HTML color names and codes are supported: red, #f00, #ff0000, rgb(255, 0, 0), rgba(255, 0, 0, 0.5), hsl(0, 100%, 50%), hsla(0, 100%, 50%, 0.5)
+    - Background images are recognized case insensitive by the endings gif, png, jpg, jpeg, svg and can be a DokuWiki image identifier (`:wiki:dokuwiki-128.png`) or a normal image link ('http://host.tld/link/to/image.png')
+    - Background image size is recognized by postfix `%` and `px` or by keywords `auto`, `contain` and `cover` (cover is the default in Reveal.js) - example: 10% or 250px
+    - Background image position is recognized by keywords `top`, `bottom`, `left`, `right`, `center` (center is the default in Reveal.js) - examples: `top left`, `bottom center`
+    - Background image repeat is recognized by the keyword `repeat` (no-repeat is the default in Reveal.js)
+    - Background transition: prefix `bg-` followed by `none`, `fade`, `slide`, `convex`, `concave` or `zoom`
+    - Slide transition: `none`, `fade`, `slide`, `convex`, `concave` or `zoom` followed by optional postfix `-in` or `-out` for different transitions on one slide
+    - Transition speed: `default`, `fast`, `slow`
+- `---->>` opens a new slide container for vertical (nested) slides and a new slide with the given options - example: `---- red zoom ---->>`
+- The next `---->>` will close the previous container (and slide) implicitly
+- Technical details:
+    - In the rendering the slide mode changes from "headers driven" to "special horizontal rule driven" - headers are no longer interesting in this mode for slide changes
+    - You can create of course a whole presentation with this alternative slide indicator
+    - if you want to leave this slide mode you need a way to explicit close a slide or container:
+        - `<<----` closes a slide container (and possibly open slide inside)
+        - `<----` closes a slide
 
 
 ### Footers
@@ -257,7 +278,6 @@ slide without footer
 slide without footer and with background
 
 ```
-
 
 
 ### Speaker notes

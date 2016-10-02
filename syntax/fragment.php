@@ -10,9 +10,10 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_revealjs_fragment extends DokuWiki_Syntax_Plugin {
 
-    public function getType() { return 'substition'; }
+    public function getType() { return 'container'; }
     public function getAllowedTypes() { return array('formatting', 'substition', 'disabled'); }
-    public function getSort() { return 33; } // must be after fragment_block, otherwise to much matches
+    public function getSort() { return 33; } // must be after fragmentblock and fragmentlist, otherwise to much matches
+    public function getPType() { return 'normal'; }
 
 
     /**
@@ -41,8 +42,8 @@ class syntax_plugin_revealjs_fragment extends DokuWiki_Syntax_Plugin {
      * @see render()
      * @static
      */
-     public function handle($match, $state, $pos, Doku_Handler $handler) {
-         switch ($state) {
+    public function handle($match, $state, $pos, Doku_Handler $handler) {
+        switch ($state) {
             case DOKU_LEXER_ENTER :
                 list($type, $param1, $param2) = preg_split("/\s+/", substr($match, 1, -1), 3);
                 if ($param1) {
@@ -55,10 +56,10 @@ class syntax_plugin_revealjs_fragment extends DokuWiki_Syntax_Plugin {
                 }
                 return array($state, array($style, $index));
 
-           case DOKU_LEXER_UNMATCHED :  return array($state, $match);
-           case DOKU_LEXER_EXIT :       return array($state, '');
-         }
-     }
+            case DOKU_LEXER_UNMATCHED :  return array($state, $match);
+            case DOKU_LEXER_EXIT :       return array($state, '');
+        }
+    }
 
 
     /**
@@ -103,7 +104,7 @@ class syntax_plugin_revealjs_fragment extends DokuWiki_Syntax_Plugin {
      * Validate fragment style: $style
      */
     private function _is_valid_style($style) {
-        $pattern = '/grow|shrink|fade-(?:in|out|up|down|left|right)|current-visible|highlight(?:-current)?-(?:red|green|blue)/';
+        $pattern = '/fade-(?:in|out)|current-visible|highlight(?:-current)?-(?:red|green|blue)/';
         if (preg_match($pattern, $style)) return $style;
         return '';
     }

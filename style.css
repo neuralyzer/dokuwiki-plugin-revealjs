@@ -1,0 +1,41 @@
+/* Slide details for the normal wiki page */
+
+.slide-export-link,
+.slide-details-hr,
+.slide-details-background,
+.slide-details-text,
+.slide-notes-hr {
+    font-family: monospace;
+    font-size: 0.8em;
+    color:silver;
+}
+
+.slide-details-hr,
+.slide-notes-hr {
+    clear: left;
+    border-top: 1px dotted silver
+}
+
+.first-slide {
+    width: 50%;
+}
+
+.slide-notes-hr {
+    width: 25%
+}
+
+.slide-export-link,
+.slide-details-background {
+    float:right;
+    padding:0;
+    margin:1px 0 0 0.5em;
+    text-align: right;
+}
+
+.slide-details-background {
+    height: 45px;
+    width: 60px;
+    background-size: cover; /*Reveal.js default*/
+    background-position: center; /*Reveal.js default*/
+    background-repeat: no-repeat; /*Reveal.js default*/
+}

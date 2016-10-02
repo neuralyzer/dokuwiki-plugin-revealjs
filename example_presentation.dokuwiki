@@ -1,11 +1,12 @@
 ~~NOCACHE~~
-~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&image_borders=0&slide_level=2&push_headers=0&open_in_new_window=1~~
+
+~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&show_image_borders=0&horizontal_slide_level=2&enlarge_vertical_slide_headers=0&show_slide_details=1&open_in_new_window=1~~
 
 
 
-====== Revealjs Test ======
+====== Reveal.js Test ======
 
-This is a test suite for the reval.js plugin.
+This is a test suite for the Reveal.js plugin.
 
 <notes>
 These are notes. They are only shown on the wiki page.
@@ -16,14 +17,80 @@ These are notes. They are only shown on the wiki page.
 <code php>
 echo 'Hello World'; // code block inside notes
 </code>
-</notes>
 
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labor
+</notes>
 
 
 ==== Header level test ====
 
 Test, if an H3 section following an H1 section is appended horizontally or vertically.
 
+
+=== Header level test ===
+
+Test, if an H4 section opens a new slide. Should not the case for ''horizontal_slide_level = 2''
+
+
+---->>
+
+===== Alternative Slide Indicator =====
+
+
+<code>
+---- salmon wiki:dokuwiki-128.png 10% repeat bg-slide ---->
+</code>
+
+
+---- salmon wiki:dokuwiki-128.png 10% repeat bg-slide ---->
+
+<notes>
+This slide has no content, but therefore a fancy background...
+</notes>
+
+---->
+
+===== It's cool, isn't it? =====
+
+
+
+---- orange bg-zoom ---->
+
+===== Zoom =====
+
+<code>
+---- orange bg-zoom ---->
+</code>
+
+
+---->
+
+<sub>This could be a slide without content, not possible in header driven mode...</sub>
+
+---->>
+
+Horizontal
+
+<code>
+---->>
+
+Horizontal
+</code>
+
+
+-------------------------------------------------->>
+
+Horizontal again and stopping special hr driven mode
+
+<code>
+-------------------------------------------------->>
+
+Horizontal again and stopping special hr driven mode
+
+<---------------------------------------------------
+</code>
+
+<---------------------------------------------------
 
 
 ===== Options (Caching) =====
@@ -33,10 +100,9 @@ If you disable the cache for the page, then you are able to change the options d
 In case your theme does not match the environment for the presentation you can fix this very fast without editing the page.
 
 
-
 ===== List =====
 
-For this page the option ''build_all_lists'' is switched on  - the list is therefore shown incremental:
+For this page/presentation the option ''build_all_lists'' is switched on  - the list is therefore shown incremental:
 
   * Unordered list, item one
   * Another item
@@ -149,6 +215,11 @@ Highlight <fragment highlight-red>red</fragment> <fragment highlight-blue>blue</
 <fragment><sub>Attention: grow, shrink, fade-up/-down/-left/-right</sub>\\
 <sup>are only working with <nowiki><fragment-block></nowiki></sup></fragment>
 
+
+{{background>orange}}
+===== Background Orange =====
+
+<nowiki>{{background>orange}}</nowiki>
 
 {{background>#000000}}
 ===== Background =====
@@ -299,7 +370,7 @@ WWW link www.google.de
 
 
 
-{{background>wiki:dokuwiki-128.png}}
+{{background>:wiki:dokuwiki-128.png orange}}
 ====== H1 With Background ======
 
 

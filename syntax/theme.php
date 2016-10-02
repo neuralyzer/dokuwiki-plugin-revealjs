@@ -1,6 +1,5 @@
 <?php
 
-
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
@@ -13,6 +12,7 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
 
     public function getType() { return 'substition'; }
     public function getSort() { return 32; }
+    public function getPType() { return 'block'; }
 
 
     /**
@@ -42,22 +42,48 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        if ($match != '~~REVEAL~~') {
-            $options = trim(substr($match,8,-2));
-            // ensure that only whitespaces do not result in "theme="
-            if ($options != '') {
-                // parse multiple options (example: theme=moon&controls=1&build_all_lists=1)
-                if (strpos($options, '=') !== false) {
-                    parse_str($options, $data);
+        global $ID, $conf;
+        $data = array();
+        /* Merge options from URL params into conf. URL params should not be
+        overwritten here, we want to be able to change parameters in the
+        URL. This is the reason to distinguish between the presentation
+        renderer and the page renderer. */
+        if ($_GET['do'] === 'export_revealjs') {
+            // pass -> done in the renderer.php in earlier stage, because needed there
+        }
+        /* merge options from page into conf */
+        else {
+            // parse options
+            if ($match !== '~~REVEAL~~') {
+                $options = trim(substr($match,8,-2));
+                // ensure that only whitespaces do not result in "theme="
+                if ($options != '') {
+                    // parse multiple options (example: theme=moon&controls=1&build_all_lists=1)
+                    if (strpos($options, '=') !== false) {
+                        parse_str($options, $data);
+                    }
+                    // if only one option this must be the theme (backward compatibility)
+                    else {
+                        $data['theme'] = $options;
+                    }
                 }
-                // if only one option this must be the theme (backward compatibility)
-                else {
-                    $data = array('theme' => $options);
-                }
-                return $data;
+            }
+            // merge options
+            if (!array_key_exists('plugin', $conf)) {
+                $conf['plugin'] = array('revealjs' => $data);
+            }
+            elseif (!array_key_exists('revealjs', $conf['plugin'])) {
+                $conf['plugin']['revealjs'] = $data;
+            }
+            else {
+                $conf['plugin']['revealjs'] = array_merge($conf['plugin']['revealjs'], $data);
             }
         }
-        return array();
+        /* calculate slide details condition, needed in other syntax modules and also
+        in action plugin for section editing */
+        $conf['plugin']['revealjs']['revealjs_active_and_user_can_edit_and_show_slide_details'] =
+            ($this->getConf('show_slide_details') && auth_quickaclcheck($ID) >= AUTH_EDIT);
+        return $data;
     }
 
     /**
@@ -74,23 +100,36 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
         global $ID;
-
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
                 // pass
             }
             else {
                 // create button to start the presentation
-                if (array_key_exists('open_in_new_window', $data)){
-                    $target = $data[open_in_new_window] ? '_blank' : '_self';
-                }
-                else {
-                    $target = $this->getConf('open_in_new_window') ? '_blank' : '_self';
-                }
-                unset($data['open_in_new_window']); // hide open_in_new_window for the url params
-                $renderer->doc .= '<a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.$this->getLang('view').'">';
-                $renderer->doc .= '<img src="'.DOKU_BASE.'lib/plugins/revealjs/start_button.png" align="right" alt="'.$this->getLang('view').'"/>';
-                $renderer->doc .= '</a>';
+                $target = $this->getConf('open_in_new_window') ? '_blank' : '_self';
+                // hide senseless options for the url params to shorten the link
+                unset($data['open_in_new_window']);
+                unset($data['show_slide_details']);
+                unset($data['start_button']);
+                // create the link
+                $renderer->doc .= '<div class="slide-export-link"><a target="'.$target.'" href="'.
+                    exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.
+                    $this->getLang('view_presentation').'"><img src="'.DOKU_BASE.'lib/plugins/revealjs/'.
+                    $this->getConf('start_button').'" align="right" alt="'.
+                    $this->getLang('view_presentation').'"/></a>'.
+                    ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details') ?
+                        '<br><a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).
+                        '&print-pdf" title="'.$this->getLang('print_pdf').'">Print PDF</a>' :
+                        '').
+                    '</div>';
+                /* prepare vars for own header handling since the needed ones
+                are protected and array types - both reasons wy this is not working
+                from within a plugin. See also /inc/parser/xhtml.php line 37 */
+                $renderer->revealjs_unique_headers = '';
+                $renderer->revealjs_slide_edit_section_open = false;
+                $renderer->revealjs_slide_indicator_headers = true;
+                $renderer->revealjs_slide_background_defined = false;
+                $renderer->revealjs_slide_number = 0;
             }
             return true;
         }
