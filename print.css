@@ -1,0 +1,9 @@
+/* Slide details should be hidden on printing */
+
+.slide-export-link,
+.slide-details-hr,
+.slide-details-background,
+.slide-details-text,
+.slide-notes-hr {
+    display:none;
+}

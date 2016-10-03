@@ -62,6 +62,10 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
             elseif (!$data['background_size'] && $this->_is_valid_size($value)) {
                 $data['background_size'] = $value;
             }
+            elseif ($position_count == 0 && $this->_is_valid_position($value)) {
+                $position_count += 2;
+                $data['background_position'] = $value;
+            }
             elseif ($position_count < 2 && in_array($value, array('top','bottom','left','right','center'))) {
                 $position_count += 1;
                 if (!$data['background_position']) $data['background_position'] = $value;
@@ -110,7 +114,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                     $data['background_image'] :
                     ml($data['background_image']); /*DokuWiki build link to media file*/
                 $renderer->next_slide_background_size = $data['background_size'];
-                $renderer->next_slide_background_position = $data['background_position'];
+                $renderer->next_slide_background_position = str_replace(',', ' ', $data['background_position']); // we replace "," with " ", because we needed this to distinguish between image size and image position
                 $renderer->next_slide_background_repeat = $data['background_repeat'];
                 $renderer->next_slide_background_transition = substr($data['background_transition'],3); // we cut off "bg-" for Reveal.js (we had "bg-" only to distinguish between background transition and slide transition)
                 $renderer->next_slide_transition = $data['transition'];
@@ -154,7 +158,8 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                 }
                 if ($data['background_position']) {
                     $slide_details_text .= ' '.$data['background_position'];
-                    $slide_details_background .= 'background-position:'.$data['background_position'].';';
+                    $slide_details_background .= 'background-position:'.
+                        str_replace(',', ' ', $data['background_position']).';';
                 }
                 if ($data['background_repeat']) {
                     $slide_details_text .= ' '.$data['background_repeat'];
@@ -258,7 +263,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
             return $val;
         }
         else {
-            $pattern = '/^(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,\s?){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\s?\d{1,3}%?){2}\))$/';
+            $pattern = '/^(#([\da-f]{3}){1,2}|(rgb|hsl)a\((\d{1,3}%?,){3}(1|0?\.\d+)\)|(rgb|hsl)\(\d{1,3}%?(,\d{1,3}%?){2}\))$/';
             if (preg_match($pattern, $val)) return $val;
             return '';
         }
@@ -277,7 +282,16 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
      * Validate size
      */
     private function _is_valid_size($val) {
-        $pattern = '/^\d*\.?\d*(?:px|%)|auto|contain|cover$/';
+        $pattern = '/^\d+(?:px|%)|auto|contain|cover$/';
+        if (preg_match($pattern, $val)) return $val;
+        return '';
+    }
+
+    /**
+     * Validate position
+     */
+    private function _is_valid_position($val) {
+        $pattern = '/^\d+(?:px|%),\d+(?:px|%)$/';
         if (preg_match($pattern, $val)) return $val;
         return '';
     }
