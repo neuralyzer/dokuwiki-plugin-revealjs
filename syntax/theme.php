@@ -118,8 +118,8 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                     $this->getConf('start_button').'" align="right" alt="'.
                     $this->getLang('view_presentation').'"/></a>'.
                     ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details') ?
-                        '<br><a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).
-                        '&print-pdf" title="'.$this->getLang('print_pdf').'">Print PDF</a>' :
+                        '<br><nobr><a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).
+                        '&print-pdf" title="'.$this->getLang('print_pdf').'">Print PDF</a></nobr>' :
                         '').
                     '</div>';
                 /* prepare vars for own header handling since the needed ones
