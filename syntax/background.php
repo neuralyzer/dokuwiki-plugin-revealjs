@@ -138,7 +138,7 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                     $renderer->slide_indicator_headers = true;
                 }
             }
-            elseif ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details')) {
+            elseif ($this->getConf('revealjs_active')) {
                 // process slide details view
                 if ($data['background_color']) {
                     $slide_details_text .= ' '.$data['background_color'];
@@ -200,13 +200,13 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                     /* write slide details to page - we need to use a fake header (<h1 style="display:none...) here
                     to force dokuwiki to show correct section edit highlighting by hoovering the edit button */
                     $renderer->doc .= DOKU_LF.DOKU_LF.'<h2 style="display:none;" class="' .
-                        $renderer->startSectionEdit($data['position'], 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' .
+                        $renderer->startSectionEdit($data['position'], 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' . ($this->getConf('show_slide_details') ?
                         '<div class="slide-details-hr'.($renderer->revealjs_slide_number == 1 ? ' first-slide' : '').'"></div>' .
                         ($data['background_color'] || $data['background_image'] ?
                             '<div class="slide-details-background" style='."'".$slide_details_background."'".'></div>' :
                             '') .
                         '<div class="slide-details-text'.($slide_direction==''?' fix-my-direction':'').'">'.$slide_direction .
-                        ' Slide '.$renderer->revealjs_slide_number.$slide_details_text.'</div>';
+                        ' Slide '.$renderer->revealjs_slide_number.$slide_details_text.'</div>' : '');
                     // open new edit section
                     $renderer->revealjs_slide_edit_section_open = true;
                     $renderer->doc .= DOKU_LF.'<div class="level2">'.DOKU_LF;
@@ -223,9 +223,6 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                 }
                 elseif (in_array($data['first_chars'], array('<-','<<'))) {
                     $renderer->revealjs_slide_indicator_headers = true;
-                    /*$renderer->revealjs_slide_edit_section_open = false;
-                    $renderer->doc .= DOKU_LF.'</div>'.DOKU_LF;
-                    $renderer->finishSectionEdit($data['position'] - 1);*/
                 }
             }
             return true;

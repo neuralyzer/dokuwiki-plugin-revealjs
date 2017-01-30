@@ -42,16 +42,15 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        global $ID, $conf;
         $data = array();
         /* Merge options from URL params into conf. URL params should not be
         overwritten here, we want to be able to change parameters in the
         URL. This is the reason to distinguish between the presentation
         renderer and the page renderer. */
         if ($_GET['do'] === 'export_revealjs') {
-            // pass -> done in the renderer.php in earlier stage, because needed there
+            // pass -> merge itself is done in the renderer.php in earlier stage, because needed there
         }
-        /* merge options from page into conf */
+        /* Merge options from page into conf */
         else {
             // parse options
             if ($match !== '~~REVEAL~~') {
@@ -68,21 +67,9 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                     }
                 }
             }
-            // merge options
-            if (!array_key_exists('plugin', $conf)) {
-                $conf['plugin'] = array('revealjs' => $data);
-            }
-            elseif (!array_key_exists('revealjs', $conf['plugin'])) {
-                $conf['plugin']['revealjs'] = $data;
-            }
-            else {
-                $conf['plugin']['revealjs'] = array_merge($conf['plugin']['revealjs'], $data);
-            }
+            // merge options (needed in parsing phase for other syntax modules)
+            $this->_merge_options_into_conf($data);
         }
-        /* calculate slide details condition, needed in other syntax modules and also
-        in action plugin for section editing */
-        $conf['plugin']['revealjs']['revealjs_active_and_user_can_edit_and_show_slide_details'] =
-            ($this->getConf('show_slide_details') && auth_quickaclcheck($ID) >= AUTH_EDIT);
         return $data;
     }
 
@@ -105,6 +92,10 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                 // pass
             }
             else {
+                /* Merge options again (needed in rendering phase for other syntax modules). Because of
+                DokuWikis caching we have no guarantee that the options merge from the parsing phase
+                will take place, so we do it here again. */
+                $this->_merge_options_into_conf($data);
                 // create button to start the presentation
                 $target = $this->getConf('open_in_new_window') ? '_blank' : '_self';
                 // hide senseless options for the url params to shorten the link
@@ -117,12 +108,12 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                     $this->getLang('view_presentation').'"><img src="'.DOKU_BASE.'lib/plugins/revealjs/'.
                     $this->getConf('start_button').'" align="right" alt="'.
                     $this->getLang('view_presentation').'"/></a>'.
-                    ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details') ?
+                    ($this->getConf('user_can_edit') ?
                         '<br><nobr><a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).
                         '&print-pdf" title="'.$this->getLang('print_pdf').'">Print PDF</a></nobr>' :
                         '').
                     '</div>';
-                /* prepare vars for own header handling since the needed ones
+                /* Prepare vars for own header handling since the needed ones
                 are protected and array types - both reasons wy this is not working
                 from within a plugin. See also /inc/parser/xhtml.php line 37 */
                 $renderer->revealjs_unique_headers = '';
@@ -134,5 +125,27 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Merge options from page into plugin conf
+     */
+    private function _merge_options_into_conf($data) {
+        global $ID, $conf;
+        // merge options
+        if (!array_key_exists('plugin', $conf)) {
+            $conf['plugin'] = array('revealjs' => $data);
+        }
+        elseif (!array_key_exists('revealjs', $conf['plugin'])) {
+            $conf['plugin']['revealjs'] = $data;
+        }
+        else {
+            $conf['plugin']['revealjs'] = array_merge($conf['plugin']['revealjs'], $data);
+        }
+        /* Set state for revealjs and user edit right - needed in other syntax modules and also
+        in action plugin for section editing. Sadly this is needed on parse and on render time,
+        so we merge the options twice here in the theme.php. */
+        $conf['plugin']['revealjs']['revealjs_active'] = true;
+        $conf['plugin']['revealjs']['user_can_edit'] = auth_quickaclcheck($ID) >= AUTH_EDIT;
     }
 }

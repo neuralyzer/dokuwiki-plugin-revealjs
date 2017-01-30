@@ -70,14 +70,12 @@ class syntax_plugin_revealjs_notes extends DokuWiki_Syntax_Plugin {
                         break;
                 }
             }
-            else {
-                if ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details')) {
-                    switch ($data) {
-                        case '<notes>' :
-                            $renderer->doc .=
-                                '<div class="slide-notes-hr">Notes'.($slide_details_text).'</div>'.DOKU_LF;
-                            break;
-                    }
+            else if ($this->getConf('revealjs_active') && $this->getConf('show_slide_details')) {
+                switch ($data) {
+                    case '<notes>' :
+                        $renderer->doc .=
+                            '<div class="slide-notes-hr">Notes'.($slide_details_text).'</div>'.DOKU_LF;
+                        break;
                 }
             }
             return true;

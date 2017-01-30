@@ -320,8 +320,7 @@ Example:
 PDF export
 ----------
 
-Presentations can be exported as PDF.
-To do so append a ``&print-pdf`` to the URL.
+Presentations can be exported as PDF. To do so append a `&print-pdf` to the URL. When you are able to edit the page, then there is a export PDF link rendered under the start slideshow button.
 
 For example if the URL of your DokuWiki reveal.js presentation is usually
 ```

@@ -5,27 +5,13 @@ if (!defined('DOKU_PLUGIN')) {define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');}
 require_once DOKU_PLUGIN . 'action.php';
 
 class action_plugin_revealjs extends DokuWiki_Action_Plugin {
-    //function getInfo() {return array('author' => 'github.com/ogobrecht', 'name' => 'Reveal.js DokuWiki Plugin', 'url' => 'https://github.com/neuralyzer/dokuwiki-plugin-revealjs');}
 
     function register(Doku_Event_Handler $controller) {
-        $controller->register_hook('PARSER_CACHE_USE', 'BEFORE', $this, '_parser_cache_use');
         $controller->register_hook('RENDERER_CONTENT_POSTPROCESS', 'BEFORE', $this, '_renderer_content_postprocess');
     }
 
-    // taken from DokuWiki plugin editsections (copyright by Christophe Drevet <dr4ke@dr4ke.net>)
-    function _parser_cache_use(&$event, $ags) {
-        global $ID;
-        if ( auth_quickaclcheck($ID) >= AUTH_EDIT ) {
-            // disable cache only for writers
-            $event->_default = 0;
-            //dbglog('Plugin revealjs - hook PARSER_CACHE_USE - cache is disabled - user can edit page.', __FILE__.' line '.__LINE__);
-        }
-    }
-
     function _renderer_content_postprocess(&$event, $param) {
-        if ($_GET['do'] !== 'export_revealjs' &&
-            $this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details')) {
-
+        if ($_GET['do'] !== 'export_revealjs' && $this->getConf('revealjs_active')) {
             /* close last edit section correctly (missing </div>), because we close sections
             only when a new one is opened - and this logic fails for the last section in the
             document */

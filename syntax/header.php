@@ -53,8 +53,7 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
         $level = 7 - strspn($title,'=');
         if($level < 1) $level = 1;
         $title = trim($title,'= ');
-        if ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details') ||
-            $_GET['do']=='export_revealjs') {
+        if ($this->getConf('revealjs_active') || $_GET['do']=='export_revealjs') {
             /* We are now on a reveal.js activated page and we want to do our
             own section handling to be able to get all relevant content from
             one slide into one edit section. Since sections are header driven,
@@ -116,7 +115,7 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
                     $renderer->doc .= '</h'. $level_calculated .'>'.DOKU_LF;
                 }
             }
-            else if ($this->getConf('revealjs_active_and_user_can_edit_and_show_slide_details')) {
+            else if ($this->getConf('revealjs_active') ) {
                 /**
                  * Render a heading (aligned copy of /inc/parser/xhtml.php around line 184)
                  *
@@ -144,10 +143,10 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
                     /* write slide details to page - we need to use a fake header (<h1 style="display:none...) here
                     to force dokuwiki to show correct section edit highlighting by hoovering the edit button */
                     $renderer->doc .= DOKU_LF.DOKU_LF.'<h2 style="display:none;" class="' .
-                        $renderer->startSectionEdit($pos, 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' .
+                        $renderer->startSectionEdit($pos, 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' . ($this->getConf('show_slide_details') ?
                         '<div class="slide-details-hr'.($renderer->revealjs_slide_number == 1 ? ' first-slide' : '').'"></div>' .
                         '<div class="slide-details-text">'.($level <= $horizontal_slide_level?'→':'↓') .
-                        ' Slide '.$renderer->revealjs_slide_number.'</div>';
+                        ' Slide '.$renderer->revealjs_slide_number.'</div>' : '');
                     // open new edit section
                     $renderer->revealjs_slide_edit_section_open = true;
                     $renderer->doc .= DOKU_LF.'<div class="level2">'.DOKU_LF;
