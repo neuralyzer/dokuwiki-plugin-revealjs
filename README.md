@@ -19,10 +19,11 @@ Paste the address git config http://github.com/neuralyzer/dokuwiki-plugin-reveal
 Usage
 -----
 
+Add `~~REVEAL~~` to a page to insert a button for presentation start. In the past this was optional - now it is mandatory, because the plugin logic depends on the information, if reveal is used on the page or not. And the keyword `~~REVEAL~~` on the top of the page is used to indicate this.
+
 Every new H1 or H2 section, that is 6 equal signs or 5 equal signs open per default a new slide horizontally.
 New H3 sections (4 equal signs) are appended vertically if they follow after an H2 section.
 
-Add ``~~REVEAL~~`` to a page to insert a button for presentation start.
 
 Check also the source code of the [example presentation](example_presentation.dokuwiki)
 
@@ -133,7 +134,7 @@ The default is fade.
 
 ### Horizontal slide level
 
-Headers on this level or above starting a horizontal slide. Levels below starting a vertical (nested) slide - no effect on slides, which are indicated by alternative slide indicators (<nobr>----></nobr> and <nobr>---->></nobr>). Possible settings:
+Headers on this level or above starting a horizontal slide. Levels below starting a vertical (nested) slide - no effect on slides, which are indicated by alternative slide indicators (`---->` and `---->>`). Possible settings:
 
   * 1
   * 2
@@ -143,7 +144,7 @@ The default is 2.
 
 ### Enlarge vertical slide headers
 
-Enlarge headers on slides below horizontal_slide_level - no effect on slides, which are indicated by alternative slide indicators (<nobr>----></nobr> and <nobr>---->></nobr>). Boolean:
+Enlarge headers on slides below horizontal_slide_level - no effect on slides, which are indicated by alternative slide indicators (`---->` and `---->>`). Boolean:
 
 * false
 * true
@@ -168,8 +169,8 @@ Supported dokuwiki syntax
 Apart of the ordinary things like headlines, tables, italic, bold etc. the following syntax elements are supported:
 
   * alignment of images: either left or right or centered
-  * dokuwiki plugin wrap's ``<wrap lo></wrap>`` and ``<WRAP lo></WRAP>`` produce also in the presentation smaller text.
-  * ``<WRAP clear></WRAP>`` for clearing of floats
+  * dokuwiki plugin wrap's `<wrap lo></wrap>` and `<WRAP lo></WRAP>` produce also in the presentation smaller text.
+  * `<WRAP clear></WRAP>` for clearing of floats
 
 
 
@@ -179,7 +180,7 @@ Extra syntax
 
 ### Theme selection and button for presentation start
 
-Putting on the page somewhere a
+Putting on the top of the page a
 ```
 ~~REVEAL~~
 ```
@@ -189,7 +190,7 @@ Alternatively, to select a theme put a
 ```
 ~~REVEAL theme_name~~
 ```
-somehere with ``theme_name`` replaced by one of the reveal.js themes as listed under "Available themes".
+with `theme_name` replaced by one of the reveal.js themes as listed under "Available themes".
 
 All other options are also overwritable in a wiki page by using the URL query parameter syntax:
 ```
@@ -203,13 +204,12 @@ Please note that boolean values must be numeric (1 or 0). If you want to be able
 The plugin introduces the syntax
 
 ```
-   {{background>parameters}}
+{{background>parameters}}
 ```
 
 For all possible parameters see alternative slide indicator below.
 
-The so defined background will be applied to the next slide. I.e. the background tag has to preceed the heading opening
-the next slide and will only apply to that slide. For example
+The so defined background will be applied to the next slide. I.e. the background tag has to preceed the heading opening the next slide and will only apply to that slide. For example
 
 ```
 {{background>:wiki:dokuwiki-128.png}}
@@ -237,9 +237,9 @@ This slide has no content, but therefore a fancy background...
 <----
 ```
 
-- `---->` opens a new slide with default transition in default speed (open previous slides will be closed implicitly)
+- `---->` opens a new slide with the default transition in the default speed (open previous slides will be closed implicitly)
 - Full example - parameters are parsed dynamically like in CSS, the parameter order is not important and whitespaces are not allowed because we split all keywords on whitespaces: `---- orange wiki:dokuwiki-128.png 10% repeat bg-slide zoom-in fade-out slow no-footer ---->`
-    - All possible HTML color names and codes are supported: red, #f00, #ff0000, rgb(255,0,0), rgba(255,0,0,0.5), hsl(0,100%,50%), hsla(0,100%,50%,0.5)
+    - All possible HTML color names and codes are supported: `red`, `#f00`, `#ff0000`, `rgb(255,0,0)`, `rgba(255,0,0,0.5)`, `hsl(0,100%,50%)`, `hsla(0,100%,50%,0.5)`
     - Background images are recognized case insensitive by the endings gif, png, jpg, jpeg, svg and can be a DokuWiki image identifier (`:wiki:dokuwiki-128.png`) or a normal image link ('http://host.tld/path/to/image.png')
     - Background image size is recognized by postfix `%` and `px` or by keywords `auto`, `contain` and `cover` (cover is the default in Reveal.js) - example: `10%` or `250px` (it is generally recommended to use only percent values - they are scaling nice with the rest of the slide and the slide background preview on the wiki page shows you a "real" preview)
     - Background image position is recognized by keywords `top`, `bottom`, `left`, `right`, `center` (center is the default in Reveal.js) or alternative by x,y values in px or % - examples: `top left`, `bottom center`, `3%,5%`, `20px,5%` (the comma is needed to distinguish between image size and position - it is generally recommended to use only percent values - they are scaling nice with the rest of the slide and the slide background preview on the wiki page shows you a "real" preview)
@@ -285,7 +285,7 @@ slide without footer and with background
 - https://github.com/hakimel/reveal.js#speaker-notes
 - keyword: `<notes>` (no parameters)
 - No changes on wiki pages
-- On slideshow content is wrapped into <div class="notes"> and invisible (only shown on speaker notes - shortkey s)
+- On a slideshow the content is wrapped into `<aside class="notes">` and invisible (only shown on speaker notes - shortkey s)
 - Lists in notes are always NOT incremental, because the list is unvisible and you would have to press the next key for each entry without any obvious effect
 
 Example:
@@ -320,13 +320,13 @@ Example:
 PDF export
 ----------
 
-Presentations can be exported as PDF. To do so append a `&print-pdf` to the URL. When you are able to edit the page, then there is a export PDF link rendered under the start slideshow button.
+Presentations can be exported as PDF. To do so append a `&print-pdf` to the URL. When you are able to edit the page,  there is a export PDF link rendered under the start slideshow button.
 
 For example if the URL of your DokuWiki reveal.js presentation is usually
 ```
 http://example-dokuwiki.com/doku.php?do=export_revealjs&id=example:page
 ```
-you would have to change this manually in the address bar of you browser to
+you would have to change this manually in the address bar of your browser to
 
 ```
 http://example-dokuwiki.com/doku.php?do=export_revealjs&id=example:page&print-pdf

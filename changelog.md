@@ -9,7 +9,7 @@ Changes
   - New alternative slide indicator:
     - `---->` opens a new slide with default transition in default speed (open previous slides will be closed implicitly)
     - Full example - parameters are parsed dynamically like in CSS, the parameter order is not important: `---- orange wiki:dokuwiki-128.png 10% repeat bg-slide zoom-in fade-out slow no-footer ---->`
-      - All possible HTML color names and codes are supported: red, #f00, #ff0000, rgb(255, 0, 0), rgba(255, 0, 0, 0.5), hsl(0, 100%, 50%), hsla(0, 100%, 50%, 0.5)
+      - All possible HTML color names and codes are supported: `red`, `#f00`, `#ff0000`, `rgb(255,0,0)`, `rgba(255,0,0,0.5)`, `hsl(0,100%,50%)`, `hsla(0,100%,50%,0.5)`
       - Background images are recognized case insensitive by the endings gif, png, jpg, jpeg, svg
       - Background image size is recognized by postfix `%` and `px` or by keywords `auto`, `contain` and `cover` (cover is the default in Reveal.js) - example: `10%` or `250px`
       - Background image position is recognized by keywords `top`, `bottom`, l`eft`, `right`, `center` (center is the default in Reveal.js) - examples: `top left`, `bottom center`
@@ -34,17 +34,18 @@ Changes
   - With the section editing improvement the whole slide can be edited at once including the background definitions
 - New conf option for the start button:
   - You can now select between the default one(start_button.png), the one from the s5 plugin (start_button.screen.png) and an own one (start_button.local.png), which is upgrade safe and must be copied into the plugin directory
+  - If you are able to edit the page, then a export to PDF link is rendered under the start slideshow button - this is the reveal.js default export and works only in Chromium and Chrome - more infos [here][0]
 - Introducing new syntax for [speaker notes][1]:
   - `<notes>` - no parameters
   - No changes on wiki pages
-  - On slideshow content is wrapped into `<aside class="notes">`
+  - On a slideshow the content is wrapped into `<aside class="notes">`
   - Lists in notes are always NOT incremental, because the list is unvisible and you would have to press the next key for each entry without any obvious effect
 - Introducing new syntax for [fragments][2]:
   - `<fragment>` for inline usage (only formatting and substitutions supported)
   - `<fragment-block>`for any wiki content
   - `<fragment-list>` to overwrite the global option build_all_lists (if false)
   - `<no-fragment-list>` to overwrite the global option build_all_lists (if true)
-  - support for style and index where possible - see also the source code file example_presentation.dokuwiki and [this reveal onlin demo][3]
+  - Support for style and index where possible - see also the source code file example_presentation.dokuwiki and [this reveal onlin demo][3]
 - Improved blockquote handling:
   - The nesting is suppressed on the slideshow to support the way Reveal is showing notes
 - Improved DokuWiki text formatting on the slides:
@@ -56,6 +57,7 @@ Changes
   - Now you can configure this globally in the plugin settings and since all options are overwritable per wiki page you can have different settings on different pages
 - Upgrade to reveal.js 3.4.1
 
+[0]: https://github.com/hakimel/reveal.js#pdf-export
 [1]: https://github.com/hakimel/reveal.js#speaker-notes
 [2]: https://github.com/hakimel/reveal.js#fragments
 [3]: http://lab.hakim.se/reveal-js/#/7/1
