@@ -60,9 +60,11 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
     public function render($mode, Doku_Renderer $renderer, $data) {
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
+                //slideshow: here we use the keyword, this will pasted
                 $renderer->next_slide_no_footer = true;
             } else {
-                $renderer->doc .= 'no-footer';
+                //normal wiki page
+                $renderer->revealjs_next_slide_no_footer = true;
             }
             return true;
         }

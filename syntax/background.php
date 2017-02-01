@@ -52,41 +52,41 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                 substr($match, 13, -2) :
                 trim($match,'-<> ')
             ), 12);
-        foreach ($params as $value) {
-            if (!$data['background_color'] && $this->_is_valid_color($value)) {
-                $data['background_color'] = $value;
+        foreach ($params as $param) {
+            if (!$data['background_color'] && $this->_is_valid_color($param)) {
+                $data['background_color'] = $param;
             }
-            elseif (!$data['background_image'] && $this->_is_valid_image($value)) {
-                $data['background_image'] = $value;
+            elseif (!$data['background_image'] && $this->_is_valid_image($param)) {
+                $data['background_image'] = $param;
             }
-            elseif (!$data['background_size'] && $this->_is_valid_size($value)) {
-                $data['background_size'] = $value;
+            elseif (!$data['background_size'] && $this->_is_valid_size($param)) {
+                $data['background_size'] = $param;
             }
-            elseif ($position_count == 0 && $this->_is_valid_position($value)) {
+            elseif ($position_count == 0 && $this->_is_valid_position($param)) {
                 $position_count += 2;
-                $data['background_position'] = $value;
+                $data['background_position'] = $param;
             }
-            elseif ($position_count < 2 && in_array($value, array('top','bottom','left','right','center'))) {
+            elseif ($position_count < 2 && in_array($param, array('top','bottom','left','right','center'))) {
                 $position_count += 1;
-                if (!$data['background_position']) $data['background_position'] = $value;
-                else $data['background_position'] .= ' '.$value;
+                if (!$data['background_position']) $data['background_position'] = $param;
+                else $data['background_position'] .= ' '.$param;
             }
-            elseif (!$data['background_repeat'] && in_array($value, array('repeat','no-repeat'))) {
-                $data['background_repeat'] = $value;
+            elseif (!$data['background_repeat'] && in_array($param, array('repeat','no-repeat'))) {
+                $data['background_repeat'] = $param;
             }
-            elseif (!$data['background_transition'] && $this->_is_valid_bg_transition($value)) {
-                $data['background_transition'] = $value;
+            elseif (!$data['background_transition'] && $this->_is_valid_bg_transition($param)) {
+                $data['background_transition'] = $param;
             }
-            elseif ($transition_count < 2 && $this->_is_valid_transition($value)) {
+            elseif ($transition_count < 2 && $this->_is_valid_transition($param)) {
                 $transition_count += 1;
-                if (!$data['transition']) $data['transition'] = $value;
-                else $data['transition'] .= ' '.$value;
+                if (!$data['transition']) $data['transition'] = $param;
+                else $data['transition'] .= ' '.$param;
             }
-            elseif (!$data['transition_speed'] && in_array($value, array('default','fast','slow'))) {
-                $data['transition_speed'] = $value;
+            elseif (!$data['transition_speed'] && in_array($param, array('default','fast','slow'))) {
+                $data['transition_speed'] = $param;
             }
-            elseif (!$data['no_footer'] && $value == 'no-footer') {
-                $data['no_footer'] = $value;
+            elseif (!$data['no_footer'] && $param == 'no-footer') {
+                $data['no_footer'] = true;
             }
         }
         return $data;
@@ -174,8 +174,9 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                 if ($data['transition_speed']) {
                     $slide_details_text .= ' '.$data['transition_speed'];
                 }
-                if ($data['no_footer']) {
-                    $slide_details_text .= ' '.$data['no_footer'];
+                if ($data['no_footer'] || $renderer->revealjs_next_slide_no_footer) {
+                    $slide_details_text .= ' no-footer';
+                    $renderer->revealjs_next_slide_no_footer = false;
                 }
                 // handle section editing
                 if (in_array($data['last_chars'], array('->','>>','}}'))) {

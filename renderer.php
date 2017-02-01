@@ -34,7 +34,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     var $next_slide_background_transition = '';
     var $next_slide_transition = '';
     var $next_slide_transition_speed  = '';
-    var $next_slide_no_footer = '';
+    var $next_slide_no_footer = false;
 
     /**
      * the format we produce
@@ -223,8 +223,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             $this->next_slide_transition_speed  = '';
         }
         if ($this->next_slide_no_footer) {
-            $this->doc .= ' data-state="'.$this->next_slide_no_footer.'"';
-            $this->next_slide_no_footer = '';
+            $this->doc .= ' data-state="no-footer"';
+            $this->next_slide_no_footer = false;
         }
         $this->doc .= '>'.DOKU_LF;
 

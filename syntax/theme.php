@@ -121,6 +121,7 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                 $renderer->revealjs_slide_indicator_headers = true;
                 $renderer->revealjs_slide_background_defined = false;
                 $renderer->revealjs_slide_number = 0;
+                $renderer->revealjs_next_slide_no_footer = false;
             }
             return true;
         }

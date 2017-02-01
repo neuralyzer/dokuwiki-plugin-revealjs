@@ -65,10 +65,7 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
         else {
             /* This is the DokuWiki default header/section handling, we use it on NON Reveal.js
             activated pages (keyword ~~REVEAL~~ not found on page). See also theme.php */
-            if ($handler->status['section']) $handler->_addCall('section_close',array(),$pos);
             $handler->_addCall('header', array($title, $level, $pos), $pos);
-            $handler->_addCall('section_open', array($level), $pos);
-            $handler->status['section'] = true;
         }
         return array($title, $level, $pos);
     }
@@ -146,10 +143,11 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
                         $renderer->startSectionEdit($pos, 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' . ($this->getConf('show_slide_details') ?
                         '<div class="slide-details-hr'.($renderer->revealjs_slide_number == 1 ? ' first-slide' : '').'"></div>' .
                         '<div class="slide-details-text">'.($level <= $horizontal_slide_level?'→':'↓') .
-                        ' Slide '.$renderer->revealjs_slide_number.'</div>' : '');
+                        ' Slide '.$renderer->revealjs_slide_number.($renderer->revealjs_next_slide_no_footer ? ' no-footer' : '').'</div>' : '');
                     // open new edit section
                     $renderer->revealjs_slide_edit_section_open = true;
                     $renderer->doc .= DOKU_LF.'<div class="level2">'.DOKU_LF;
+                    $renderer->revealjs_next_slide_no_footer = false;
                 }
                 // write the header
                 $renderer->doc .= DOKU_LF.'<h'.$level.' id="'.$hid.'">'.$renderer->_xmlEntities($text)."</h$level>";
