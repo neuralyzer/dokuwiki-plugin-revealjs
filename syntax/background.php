@@ -107,6 +107,8 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
     public function render($mode, Doku_Renderer $renderer, $data) {
         global $conf;
         if($mode == 'xhtml') {
+
+            // rendering the slideshow
             if (is_a($renderer, 'renderer_plugin_revealjs')){
                 $renderer->next_slide_background_color = $data['background_color'];
                 $renderer->next_slide_background_image =
@@ -119,7 +121,9 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                 $renderer->next_slide_background_transition = substr($data['background_transition'],3); // we cut off "bg-" for Reveal.js (we had "bg-" only to distinguish between background transition and slide transition)
                 $renderer->next_slide_transition = $data['transition'];
                 $renderer->next_slide_transition_speed = $data['transition_speed'];
-                $renderer->next_slide_no_footer = $data['no_footer'];
+                /* could be, that {{no-footer}} is used before a {{background>xxx}} definition and
+                $renderer->next_slide_no_footer is already set to true, so we merge here both with a logical or */
+                $renderer->next_slide_no_footer = ($data['no_footer'] || $renderer->next_slide_no_footer);
                 if ($data['last_chars'] == '->') {
                     $renderer->open_slide();
                     $renderer->slide_indicator_headers = false;
@@ -138,7 +142,15 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                     $renderer->slide_indicator_headers = true;
                 }
             }
+
+            // rendering the normal wiki page
             elseif ($this->getConf('revealjs_active')) {
+                /* could be, that {{no-footer}} is used before and we need to align the
+                start position definition for the section editing */
+                if ($renderer->wikipage_next_slide_no_footer_position > 0) {
+                    $data['position'] = $renderer->wikipage_next_slide_no_footer_position;
+                    $renderer->wikipage_next_slide_no_footer_position = 0;
+                }
                 // process slide details view
                 if ($data['background_color']) {
                     $slide_details_text .= ' '.$data['background_color'];
@@ -174,18 +186,20 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                 if ($data['transition_speed']) {
                     $slide_details_text .= ' '.$data['transition_speed'];
                 }
-                if ($data['no_footer'] || $renderer->revealjs_next_slide_no_footer) {
+                /* could be, that {{no-footer}} is used before a {{background>xxx}} definition and
+                $renderer->next_slide_no_footer is already set to true, so we merge here both with a logical or */
+                if ($data['no_footer'] || $renderer->wikipage_next_slide_no_footer) {
                     $slide_details_text .= ' no-footer';
-                    $renderer->revealjs_next_slide_no_footer = false;
+                    $renderer->wikipage_next_slide_no_footer = false;
                 }
                 // handle section editing
                 if (in_array($data['last_chars'], array('->','>>','}}'))) {
-                    $renderer->revealjs_slide_number += 1;
+                    $renderer->wikipage_slide_number += 1;
                     // close edit section, if open
-                    if($renderer->revealjs_slide_edit_section_open) {
-                        $renderer->revealjs_slide_edit_section_open = false;
+                    if($renderer->wikipage_slide_edit_section_open) {
+                        $renderer->wikipage_slide_edit_section_open = false;
                         $renderer->doc .= DOKU_LF.'</div>'.DOKU_LF;
-                        $renderer->finishSectionEdit($data['position'] - 1);
+                        $renderer->finishSectionEdit($data['position']- 1);
                     }
                     // calculate slide direction
                     if ($data['last_chars'] == '>>') {
@@ -201,29 +215,29 @@ class syntax_plugin_revealjs_background extends DokuWiki_Syntax_Plugin {
                     /* write slide details to page - we need to use a fake header (<h1 style="display:none...) here
                     to force dokuwiki to show correct section edit highlighting by hoovering the edit button */
                     $renderer->doc .= DOKU_LF.DOKU_LF.'<h2 style="display:none;" class="' .
-                        $renderer->startSectionEdit($data['position'], 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' . ($this->getConf('show_slide_details') ?
-                        '<div class="slide-details-hr'.($renderer->revealjs_slide_number == 1 ? ' first-slide' : '').'"></div>' .
+                        $renderer->startSectionEdit($data['position'], 'section', 'Slide '.$renderer->wikipage_slide_number).'"></h2>' . ($this->getConf('show_slide_details') ?
+                        '<div class="slide-details-hr'.($renderer->wikipage_slide_number == 1 ? ' first-slide' : '').'"></div>' .
                         ($data['background_color'] || $data['background_image'] ?
                             '<div class="slide-details-background" style='."'".$slide_details_background."'".'></div>' :
                             '') .
                         '<div class="slide-details-text'.($slide_direction==''?' fix-my-direction':'').'">'.$slide_direction .
-                        ' Slide '.$renderer->revealjs_slide_number.$slide_details_text.'</div>' : '');
+                        ' Slide '.$renderer->wikipage_slide_number.$slide_details_text.'</div>' : '');
                     // open new edit section
-                    $renderer->revealjs_slide_edit_section_open = true;
+                    $renderer->wikipage_slide_edit_section_open = true;
                     $renderer->doc .= DOKU_LF.'<div class="level2">'.DOKU_LF;
                     /* Only the special horizontal row slide indicator changes the
                     indicator mode */
                     if (in_array($data['last_chars'], array('->','>>'))) {
-                        $renderer->revealjs_slide_indicator_headers = false;
+                        $renderer->wikipage_slide_indicator_headers = false;
                     }
                     /* for slide indicator mode "headers" we signaling here the
                     header function that a section is already open */
                     if ($data['last_chars'] == '}}') {
-                        $renderer->revealjs_slide_background_defined = true;
+                        $renderer->wikipage_slide_background_defined = true;
                     }
                 }
                 elseif (in_array($data['first_chars'], array('<-','<<'))) {
-                    $renderer->revealjs_slide_indicator_headers = true;
+                    $renderer->wikipage_slide_indicator_headers = true;
                 }
             }
             return true;

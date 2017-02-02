@@ -228,7 +228,7 @@ produces one slide with background and a second slide without background.
 ### Alternative slide indicators
 
 ```
----- salmon wiki:dokuwiki-128.png 10% repeat bg-slide ---->
+---- salmon wiki:dokuwiki-128.png 10% repeat bg-slide no-footer ---->
 
 <notes>
 This slide has no content, but therefore a fancy background...
@@ -275,7 +275,19 @@ slide without footer
 {{background>:images:image1.png}}
 ===== my heading=====
 
-slide without footer and with background
+Slide without footer and with background
+
+
+---- no-footer ---->
+
+Slide with alternative slide indicator
+
+---->
+
+Next slide with footer and stop alternative
+slide indicator mode
+
+<----
 
 ```
 

@@ -42,7 +42,9 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        return array();
+        $data = array();
+        $data['position'] = $pos;
+        return $data;
     }
 
     /**
@@ -64,7 +66,8 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
                 $renderer->next_slide_no_footer = true;
             } else {
                 //normal wiki page
-                $renderer->revealjs_next_slide_no_footer = true;
+                $renderer->wikipage_next_slide_no_footer = true;
+                $renderer->wikipage_next_slide_no_footer_position = $data['position'];
             }
             return true;
         }

@@ -116,12 +116,13 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                 /* Prepare vars for own header handling since the needed ones
                 are protected and array types - both reasons wy this is not working
                 from within a plugin. See also /inc/parser/xhtml.php line 37 */
-                $renderer->revealjs_unique_headers = '';
-                $renderer->revealjs_slide_edit_section_open = false;
-                $renderer->revealjs_slide_indicator_headers = true;
-                $renderer->revealjs_slide_background_defined = false;
-                $renderer->revealjs_slide_number = 0;
-                $renderer->revealjs_next_slide_no_footer = false;
+                $renderer->wikipage_unique_headers = '';
+                $renderer->wikipage_slide_edit_section_open = false;
+                $renderer->wikipage_slide_indicator_headers = true;
+                $renderer->wikipage_slide_background_defined = false;
+                $renderer->wikipage_slide_number = 0;
+                $renderer->wikipage_next_slide_no_footer = false;
+                $renderer->wikipage_next_slide_no_footer_position = 0;
             }
             return true;
         }

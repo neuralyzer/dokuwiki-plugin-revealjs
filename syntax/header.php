@@ -87,8 +87,11 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
         if($mode == 'xhtml') {
             list($text, $level, $pos) = $data;
             $horizontal_slide_level = $this->getConf('horizontal_slide_level');
-            // example: horizontal_slide_level=2 ==> headers level 1-3 open slides, headers 4-6 are only content on slides
-            // example: horizontal_slide_level=1 ==> headers level 1-2 open slides, headers 3-6 are only content on slides
+            /* examples:
+            horizontal_slide_level=2 ==> headers level 1-3 open slides, headers 4-6 are only content on slides
+            horizontal_slide_level=1 ==> headers level 1-2 open slides, headers 3-6 are only content on slides */
+
+            // rendering the slideshow
             if (is_a($renderer, 'renderer_plugin_revealjs')){
                 // slide indicator: special horizontal rules ---- section orange zoom slow no-footer ---->
                 if (!$renderer->slide_indicator_headers) {
@@ -112,7 +115,15 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
                     $renderer->doc .= '</h'. $level_calculated .'>'.DOKU_LF;
                 }
             }
+
+            // rendering the normal wiki page
             else if ($this->getConf('revealjs_active') ) {
+                /* could be, that {{no-footer}} is used before and we need to align the
+                start position definition for the section editing */
+                if ($renderer->wikipage_next_slide_no_footer_position > 0) {
+                    $pos = $renderer->wikipage_next_slide_no_footer_position;
+                    $renderer->wikipage_next_slide_no_footer_position = 0;
+                }
                 /**
                  * Render a heading (aligned copy of /inc/parser/xhtml.php around line 184)
                  *
@@ -121,37 +132,37 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
                  * @param int    $pos   byte position in the original source
                  */
                 if (!$text) return; //skip empty headlines
-                $hid = $this->_headerToLink($text, $renderer->revealjs_unique_headers);
+                $hid = $this->_headerToLink($text, $renderer->wikipage_unique_headers);
                 //only add items within configured levels
                 $renderer->toc_additem($hid, $text, $level);
                 // handle section editing
-                if ($renderer->revealjs_slide_indicator_headers &&
+                if ($renderer->wikipage_slide_indicator_headers &&
                     $level <= $horizontal_slide_level + 1 &&
-                    $renderer->revealjs_slide_edit_section_open &&
-                    !$renderer->revealjs_slide_background_defined) {
-                    $renderer->revealjs_slide_edit_section_open = false;
+                    $renderer->wikipage_slide_edit_section_open &&
+                    !$renderer->wikipage_slide_background_defined) {
+                    $renderer->wikipage_slide_edit_section_open = false;
                     $renderer->doc .= DOKU_LF.'</div>'.DOKU_LF;
                     $renderer->finishSectionEdit($pos - 1);
                 }
-                if ($renderer->revealjs_slide_indicator_headers &&
+                if ($renderer->wikipage_slide_indicator_headers &&
                     $level <= $horizontal_slide_level + 1 &&
-                    !$renderer->revealjs_slide_edit_section_open) {
-                    $renderer->revealjs_slide_number += 1;
+                    !$renderer->wikipage_slide_edit_section_open) {
+                    $renderer->wikipage_slide_number += 1;
                     /* write slide details to page - we need to use a fake header (<h1 style="display:none...) here
                     to force dokuwiki to show correct section edit highlighting by hoovering the edit button */
                     $renderer->doc .= DOKU_LF.DOKU_LF.'<h2 style="display:none;" class="' .
-                        $renderer->startSectionEdit($pos, 'section', 'Slide '.$renderer->revealjs_slide_number).'"></h2>' . ($this->getConf('show_slide_details') ?
-                        '<div class="slide-details-hr'.($renderer->revealjs_slide_number == 1 ? ' first-slide' : '').'"></div>' .
+                        $renderer->startSectionEdit($pos, 'section', 'Slide '.$renderer->wikipage_slide_number).'"></h2>' . ($this->getConf('show_slide_details') ?
+                        '<div class="slide-details-hr'.($renderer->wikipage_slide_number == 1 ? ' first-slide' : '').'"></div>' .
                         '<div class="slide-details-text">'.($level <= $horizontal_slide_level?'→':'↓') .
-                        ' Slide '.$renderer->revealjs_slide_number.($renderer->revealjs_next_slide_no_footer ? ' no-footer' : '').'</div>' : '');
+                        ' Slide '.$renderer->wikipage_slide_number.($renderer->wikipage_next_slide_no_footer ? ' no-footer' : '').'</div>' : '');
                     // open new edit section
-                    $renderer->revealjs_slide_edit_section_open = true;
+                    $renderer->wikipage_slide_edit_section_open = true;
                     $renderer->doc .= DOKU_LF.'<div class="level2">'.DOKU_LF;
-                    $renderer->revealjs_next_slide_no_footer = false;
+                    $renderer->wikipage_next_slide_no_footer = false;
                 }
                 // write the header
                 $renderer->doc .= DOKU_LF.'<h'.$level.' id="'.$hid.'">'.$renderer->_xmlEntities($text)."</h$level>";
-                $renderer->revealjs_slide_background_defined = false;
+                $renderer->wikipage_slide_background_defined = false;
             }
             return true;
         }
