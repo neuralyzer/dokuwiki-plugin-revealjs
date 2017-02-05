@@ -56,14 +56,16 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         global $lang;
 
         // merge URL params into plugin conf - changing params direct in the URL is only working, when page is not cached (~~NOCACHE~~)
-        if (!array_key_exists('plugin', $conf)) {
-            $conf['plugin'] = array('revealjs' => $_GET);
-        }
-        elseif (!array_key_exists('revealjs', $conf['plugin'])) {
-            $conf['plugin']['revealjs'] = $_GET;
-        }
-        else {
-            $conf['plugin']['revealjs'] = array_merge($conf['plugin']['revealjs'], $_GET);
+        if (count($_GET)){
+            if (!array_key_exists('plugin', $conf)) {
+                $conf['plugin'] = array('revealjs' => $_GET);
+            }
+            elseif (!array_key_exists('revealjs', $conf['plugin'])) {
+                $conf['plugin']['revealjs'] = $_GET;
+            }
+            else {
+                $conf['plugin']['revealjs'] = array_merge($conf['plugin']['revealjs'], $_GET);
+            }
         }
 
         // call the parent

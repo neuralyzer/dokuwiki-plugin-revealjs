@@ -216,12 +216,12 @@ Highlight <fragment highlight-red>red</fragment> <fragment highlight-blue>blue</
 <sup>are only working with <nowiki><fragment-block></nowiki></sup></fragment>
 
 
-{{background>orange}}
+{{background>orange no-footer}}
 ===== Background Orange =====
 
 <nowiki>{{background>orange}}</nowiki>
 
-{{background>#000000}}
+{{background>#000000 no-footer}}
 ===== Background =====
 
 This slide has black background.
