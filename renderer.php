@@ -139,6 +139,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 
         $show_controls = $this->getConf('controls') ? 'true' : 'false';
         $show_progress_bar = $this->getConf('show_progress_bar') ? 'true' : 'false';
+        $size = explode("x", $this->getConf('size'));
         $this->doc .= '
 <!-- page content stop -------------------------------------------------------->
 
@@ -149,6 +150,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     <script src="'.$this->base.'js/reveal.js"></script>
     <script>
         Reveal.initialize({
+            width: '. ($size[0] ? $size[0] : 960) .',
+            height: '. ($size[1] ? $size[1] : 700) .',
             controls: '. $show_controls .',
             progress: '. $show_progress_bar .',
             history: true,

@@ -84,6 +84,7 @@ Available themes are the Reveal.js themes. Possible values:
   * simple
   * sky
   * solarized
+  * dokuwiki (solarized with DokuWiki default theme background color, switched on image borders are recommended :-)
 
 The default is white.
 
@@ -160,6 +161,14 @@ Show image borders (default in Reveal.js). Boolean:
 * true
 
 The default is false.
+
+
+### Size
+
+Base size of the slides in pixels - slides will bee zoomed to fit in the available space
+
+* `<width>x<height>`
+* Default is `960x700`
 
 
 
@@ -278,6 +287,12 @@ slide without footer
 Slide without footer and with background
 
 
+{{background>:images:image1.png no-footer}}
+===== my heading=====
+
+no-footer as option in background definition
+
+
 ---- no-footer ---->
 
 Slide with alternative slide indicator
@@ -326,7 +341,6 @@ Example:
 
 <fragment>... a</fragment> <fragment>fragmented</fragment> <fragment>slide.</fragment>
 ```
-
 
 
 PDF export

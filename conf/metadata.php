@@ -1,5 +1,5 @@
 <?php
-$meta['theme'] = array('multichoice','_choices' => array('beige','black','blood','league','moon',
+$meta['theme'] = array('multichoice','_choices' => array('beige','black','blood','dokuwiki','league','moon',
                                                          'night','serif', 'simple', 'sky', 'solarized', 'white'));
 $meta['controls'] = array('onoff');
 $meta['build_all_lists'] = array('onoff');
@@ -11,3 +11,4 @@ $meta['enlarge_vertical_slide_headers'] = array('onoff');
 $meta['show_image_borders'] = array('onoff');
 $meta['show_slide_details'] = array('onoff');
 $meta['start_button'] = array('multichoice','_choices' => array('start_button.png', 'start_button.screen.png', 'start_button.local.png'));
+$meta['size'] = array('string', '_pattern' => '/^(|\d+x\d+)$/');

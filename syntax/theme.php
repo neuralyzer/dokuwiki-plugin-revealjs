@@ -86,7 +86,7 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        global $ID;
+        global $ID, $conf;
         if($mode == 'xhtml'){
             if (is_a($renderer, 'renderer_plugin_revealjs')){
                 // pass
