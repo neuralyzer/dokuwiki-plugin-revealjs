@@ -54,7 +54,14 @@ Changes
 - New conf option for image borders:
   - In DokuWiki in the default theme images have no borders
   - In Reveal the images have borders
-  - Now you can configure this globally in the plugin settings and since all options are overwritable per wiki page you can have different settings on different pages
+  - Now you can configure this globally in the plugin settings and since all options are overwritable per wiki page you can have different settings on different pages/presentations
+- New conf options for slide size:
+  - Default size in Reveal.js is 960x700
+  - Sometimes you need to align this if you have content that does not fit on this size
+  - As all options this one is overwritable per page/presentation - see also example_presentation.dokuwiki
+- New theme dokuwiki:
+  - This is a copy of the theme solarized: the only change is the aligned background color, which match the background color of the default DokuWiki theme
+  - Images are looking good with activated borders
 - Upgrade to reveal.js 3.4.1
 
 [0]: https://github.com/hakimel/reveal.js#pdf-export
