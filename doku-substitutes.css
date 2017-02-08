@@ -1,7 +1,7 @@
 /*
 * This substitutes some dokuwiki css styles.
 * All dokuwiki styles are ignored for reveal.js
-* 
+*
 * To obtain some compatibility, some of them are here redefined.
 *
 */
@@ -12,44 +12,23 @@
   float: right;
 }
 
-.wrap_lo {
-  font-size:smaller !important;
-  opacity: 0.9 !important;
-}
-
-
-.wrap_llo {
-  font-size: 50% !important;
-  opacity: 0.6 !important;
-}
-
 .doku_revealjs_table {
     margin-left: auto !important;
     margin-right: auto !important;
-}
-.reveal h4 {
-  margin-top: 20px !important;
-}
-
-.reveal img {
-  border: none !important;
-  box-shadow: none !important;
-  background: none !important;
-}
-
-.reveal dl {
-  display: block !important;
 }
 
 .tags {
    display: none !important;
 }
 
-.reveal td {
-   vertical-align: top !important;
-   border-bottom: none !important;
+.wrap_lo {
+  font-size:smaller !important;
+  opacity: 0.9 !important;
 }
-
+.wrap_llo {
+  font-size: 50% !important;
+  opacity: 0.6 !important;
+}
 .wrap_clear {
     clear: both;
     line-height: 0;
@@ -58,67 +37,66 @@
     visibility: hidden;
     overflow: hidden;
 }
-
-
-
 .wrap_lo img{
     margin-bottom: 0 !important;
     margin-top: 0 !important;
 }
-
 .wrap_bottom_left {
     position: fixed;
     bottom: 0;
     left: 0;
 }
-
-
-.wrap_footer {
-   position: fixed;
-   bottom: -1em;
-   left: 0%;
-   right: 0%;
-}
-
-.wrap_footer_left {
-   position: fixed;
-   bottom: -1em;
-   left: 0%;
-}
-
+.wrap_footer,
+.wrap_footer_left,
 .wrap_footer_right {
-   position: fixed;
-   bottom: -1em;
-   right: 0%;
+    font-size: 0.75em !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
-
-
-.no-footer .wrap_footer {
-  	visibility: hidden; 
+.wrap_footer {
+    left: 0;
+    right: 0;
 }
-
-
-.no-footer .wrap_footer_left {
-  	visibility: hidden; 
+.wrap_footer_left {
+    left: 0;
 }
-
+.wrap_footer_right {
+    right: 0;
+}
+.no-footer .wrap_footer,
+.no-footer .wrap_footer_left,
 .no-footer .wrap_footer_right {
-  	visibility: hidden; 
+  	visibility: hidden;
+}
+.wrap_grayscale {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
 }
 
-.has-dark-background .white-only {
-    display: none;
-}
-
+.has-dark-background .white-only,
 .black-only {
     display: none;
 }
-
 .has-dark-background .black-only {
     display: inline;
 }
 
-.wrap_grayscale {
-    filter: grayscale(100%);
-    -webkit-filter: grayscale(100%);
+.reveal h4 {
+  margin-top: 20px !important;
+}
+.reveal dl {
+  display: block !important;
+}
+.reveal td {
+   vertical-align: top !important;
+   border-bottom: none !important;
+}
+.reveal em.u {
+    font-style: normal;
+    text-decoration: underline;
+}
+.reveal sup, .reveal sub {
+    font-size: .75em;
 }

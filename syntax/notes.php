@@ -8,11 +8,11 @@ require_once(DOKU_PLUGIN.'syntax.php');
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
  */
-class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_revealjs_notes extends DokuWiki_Syntax_Plugin {
 
     public function getType() { return 'substition'; }
     public function getSort() { return 32; }
-    public function getPType() { return 'normal'; }
+    public function getPType() { return 'block'; }
 
 
     /**
@@ -24,9 +24,8 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
      * @see render()
      */
     public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{no-footer}}', $mode, 'plugin_revealjs_footer');
+        $this->Lexer->addSpecialPattern('<\/?notes>', $mode, 'plugin_revealjs_notes');
     }
-
 
 
     /**
@@ -42,9 +41,7 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
      * @static
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
-        $data = array();
-        $data['position'] = $pos;
-        return $data;
+        return $match;
     }
 
     /**
@@ -60,14 +57,26 @@ class syntax_plugin_revealjs_footer extends DokuWiki_Syntax_Plugin {
      * @see handle()
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        if($mode == 'xhtml'){
-            if (is_a($renderer, 'renderer_plugin_revealjs')){
-                //slideshow: here we use the keyword, this will pasted
-                $renderer->next_slide_no_footer = true;
-            } else {
-                //normal wiki page
-                $renderer->wikipage_next_slide_no_footer = true;
-                $renderer->wikipage_next_slide_no_footer_position = $data['position'];
+        if($mode == 'xhtml') {
+            if (is_a($renderer, 'renderer_plugin_revealjs')) {
+                switch ($data) {
+                    case '<notes>' :
+                        $renderer->doc .= DOKU_LF.'<aside class="notes">';
+                        $renderer->notes_open = true;
+                        break;
+                    case '</notes>' :
+                        $renderer->doc .= '</aside>'.DOKU_LF;
+                        $renderer->notes_open = false;
+                        break;
+                }
+            }
+            else if ($this->getConf('revealjs_active') && $this->getConf('show_slide_details')) {
+                switch ($data) {
+                    case '<notes>' :
+                        $renderer->doc .=
+                            '<div class="slide-notes-hr">Notes'.($slide_details_text).'</div>'.DOKU_LF;
+                        break;
+                }
             }
             return true;
         }

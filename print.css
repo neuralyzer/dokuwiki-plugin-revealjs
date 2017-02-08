@@ -1,0 +1,9 @@
+/* Slide details should be hidden on printing */
+
+.dokuwiki .slide-export-link,
+.dokuwiki .slide-details-hr,
+.dokuwiki .slide-details-background,
+.dokuwiki .slide-details-text,
+.dokuwiki .slide-notes-hr {
+    display:none;
+}

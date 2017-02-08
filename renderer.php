@@ -3,6 +3,7 @@
  * Renderer for XHTML output
  *
  * @author Emmanuel Klinger <emmanuel.klinger@gmail.com>
+ * @author Ottmar Gobrecht <ottmar.gobrecht@gmail.com>
  */
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
@@ -14,22 +15,26 @@ require_once DOKU_INC.'inc/parser/xhtml.php';
  * The Renderer
  */
 class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
+    var $base = '';
+    var $tpl = '';
+    var $slide_indicator_headers = true;
+    var $slide_number = 0;
     var $slide_open = false;
     var $column_open = false;
-    var $base='';
-    var $tpl='';
-    var $next_slide_with_background = false;
-    var $next_slide_without_footer = false;
-    var $background_image_url;
-
-    public function add_background_to_next_slide($image_url){
-        $this->background_image_url = $image_url;
-        $this->next_slide_with_background = true;
-    }
-
-    public function next_slide_without_footer(){
-        $this->next_slide_without_footer = true;
-    }
+    var $notes_open = false;
+    var $quote_open = false;
+    var $fragment_list_open = false;
+    var $no_fragment_list_open = false;
+    var $fragment_style = '';
+    var $next_slide_background_color = '';
+    var $next_slide_background_image = '';
+    var $next_slide_background_size = '';
+    var $next_slide_background_position = '';
+    var $next_slide_background_repeat = '';
+    var $next_slide_background_transition = '';
+    var $next_slide_transition = '';
+    var $next_slide_transition_speed  = '';
+    var $next_slide_no_footer = false;
 
     /**
      * the format we produce
@@ -73,49 +78,51 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
 
         p_set_metadata($ID,array('format' => array('revealjs' => $headers) ));
         $this->base = DOKU_BASE.'lib/plugins/revealjs/';
-        $this->doc = '
-<!DOCTYPE html>
+        $this->doc = '<!DOCTYPE html>
 <html lang="'.$conf['lang'].'" dir="'.$lang['direction'].'">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>'.tpl_pagetitle($ID, true).'</title>
 
-        <title>'.tpl_pagetitle($ID, true).'</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
+    <link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
+    <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css">
 
-        <link rel="stylesheet" href="'.$this->base.'css/reveal.css">
-        <link rel="stylesheet" href="'.$this->base.'css/theme/'.$this->getConf('theme').'.css" id="theme">
-        <link rel="stylesheet" href="'.$this->base.'doku-substitutes.css">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
 
-        <!-- Code syntax highlighting -->
-        <link rel="stylesheet" href="'.$this->base.'lib/css/zenburn.css">
+    ' . ($this->getConf('show_image_borders') ?
+    '<!-- Image borders are switched on -->' :
+    '<!-- Image borders are switched off -->
+    <style>.reveal img { border: none !important; box-shadow: none !important; background: none !important; } .level1, .level2, .level3, .level4, .level5 {min-height:300px;}</style>') . '
 
-        <!-- Printing and PDF exports -->
-        <script>
-            var link = document.createElement( \'link\' );
-            link.rel = \'stylesheet\';
-            link.type = \'text/css\';
-            link.href = window.location.search.match( /print-pdf/gi ) ? \''.$this->base.'css/print/pdf.css\' : \''.$this->base.'css/print/paper.css\';
-            document.getElementsByTagName( \'head\' )[0].appendChild( link );
-        </script>
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( \'link\' );
+        link.rel = \'stylesheet\';
+        link.type = \'text/css\';
+        link.href = window.location.search.match( /print-pdf/gi ) ? \''.$this->base.'css/print/pdf.css\' : \''.$this->base.'css/print/paper.css\';
+        document.getElementsByTagName( \'head\' )[0].appendChild( link );
+    </script>
 
-        <!--[if lt IE 9]>
-        <script src='.$this->base.'"lib/js/html5shiv.js"></script>
-        <![endif]-->
-    </head>
+    <!--[if lt IE 9]>
+    <script src='.$this->base.'"lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
 <body>
-
     <div class="reveal">
 
         <!-- Any section element inside of this container is displayed as a slide -->
         <div class="slides">
-';
-    }
 
+<!-- page content start ------------------------------------------------------->';
+    }
 
 
     /**
@@ -126,114 +133,136 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         // but cleanup is nice
         $this->doc = preg_replace('#<p>\s*</p>#','',$this->doc);
 
-        if($this->slide_open){
-            $this->doc .= '</section>'.DOKU_LF; //close previous slide
-            if ( $this->column_open ) { // close nested section
-                      $this->doc .= '</section>'.DOKU_LF;
-                      $this->column_open = false;
-             }
-        }
+        // cleanup quotes - too much whitspace from declaration: ">    valid quote"
+        $this->doc = preg_replace('/<blockquote>&ldquo;\s*/u','<blockquote>&ldquo;',$this->doc);
+
+        // close maybe open slide and column
+        $this->close_slide_container();
+
         $show_controls = $this->getConf('controls') ? 'true' : 'false';
         $show_progress_bar = $this->getConf('show_progress_bar') ? 'true' : 'false';
-        $this->doc .= '</div></div>
-        <script src="'.$this->base.'lib/js/head.min.js"></script>
-        <script src="'.$this->base.'js/reveal.js"></script>
+        $size = explode("x", $this->getConf('size'));
+        $this->doc .= '
+<!-- page content stop -------------------------------------------------------->
 
-        <script>
+        </div><!-- slides -->
+    </div><!-- reveal -->
 
-            Reveal.initialize({
-                controls: '. $show_controls .',
-                progress: '. $show_progress_bar .',
-                history: true,
-                center: true,
-
-                transition: \''.$this->getConf('transition').'\', // none/fade/slide/convex/concave/zoom
-                math: {
-                                   mathjax: \'//cdn.mathjax.org/mathjax/latest/MathJax.js\',
-                                   config: \'TeX-AMS_HTML-full\'  // See http://docs.mathjax.org/en/latest/config-files.html
-                                },
-
-                dependencies: [
-                    { src: \''.$this->base.'lib/js/classList.js\', condition: function() { return !document.body.classList; } },
-                    { src: \''.$this->base.'plugin/markdown/marked.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
-                    { src: \''.$this->base.'plugin/markdown/markdown.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
-                    { src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, condition: function() { return !!document.querySelector( \'pre code\' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-                    { src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
-                    { src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
-
-                    // MathJax
-                    { src: \''.$this->base.'plugin/math/math.js\', async: true }
-                ]
-            });
-
-        </script>
+    <script src="'.$this->base.'lib/js/head.min.js"></script>
+    <script src="'.$this->base.'js/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            width: '. ($size[0] ? $size[0] : 960) .',
+            height: '. ($size[1] ? $size[1] : 700) .',
+            controls: '. $show_controls .',
+            progress: '. $show_progress_bar .',
+            history: true,
+            center: true,
+            transition: \''.$this->getConf('transition').'\', // none/fade/slide/convex/concave/zoom
+            math: {
+                mathjax: \'//cdn.mathjax.org/mathjax/latest/MathJax.js\',
+                config: \'TeX-AMS_HTML-full\'  // See http://docs.mathjax.org/en/latest/config-files.html
+            },
+            dependencies: [
+                { src: \''.$this->base.'lib/js/classList.js\', condition: function() { return !document.body.classList; } },
+                { src: \''.$this->base.'plugin/markdown/marked.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
+                { src: \''.$this->base.'plugin/markdown/markdown.js\', condition: function() { return !!document.querySelector( \'[data-markdown]\' ); } },
+                { src: \''.$this->base.'plugin/highlight/highlight.js\', async: true, condition: function() { return !!document.querySelector( \'pre code\' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: \''.$this->base.'plugin/zoom-js/zoom.js\', async: true, condition: function() { return !!document.body.classList; } },
+                { src: \''.$this->base.'plugin/notes/notes.js\', async: true, condition: function() { return !!document.body.classList; } },
+                // MathJax
+                { src: \''.$this->base.'plugin/math/math.js\', async: true }
+            ]
+        });
+    </script>
 </body>
 </html>';
     }
 
-    /*
-    *
-     * Creates a new section possibliy including the background image.
-     */
-    function create_slide_section($nested_slide){
-        $this->doc .= '<section';
-        if ($nested_slide) {
-            if ($this->next_slide_with_background){
-               $this->doc .= ' data-background="'.$this->background_image_url.'"';
-               $this->next_slide_with_background = false;
-            }
-             if ($this->next_slide_without_footer) {
-                $this->doc .= ' data-state="no-footer"';
-                $this->next_slide_without_footer = false;
-             }
-        }
-        $this->doc .= '>';
-        $this->doc .= DOKU_LF;
-    }
-
-
     /**
-     * This is what creates new slides
-     *
-     * A new column is started for each H1 or H2 header
-     * A new vertical slide for each H3 header
+     * Creates a slide container (section), possibly containing nested slides (sections)
      */
-    function header($text, $level, $pos) {
-        if($level <= 3){
-            if($this->slide_open){
-                $this->doc .= '</section>'.DOKU_LF; //close previous slide
-                if ( ($this->column_open) && ($level <= 2) ) { // close nested section
-                      $this->doc .= '</section>'.DOKU_LF;
-                      $this->column_open = false;
-                }
-            }
-            if ( $level <= 2 ) {   //first slide of possibly following nested ones if level is 2
-                 $this->create_slide_section(false);
-                 $this->column_open = true;
-            }
-            $this->create_slide_section(true); # always without background to not to have a background for a whole subsection
-            $this->slide_open = true;
-        }
-        $this->doc .= '<h'.$level.'>';
-        $this->doc .= $this->_xmlEntities($text);
-        $this->doc .= '</h'.$level.'>'.DOKU_LF;
+    function open_slide_container () {
+        $this->close_slide_container();
+        $this->doc .= '<section>'.DOKU_LF;
+        $this->column_open = true;
     }
 
     /**
-     * Top-Level Sections are slides
+     * Creates a slide (section)
      */
-    function section_open($level) {
-        if($level < 3){
-           // $this->doc .= '<section>'.DOKU_LF;
-        }else{
-            //$this->doc .= '<section>'.DOKU_LF;
+    function open_slide () {
+        $this->close_slide();
+        $this->doc .= '  <section';
+        if ($this->next_slide_background_color) {
+            $this->doc .= ' data-background-color="'.$this->next_slide_background_color.'"';
+            $this->next_slide_background_color = '';
         }
-        // we don't use it
+        if ($this->next_slide_background_image) {
+            $this->doc .= ' data-background-image="'.$this->next_slide_background_image.'"';
+            $this->next_slide_background_image = '';
+        }
+        if ($this->next_slide_background_size) {
+            $this->doc .= ' data-background-size="'.$this->next_slide_background_size.'"';
+            $this->next_slide_background_size = '';
+        }
+        if ($this->next_slide_background_position) {
+            $this->doc .= ' data-background-position="'.$this->next_slide_background_position.'"';
+            $this->next_slide_background_position = '';
+        }
+         $data['background_position'];
+        if ($this->next_slide_background_repeat) {
+            $this->doc .= ' data-background-repeat="'.$this->next_slide_background_repeat.'"';
+            $this->next_slide_background_repeat = '';
+        }
+        if ($this->next_slide_background_transition) {
+            $this->doc .= ' data-background-transition="'.$this->next_slide_background_transition.'"';
+            $this->next_slide_background_transition = '';
+        }
+        if ($this->next_slide_transition) {
+            $this->doc .= ' data-transition="'.$this->next_slide_transition.'"';
+            $this->next_slide_transition = '';
+        }
+        if ($this->next_slide_transition_speed) {
+            $this->doc .= ' data-transition-speed="'.$this->next_slide_transition_speed.'"';
+            $this->next_slide_transition_speed  = '';
+        }
+        if ($this->next_slide_no_footer) {
+            $this->doc .= ' data-state="no-footer"';
+            $this->next_slide_no_footer = false;
+        }
+        $this->doc .= '>'.DOKU_LF;
+
+        // mark slide as open
+        $this->slide_open = true;
     }
 
-   function section_close() {
+    /**
+     * Closes a slide container (section)
+     */
+    function close_slide_container () {
+        $this->close_slide();
+        if ($this->column_open) {
+            $this->doc .= '</section>'.DOKU_LF;
+            $this->column_open = false;
+        }
+    }
 
-   }
+    /**
+     * Closes a slide (section)
+     */
+    function close_slide () {
+        if ($this->slide_open) {
+            $this->doc .= '  </section>'.DOKU_LF;
+            $this->slide_open = false;
+        }
+    }
+
+    /**
+     * DokuWiki sections are not used on a slideshow - so we redeclare it here only
+     */
+    function section_open($level) {}
+    function section_close() {}
 
     /**
      * Throw away footnote
@@ -252,7 +281,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->doc .= $this->_xmlEntities($acronym);
     }
 
-/**
+    /**
      * Start a table
      *
      * @param int $maxcols maximum number of columns
@@ -379,16 +408,40 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
     * This is called "fragment" in reveal.js
     */
     function listitem_open($level, $node=false) {
-        if($this->getConf('build_all_lists')) {
-          $this->doc .= '<li class="fragment">';
-       } else {
-          $this->doc .= '<li>';
-       }
+        if( !$this->notes_open
+            && !$this->no_fragment_list_open
+            && ($this->getConf('build_all_lists') || $this->fragment_list_open) ) {
+        $this->doc .= '<li class="fragment' . ($this->fragment_style ? ' '.$this->fragment_style : '') . '">';
+        }
+        else {
+            $this->doc .= '<li>';
+        }
     }
 
 
     /**
-     * Don't use Geshi. Overwrite ths Geshi function.
+     * Start a block quote
+     */
+    function quote_open() {
+        if (!$this->quote_open) {
+            $this->doc .= '<blockquote>&ldquo;';
+            $this->quote_open = true;
+        }
+    }
+
+    /**
+     * Stop a block quote
+     */
+    function quote_close() {
+        if ($this->quote_open) {
+            $this->doc .= '&rdquo;</blockquote>'.DOKU_LF;
+            $this->quote_open = false;
+        }
+    }
+
+
+    /**
+     * Don't use Geshi. Overwrite the Geshi function.
      * @author Emmanuel Klinger
      * @author Andreas Gohr <andi@splitbrain.org>
      * @param string $type     code|file

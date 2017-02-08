@@ -1,0 +1,41 @@
+/* Slide details for the normal wiki page */
+
+.dokuwiki .slide-export-link,
+.dokuwiki .slide-details-hr,
+.dokuwiki .slide-details-background,
+.dokuwiki .slide-details-text,
+.dokuwiki .slide-notes-hr {
+    font-family: monospace;
+    font-size: 0.8em;
+    color:silver;
+}
+
+.dokuwiki .slide-details-hr,
+.dokuwiki .slide-notes-hr {
+    clear: left;
+    border-top: 1px dotted silver
+}
+
+.dokuwiki .first-slide {
+    width: 50%;
+}
+
+.dokuwiki .slide-notes-hr {
+    width: 25%
+}
+
+.dokuwiki .slide-export-link,
+.dokuwiki .slide-details-background {
+    float:right;
+    padding:0;
+    margin:1px 0 0 0.5em;
+    text-align: center;
+}
+
+.dokuwiki .slide-details-background {
+    height: 45px;
+    width: 60px;
+    background-size: cover; /*Reveal.js default*/
+    background-position: center; /*Reveal.js default*/
+    background-repeat: no-repeat; /*Reveal.js default*/
+}
