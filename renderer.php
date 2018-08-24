@@ -293,7 +293,14 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $this->_counter['row_counter'] = 0;
         $class                         = 'table';
         if($pos !== null) {
-            $class .= ' '.$this->startSectionEdit($pos, 'table');
+	    
+	    $sectionEditStartData = ['target' => 'table'];
+	    if (!defined('SEC_EDIT_PATTERN')) {
+		// backwards-compatibility for Frusterick Manners (2017-02-19)
+		$sectionEditStartData = 'table';
+	    }
+	    
+            $class .= ' '.$this->startSectionEdit($pos, $sectionEditStartData);
         }
         $this->doc .= '<table class="doku_revealjs_table">'.
             DOKU_LF;
@@ -448,8 +455,9 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
      * @param string $text     text to show
      * @param string $language programming language to use for syntax highlighting
      * @param string $filename file path label
+     * @param string $options highlight options - not used 													     
      */
-    function _highlight($type, $text, $language = null, $filename = null) {
+    function _highlight($type, $text, $language = null, $filename = null, $options = null) {
         global $ID;
         global $lang;
 
