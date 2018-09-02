@@ -1,6 +1,10 @@
 Changes
 =======
 
+### 2017-09-02 (by github.com/jmetzger)
+
+- Fixed problems with Greebo release
+
 ### 2017-01-30 (by github.com/ogobrecht)
 
 - Improved slide handling: Since slides are indicated by headers you are relative inflexible regarding the header levels and sizes on vertical (nested) slides - they are normally simply to small
