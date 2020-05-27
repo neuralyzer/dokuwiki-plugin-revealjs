@@ -142,6 +142,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
         $show_controls = $this->getConf('controls') ? 'true' : 'false';
         $show_progress_bar = $this->getConf('show_progress_bar') ? 'true' : 'false';
         $size = explode("x", $this->getConf('size'));
+        $auto_slide = $this->getConf('auto_slide');
+        $loop = $this->getConf('loop') ? 'true' : 'false';
         $this->doc .= '
 <!-- page content stop -------------------------------------------------------->
 
@@ -158,6 +160,8 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             progress: '. $show_progress_bar .',
             history: true,
             center: true,
+            autoSlide: '. $auto_slide .',
+            loop: '. $loop .',
             transition: \''.$this->getConf('transition').'\', // none/fade/slide/convex/concave/zoom
             math: {
                 mathjax: \'//cdn.mathjax.org/mathjax/latest/MathJax.js\',

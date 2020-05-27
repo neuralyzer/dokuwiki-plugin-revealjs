@@ -12,3 +12,5 @@ $meta['show_image_borders'] = array('onoff');
 $meta['show_slide_details'] = array('onoff');
 $meta['start_button'] = array('multichoice','_choices' => array('start_button.png', 'start_button.screen.png', 'start_button.local.png'));
 $meta['size'] = array('string', '_pattern' => '/^(|\d+x\d+)$/');
+$meta['auto_slide'] = array('numeric');
+$meta['loop'] = array('onoff');
