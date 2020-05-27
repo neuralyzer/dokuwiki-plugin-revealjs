@@ -171,6 +171,25 @@ Base size of the slides in pixels - slides will bee zoomed to fit in the availab
 * Default is `960x700`
 
 
+### Auto Slide
+
+Automatically move the presentation to the next slide in milliseconds. If this is set to 0, automatic progression is disabled.
+
+* Numeric value to wait in milliseconds
+
+The default is 0.
+
+
+### Loop
+
+Loop the presentation back to the first slide after the last slide. Boolean:
+
+* false
+* true
+
+The default is false.
+
+
 
 Supported dokuwiki syntax
 -------------------------
@@ -203,7 +222,7 @@ with `theme_name` replaced by one of the reveal.js themes as listed under "Avail
 
 All other options are also overwritable in a wiki page by using the URL query parameter syntax:
 ```
-~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&show_image_borders=0&horizontal_slide_level=2&enlarge_vertical_slide_headers=0&show_slide_details=1&open_in_new_window=1~~
+~~REVEAL theme=sky&transition=convex&controls=1&show_progress_bar=1&build_all_lists=1&show_image_borders=0&horizontal_slide_level=2&enlarge_vertical_slide_headers=0&show_slide_details=1&open_in_new_window=1&auto_slide=6000&loop=1~~
 ```
 Please note that boolean values must be numeric (1 or 0). If you want to be able to change the options directly in the URL after the presentation has started, then you have to disable DokuWiki's caching by putting `~~NOCACHE~~` at the top of the page.
 
