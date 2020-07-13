@@ -19,3 +19,5 @@ $lang['show_image_borders'] = "Show image borders (default in Reveal.js)";
 $lang['show_slide_details'] = "Show slide details on wiki page: start of slide (incl. direction and number), options, background preview, start of notes";
 $lang['start_button'] = "start_button.png is the default play button, start_button.screen.png is the button from the s5 plugin and start_button.local.png is the name you can use for an own one, which is then upgrade safe";
 $lang['size'] = "Base size of the slides in pixels - slides will bee zoomed to fit in the available space ( <code>&lt;width&gt;x&lt;height&gt;</code>, Reveal.js default is 960x700)";
+$lang['auto_slide'] = "Delay in milliseconds before advancing to the next slide automatically. Set to 0 to disable automatic advancement";
+$lang['loop'] = "Loop the presentation back to the beginning after the last slide";

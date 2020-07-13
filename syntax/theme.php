@@ -102,14 +102,19 @@ class syntax_plugin_revealjs_theme extends DokuWiki_Syntax_Plugin {
                 unset($data['open_in_new_window']);
                 unset($data['show_slide_details']);
                 unset($data['start_button']);
+                
+                $exportData = $data;
+                if(isset($exportData['controls'])) $exportData['controls'] = $exportData['controls'] ? 'true' : 'false';
+                if(isset($exportData['loop'])) $exportData['loop'] = $exportData['loop'] ? 'true' : 'false';
+                
                 // create the link
                 $renderer->doc .= '<div class="slide-export-link"><a target="'.$target.'" href="'.
-                    exportlink($ID,'revealjs',count($data)?$data:null).'" title="'.
+                    exportlink($ID,'revealjs',count($exportData)?$exportData:null).'" title="'.
                     $this->getLang('view_presentation').'"><img src="'.DOKU_BASE.'lib/plugins/revealjs/'.
                     $this->getConf('start_button').'" align="right" alt="'.
                     $this->getLang('view_presentation').'"/></a>'.
                     ($this->getConf('user_can_edit') ?
-                        '<br><nobr><a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($data)?$data:null).
+                        '<br><nobr><a target="'.$target.'" href="'.exportlink($ID,'revealjs',count($exportData)?$exportData:null).
                         '&print-pdf" title="'.$this->getLang('print_pdf').'">Print PDF</a></nobr>' :
                         '').
                     '</div>';

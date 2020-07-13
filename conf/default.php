@@ -11,3 +11,5 @@ $conf['show_image_borders'] = 0;
 $conf['show_slide_details'] = 1;
 $conf['start_button'] = 'start_button.png';
 $conf['size'] = '960x700';
+$conf['auto_slide'] = 0;
+$conf['loop'] = 0;

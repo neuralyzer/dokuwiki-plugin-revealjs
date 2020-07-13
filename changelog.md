@@ -1,6 +1,12 @@
 Changes
 =======
 
+### 2020-05-27 (by github.com/nomadjimbob)
+
+- Added auto_slide and loop settings and overrides
+- Updated to reveal.js 3.9.2
+- Fixed issues with extra syntax against the ~~REVEAL~~ tag that can interfere with the reveal.js library
+
 ### 2018-09-02 (by github.com/jmetzger)
 
 - Fixed problems with Greebo release
