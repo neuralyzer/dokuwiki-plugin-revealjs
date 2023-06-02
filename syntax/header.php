@@ -47,13 +47,14 @@ class syntax_plugin_revealjs_header extends DokuWiki_Syntax_Plugin {
     public function handle($match, $state, $pos, Doku_Handler $handler) {
         /* We reuse and adapt here the default DokuWiki header handler code. See also
         /inc/parser/handler.php around line 97. */
+        global $INPUT;
 
         // get level and title
         $title = trim($match);
         $level = 7 - strspn($title,'=');
         if($level < 1) $level = 1;
         $title = trim($title,'= ');
-        if ($this->getConf('revealjs_active') || $_GET['do']=='export_revealjs') {
+        if ($this->getConf('revealjs_active') || $INPUT->get->str('do') == 'export_revealjs') {
             /* We are now on a reveal.js activated page and we want to do our
             own section handling to be able to get all relevant content from
             one slide into one edit section. Since sections are header driven,

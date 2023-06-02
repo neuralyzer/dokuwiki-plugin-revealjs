@@ -11,7 +11,9 @@ class action_plugin_revealjs extends DokuWiki_Action_Plugin {
     }
 
     function _renderer_content_postprocess(&$event, $param) {
-        if ($_GET['do'] !== 'export_revealjs' && $this->getConf('revealjs_active')) {
+        global $INPUT;
+
+        if ($INPUT->get->str('do') !== 'export_revealjs' && $this->getConf('revealjs_active')) {
             /* close last edit section correctly (missing </div>), because we close sections
             only when a new one is opened - and this logic fails for the last section in the
             document */

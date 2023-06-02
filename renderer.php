@@ -477,7 +477,7 @@ class renderer_plugin_revealjs extends Doku_Renderer_xhtml {
             $this->doc .= '</a></dt>'.DOKU_LF.'<dd>';
         }
 
-        if($text{0} == "\n") {
+        if($text[0] == "\n") {
             $text = substr($text, 1);
         }
         if(substr($text, -1) == "\n") {
